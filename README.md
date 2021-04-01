@@ -12,12 +12,10 @@ all architecture specific -currently Intel- #ifdefs will be removed and abstract
 
 # Why the fork?
 
-Originally, the ARM porting was supposed to be merged into Intel's own Hyperscan, and 2 Pull
-Requests had been made to the project for this reason ([1], [2]). Instead of a review on technical
-issues, Intel outright rejected any multi-architecture support for Hyperscan, for now and the
-forseeable future and we were forced to fork. However, we are firm open source believers and
-in the end this can only be a good thing, as it gives us the opportunity to make further
-modifications and optimizations in the code, which could not be done otherwise.
+Originally, the ARM porting was supposed to be merged into Intel's own Hyperscan, and 2 
+Pull Requests had been made to the project for this reason ([1], [2]). Unfortunately, the
+PRs were rejected for now and the forseeable future, thus we have created Vectorscan for 
+our own multi-architectural and opensource collaborative needs.
 
 # What is Hyperscan?
 
