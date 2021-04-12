@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 2.8.11)
-project (hyperscan C CXX)
+project (vectorscan C CXX)
 
 set (HS_MAJOR_VERSION 5)
 set (HS_MINOR_VERSION 4)
