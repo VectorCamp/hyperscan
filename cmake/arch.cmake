@@ -9,6 +9,9 @@ elseif (HAVE_C_INTRIN_H)
 elseif (HAVE_C_ARM_NEON_H)
     set (INTRIN_INC_H "arm_neon.h")
     set (FAT_RUNTIME OFF)
+elseif (HAVE_C_PPC64EL_ALTIVEC_H)
+    set (INTRIN_INC_H "altivec.h")
+    set (FAT_RUNTIME OFF)
 else()
     message (FATAL_ERROR "No intrinsics header found")
 endif ()
@@ -96,6 +99,13 @@ int main() {
     int32x4_t a = vdupq_n_s32(1);
     (void)a;
 }" HAVE_NEON)
+elseif (ARCH_PPC64EL)
+    CHECK_C_SOURCE_COMPILES("#include <${INTRIN_INC_H}>
+int main() {
+    vector int a = vec_splat_s32(1);
+    (void)a;
+}" HAVE_VSX)
+
 else ()
     message (FATAL_ERROR "Unsupported architecture")
 endif ()
@@ -129,6 +139,10 @@ else (NOT FAT_RUNTIME)
     if ((ARCH_ARM32 OR ARCH_AARCH64) AND NOT HAVE_NEON)
         message(FATAL_ERROR "NEON support required for ARM support")
     endif ()
+    if (ARCH_PPPC64EL AND NOT HAVE_VSX)
+        message(FATAL_ERROR "VSX support required for Power support")
+    endif ()
+
 endif ()
 
 unset (CMAKE_REQUIRED_FLAGS)

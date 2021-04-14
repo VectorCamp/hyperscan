@@ -209,7 +209,7 @@ else()
             message(SEND_ERROR "Something went wrong determining gcc tune: -mtune=${GNUCC_ARCH} not valid")
         endif()
         set(TUNE_FLAG ${GNUCC_ARCH})
-    else ()
+    else()
         set(TUNE_FLAG native)
     endif()
 
@@ -252,11 +252,11 @@ else()
     endif()
 
     if (NOT CMAKE_C_FLAGS MATCHES .*march.* AND NOT CMAKE_C_FLAGS MATCHES .*mtune.*)
-        set(ARCH_C_FLAGS "-march=native -mtune=${TUNE_FLAG}")
+        set(ARCH_C_FLAGS "-mtune=${TUNE_FLAG}")
     endif()
 
     if (NOT CMAKE_CXX_FLAGS MATCHES .*march.* AND NOT CMAKE_CXX_FLAGS MATCHES .*mtune.*)
-        set(ARCH_CXX_FLAGS "-march=native -mtune=${TUNE_FLAG}")
+        set(ARCH_CXX_FLAGS "-mtune=${TUNE_FLAG}")
     endif()
 
     if(CMAKE_COMPILER_IS_GNUCC)
@@ -298,6 +298,8 @@ elseif (ARCH_ARM32 OR ARCH_AARCH64)
   CHECK_INCLUDE_FILE_CXX(arm_neon.h HAVE_C_ARM_NEON_H)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -flax-vector-conversions")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -flax-vector-conversions")
+elseif (ARCH_PPC64EL)
+  CHECK_INCLUDE_FILE_CXX(altivec.h HAVE_C_PPC64EL_ALTIVEC_H)
 endif()
 
 CHECK_FUNCTION_EXISTS(posix_memalign HAVE_POSIX_MEMALIGN)
@@ -587,7 +589,7 @@ set (hs_exec_common_SRCS
     ${hs_exec_common_SRCS}
     src/util/arch/x86/cpuid_flags.c
     )
-else (ARCH_ARM32 OR ARCH_AARCH64)
+else (ARCH_ARM32 OR ARCH_AARCH64 OR ARCH_PPC64EL)
 set (hs_exec_common_SRCS
     ${hs_exec_common_SRCS}
     src/util/arch/arm/cpuid_flags.c

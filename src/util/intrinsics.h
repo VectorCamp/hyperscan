@@ -49,6 +49,10 @@
 #  define USE_ARM_NEON_H
 #endif
 
+#if defined(HAVE_C_PPC64EL_ALTIVEC_H)
+#  define USE_PPC64EL_ALTIVEC_H
+#endif
+
 #ifdef __cplusplus
 # if defined(HAVE_CXX_INTRIN_H)
 #  define USE_INTRIN_H
@@ -65,6 +69,8 @@
 #include <intrin.h>
 #elif defined(USE_ARM_NEON_H)
 #include <arm_neon.h>
+#elif defined(USE_PPC64EL_ALTIVEC_H)
+#include <altivec.h>
 #else
 #error no intrinsics file
 #endif

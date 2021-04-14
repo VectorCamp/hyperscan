@@ -30,8 +30,8 @@
  * \brief Bit-twiddling primitives (ctz, compress etc)
  */
 
-#ifndef BITUTILS_ARCH_ARM_H
-#define BITUTILS_ARCH_ARM_H
+#ifndef BITUTILS_ARCH_PPC64EL_H
+#define BITUTILS_ARCH_PPC64EL_H
 
 #include "ue2common.h"
 #include "util/popcount.h"

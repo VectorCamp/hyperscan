@@ -21,6 +21,9 @@
 /* "Define if building for AARCH64" */
 #cmakedefine ARCH_AARCH64
 
+/* "Define if building for PPC64EL" */
+#cmakedefine ARCH_PPC64EL
+
 /* internal build, switch on dump support. */
 #cmakedefine DUMP_SUPPORT
 
@@ -59,6 +62,9 @@
 
 /* C compiler has arm_neon.h */
 #cmakedefine HAVE_C_ARM_NEON_H
+
+/* C compiler has arm_neon.h */
+#cmakedefine HAVE_C_PPC64EL_ALTIVEC_H
 
 /* Define to 1 if you have the declaration of `pthread_setaffinity_np', and to
    0 if you don't. */

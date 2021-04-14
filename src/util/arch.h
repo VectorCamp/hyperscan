@@ -39,6 +39,8 @@
 #include "util/arch/x86/x86.h"
 #elif defined(ARCH_ARM32) || defined(ARCH_AARCH64)
 #include "util/arch/arm/arm.h"
+#elif defined(ARCH_PPC64EL)
+#include "util/arch/ppc64el/ppc64el.h"
 #endif
 
 #endif // UTIL_ARCH_X86_H_

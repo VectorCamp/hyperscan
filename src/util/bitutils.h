@@ -49,6 +49,8 @@
 #include "util/arch/x86/bitutils.h"
 #elif defined(ARCH_ARM32) || defined(ARCH_AARCH64)
 #include "util/arch/arm/bitutils.h"
+#elif defined(ARCH_PPC64EL)
+#include "util/arch/ppc64el/bitutils.h"
 #endif
 
 static really_inline
