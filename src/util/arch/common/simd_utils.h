@@ -101,13 +101,14 @@ m256 lshift64_m256(m256 a, int b) {
     return rv;
 }
 
-static really_inline
-m256 rshift64_m256(m256 a, int b) {
-    m256 rv = a;
-    rv.lo = rshift64_m128(rv.lo, b);
-    rv.hi = rshift64_m128(rv.hi, b);
-    return rv;
-}
+#define rshift64_m256(a, b)                                                    \
+    ({                                                                         \
+        m256 __ret;                                                            \
+        __ret = a;                                                             \
+        __ret.lo = rshift64_m128(__ret.lo, b);                                 \
+        __ret.hi = rshift64_m128(__ret.hi, b);                                 \
+        __ret;                                                                 \
+    })
 
 static really_inline
 m256 eq256(m256 a, m256 b) {

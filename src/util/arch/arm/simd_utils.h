@@ -103,15 +103,7 @@ m128 rshift_m128(m128 a, unsigned b) {
     return (m128) vshrq_n_s32((int64x2_t)a, b);
 }
 
-static really_really_inline
-m128 lshift64_m128(m128 a, unsigned b) {
-    return (m128) vshlq_n_s64((int64x2_t)a, b);
-}
-
-static really_really_inline
-m128 rshift64_m128(m128 a, unsigned b) {
-    return (m128) vshrq_n_s64((int64x2_t)a, b);
-}
+#define rshift64_m128(a, b) vshrq_n_s64((int64x2_t)(a), b)
 
 static really_inline m128 eq128(m128 a, m128 b) {
     return (m128) vceqq_s8((int8x16_t)a, (int8x16_t)b);
@@ -161,10 +153,10 @@ m128 load_m128_from_u64a(const u64a *p) {
     return (m128) vsetq_lane_u64(*p, zeroes128(), 0);
 }
 
-static really_inline u32 extract32from128(const m128 in, unsigned imm) {
 #if defined(HS_OPTIMIZE)
-    return vgetq_lane_u32((uint32x4_t) in, imm);
+#define extract32from128(in, imm) vgetq_lane_u32((uint32x4_t) (in), imm)
 #else
+static really_inline u32 extract32from128(const m128 in, unsigned imm) {
     switch (imm) {
     case 0:
         return vgetq_lane_u32((uint32x4_t) in, 0);
@@ -182,13 +174,13 @@ static really_inline u32 extract32from128(const m128 in, unsigned imm) {
 	return 0;
 	break;
     }
-#endif
 }
+#endif
 
-static really_inline u64a extract64from128(const m128 in, unsigned imm) {
 #if defined(HS_OPTIMIZE)
-    return vgetq_lane_u64((uint64x2_t) in, imm);
+#define extract64from128(in, imm) vgetq_lane_u64((uint32x4_t) (in), imm)
 #else
+static really_inline u64a extract64from128(const m128 in, unsigned imm) {
     switch (imm) {
     case 0:
         return vgetq_lane_u64((uint32x4_t) in, 0);
@@ -200,8 +192,9 @@ static really_inline u64a extract64from128(const m128 in, unsigned imm) {
 	return 0;
 	break;
     }
-#endif
 }
+#endif
+
 
 static really_inline m128 low64from128(const m128 in) {
     return vcombine_u64(vget_low_u64(in), vdup_n_u64(0));
@@ -298,31 +291,18 @@ m128 palignr_imm(m128 r, m128 l, int offset) {
     }
 }
 
+#if defined(HS_OPTIMIZE)
+#define palignr(r, l, offset) vextq_s8((int8x16_t)(l), (int8x16_t)(r), offset)
+#else
 static really_really_inline
 m128 palignr(m128 r, m128 l, int offset) {
-#if defined(HS_OPTIMIZE)
-    return (m128)vextq_s8((int8x16_t)l, (int8x16_t)r, offset);
-#else
     return palignr_imm(r, l, offset);
-#endif
 }
+#endif
 #undef CASE_ALIGN_VECTORS
 
-static really_really_inline
-m128 rshiftbyte_m128(m128 a, unsigned b) {
-    if (b == 0) {
-        return a;
-    }
-    return palignr(zeroes128(), a, b);
-}
-
-static really_really_inline
-m128 lshiftbyte_m128(m128 a, unsigned b) {
-    if (b == 0) {
-        return a;
-    }
-    return palignr(a, zeroes128(), 16 - b);
-}
+#define rshiftbyte_m128(a, b) palignr(zeroes128(), a, b)
+#define lshiftbyte_m128(a, b) palignr(a, zeroes128(), 16 - (b))
 
 static really_inline
 m128 variable_byte_shift_m128(m128 in, s32 amount) {

@@ -721,8 +721,6 @@ TEST(SimdUtilsTest, variableByteShift128) {
     char base[] = "0123456789ABCDEF";
     m128 in = loadu128(base);
 
-    EXPECT_TRUE(!diff128(rshiftbyte_m128(in, 0),
-                         variable_byte_shift_m128(in, 0)));
     EXPECT_TRUE(!diff128(rshiftbyte_m128(in, 1),
                          variable_byte_shift_m128(in, -1)));
     EXPECT_TRUE(!diff128(rshiftbyte_m128(in, 2),
@@ -744,8 +742,6 @@ TEST(SimdUtilsTest, variableByteShift128) {
     EXPECT_TRUE(!diff128(rshiftbyte_m128(in, 10),
                          variable_byte_shift_m128(in, -10)));
 
-    EXPECT_TRUE(!diff128(lshiftbyte_m128(in, 0),
-                         variable_byte_shift_m128(in, 0)));
     EXPECT_TRUE(!diff128(lshiftbyte_m128(in, 1),
                          variable_byte_shift_m128(in, 1)));
     EXPECT_TRUE(!diff128(lshiftbyte_m128(in, 2),
