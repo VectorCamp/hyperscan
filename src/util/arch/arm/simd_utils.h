@@ -93,14 +93,9 @@ m128 sub_2x64(m128 a, m128 b) {
     return (m128) vsubq_u64((int64x2_t)a, (int64x2_t)b);
 }
 
-static really_really_inline
-m128 lshift_m128(m128 a, unsigned b) {
-    return (m128) vshlq_n_s32((int64x2_t)a, b);
-}
-
-static really_really_inline
-m128 rshift_m128(m128 a, unsigned b) {
-    return (m128) vshrq_n_s32((int64x2_t)a, b);
+static really_inline
+m128 lshift64_m128(m128 a, unsigned b) {
+    return (m128) vshlq_s64((int64x2_t)(a), vdupq_n_s64(b));
 }
 
 #define rshift64_m128(a, b) vshrq_n_s64((int64x2_t)(a), b)
