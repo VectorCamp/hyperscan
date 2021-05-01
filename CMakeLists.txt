@@ -251,11 +251,14 @@ else()
         set(EXTRA_CXX_FLAGS "${EXTRA_CXX_FLAGS} -DNDEBUG")
     endif()
 
-    if (NOT CMAKE_C_FLAGS MATCHES .*march.* AND NOT CMAKE_C_FLAGS MATCHES .*mtune.*)
+    CHECK_C_COMPILER_FLAG(-march=native HAS_C_MARCH_NATIVE)
+    CHECK_CXX_COMPILER_FLAG(-march=native HAS_CXX_MARCH_NATIVE)
+
+    if (HAS_C_MARCH_NATIVE AND NOT CMAKE_C_FLAGS MATCHES .*march.* AND NOT CMAKE_C_FLAGS MATCHES .*mtune.*)
         set(ARCH_C_FLAGS "-march=native -mtune=${TUNE_FLAG}")
     endif()
 
-    if (NOT CMAKE_CXX_FLAGS MATCHES .*march.* AND NOT CMAKE_CXX_FLAGS MATCHES .*mtune.*)
+    if (HAS_CXX_MARCH_NATIVE AND NOT CMAKE_CXX_FLAGS MATCHES .*march.* AND NOT CMAKE_CXX_FLAGS MATCHES .*mtune.*)
         set(ARCH_CXX_FLAGS "-march=native -mtune=${TUNE_FLAG}")
     endif()
 
