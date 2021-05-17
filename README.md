@@ -31,6 +31,22 @@ matching of regular expressions across streams of data.
 
 Vectorscan is typically used in a DPI library stack, just like Hyperscan.
 
+# Cross Compiling for AArch64
+
+- To cross compile for AArch64, first adjust the variables set in cmake/setenv-arm64-cross.sh.
+  - `export CROSS=<arm-cross-compiler-dir>/bin/aarch64-linux-gnu-`
+  - `export CROSS_SYS=<arm-cross-compiler-system-dir>`
+  - `export BOOST_PATH=<boost-source-dir>`
+- Set the environment variables:
+  - `source cmake/setenv-arm64-cross.sh`
+- Configure Vectorscan:
+  - `mkdir <build-dir-name>`
+  - `cd <build-dir>`
+  - `cmake -DCROSS_COMPILE_AARCH64=1 <hyperscan-source-dir> -DCMAKE_TOOLCHAIN_FILE=<hyperscan-source-dir>/cmake/arm64-cross.cmake`
+- Build Vectorscan:
+  - `make -jT` where T is the number of threads used to compile.
+  - `cmake --build . -- -j T` can also be used instead of make.
+
 # Documentation
 
 Information on building the Hyperscan library and using its API is available in

@@ -21,6 +21,9 @@
 /* "Define if building for AARCH64" */
 #cmakedefine ARCH_AARCH64
 
+/* "Define if cross compiling for AARCH64" */
+#cmakedefine CROSS_COMPILE_AARCH64
+
 /* internal build, switch on dump support. */
 #cmakedefine DUMP_SUPPORT
 
