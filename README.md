@@ -47,6 +47,18 @@ Vectorscan is typically used in a DPI library stack, just like Hyperscan.
   - `make -jT` where T is the number of threads used to compile.
   - `cmake --build . -- -j T` can also be used instead of make.
 
+# Compiling for SVE
+
+The following cmake variables can be set in order to target Arm's Scalable
+Vector Extension. They are listed in ascending order of strength, with cmake
+detecting whether the feature is available in the compiler and falling back to
+a weaker version if not. Only one of these variables needs to be set as weaker
+variables will be implied as set.
+
+- `BUILD_SVE`
+- `BUILD_SVE2`
+- `BUILD_SVE2_BITPERM`
+
 # Documentation
 
 Information on building the Hyperscan library and using its API is available in

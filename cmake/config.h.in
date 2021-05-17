@@ -24,6 +24,15 @@
 /* "Define if cross compiling for AARCH64" */
 #cmakedefine CROSS_COMPILE_AARCH64
 
+/* Define if building SVE for AARCH64. */
+#cmakedefine BUILD_SVE
+
+/* Define if building SVE2 for AARCH64. */
+#cmakedefine BUILD_SVE2
+
+/* Define if building SVE2+BITPERM for AARCH64. */
+#cmakedefine BUILD_SVE2_BITPERM
+
 /* internal build, switch on dump support. */
 #cmakedefine DUMP_SUPPORT
 
@@ -62,6 +71,9 @@
 
 /* C compiler has arm_neon.h */
 #cmakedefine HAVE_C_ARM_NEON_H
+
+/* C compiler has arm_sve.h */
+#cmakedefine HAVE_C_ARM_SVE_H
 
 /* Define to 1 if you have the declaration of `pthread_setaffinity_np', and to
    0 if you don't. */
