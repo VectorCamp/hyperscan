@@ -50,6 +50,33 @@ static really_inline SuperVector<S> getCaseMask(void) {
     return SuperVector<S>(CASEMASK[1]);
 }
 
+
+static really_really_inline
+hwlm_error_t single_zscan(const struct noodTable *n,const u8 *d, const u8 *buf,
+		Z_TYPE z, size_t len, const struct cb_info *cbi) {
+    while (unlikely(z)) {
+        Z_TYPE pos = JOIN(findAndClearLSB_, Z_BITS)(&z);
+        size_t matchPos = d - buf + pos;
+        DEBUG_PRINTF("match pos %zu\n", matchPos);
+        hwlmcb_rv_t rv = final(n, buf, len, n->msk_len != 1, cbi, matchPos);
+        RETURN_IF_TERMINATED(rv);
+    }
+    return HWLM_SUCCESS;
+}
+
+static really_really_inline
+hwlm_error_t double_zscan(const struct noodTable *n,const u8 *d, const u8 *buf,
+		Z_TYPE z, size_t len, const struct cb_info *cbi) {
+    while (unlikely(z)) {
+        Z_TYPE pos = JOIN(findAndClearLSB_, Z_BITS)(&z);
+        size_t matchPos = d - buf + pos - 1;
+        DEBUG_PRINTF("match pos %zu\n", matchPos);
+        hwlmcb_rv_t rv = final(n, buf, len, true, cbi, matchPos);
+        RETURN_IF_TERMINATED(rv);
+    }
+    return HWLM_SUCCESS;
+}
+
 // The short scan routine. It is used both to scan data up to an
 // alignment boundary if needed and to finish off data that the aligned scan
 // function can't handle (due to small/unaligned chunk at end)
@@ -146,7 +173,7 @@ hwlm_error_t scanSingleMain(const struct noodTable *n, const u8 *buf,
 template <uint16_t S>
 static really_inline
 hwlm_error_t scanDoubleMain(const struct noodTable *n, const u8 *buf,
-                            size_t len, size_t offset, 
+                            size_t len, size_t offset,
                             SuperVector<S> caseMask, SuperVector<S> mask1, SuperVector<S> mask2,
                             const struct cb_info *cbi) {
     // we stop scanning for the key-fragment when the rest of the key can't

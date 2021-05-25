@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015-2017, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -66,21 +67,15 @@ struct cb_info {
         }                                                                      \
     }
 
-#if !defined(HAVE_SVE)
-#include "noodle_engine_simd.hpp"
-#endif
-
 // Make sure the rest of the string is there. The single character scanner
 // is used only for single chars with case insensitivity used correctly,
 // so it can go straight to the callback if we get this far.
 static really_inline
 hwlm_error_t final(const struct noodTable *n, const u8 *buf, UNUSED size_t len,
-                   char single, const struct cb_info *cbi, size_t pos) {
+                   bool needsConfirm, const struct cb_info *cbi, size_t pos) {
     u64a v{0};
-    if (single) {
-        if (n->msk_len == 1) {
-            goto match;
-        }
+    if (!needsConfirm) {
+        goto match;
     }
     assert(len >= n->msk_len);
     v = partial_load_u64a(buf + pos + n->key_offset - n->msk_len, n->msk_len);
@@ -100,31 +95,11 @@ match:
     return HWLM_SUCCESS;
 }
 
-static really_really_inline
-hwlm_error_t single_zscan(const struct noodTable *n,const u8 *d, const u8 *buf,
-		Z_TYPE z, size_t len, const struct cb_info *cbi) {
-    while (unlikely(z)) {
-        Z_TYPE pos = JOIN(findAndClearLSB_, Z_BITS)(&z);
-        size_t matchPos = d - buf + pos;
-        DEBUG_PRINTF("match pos %zu\n", matchPos);
-        hwlmcb_rv_t rv = final(n, buf, len, 1, cbi, matchPos);
-        RETURN_IF_TERMINATED(rv);
-    }
-    return HWLM_SUCCESS;
-}
-
-static really_really_inline
-hwlm_error_t double_zscan(const struct noodTable *n,const u8 *d, const u8 *buf,
-		Z_TYPE z, size_t len, const struct cb_info *cbi) {
-    while (unlikely(z)) {
-        Z_TYPE pos = JOIN(findAndClearLSB_, Z_BITS)(&z);
-        size_t matchPos = d - buf + pos - 1;                               \
-        DEBUG_PRINTF("match pos %zu\n", matchPos);
-        hwlmcb_rv_t rv = final(n, buf, len, 0, cbi, matchPos);
-        RETURN_IF_TERMINATED(rv);
-    }
-    return HWLM_SUCCESS;
-}
+#ifdef HAVE_SVE2
+#include "noodle_engine_sve.hpp"
+#else
+#include "noodle_engine_simd.hpp"
+#endif
 
 // main entry point for the scan code
 static really_inline
