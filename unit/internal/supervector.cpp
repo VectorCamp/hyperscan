@@ -28,6 +28,7 @@
  */
 
 #include<iostream>
+<<<<<<< HEAD
 #include<cstring>
 #include<time.h>
 #include"gtest/gtest.h"
@@ -191,3 +192,85 @@ TEST(SuperVectorUtilsTest,Alignr128){
 }
 
 
+=======
+#include<immintrin.h>
+#include<cstring>
+#include"gtest/gtest.h"
+#include"src/util/simd/types.hpp"
+
+
+/*Gust a debugin message to know if the supervector.cpp executed*/
+int mes(){
+    std::cout<<"\x1B[35m Info-Print: SuperVector init tests initilizing...\x1B[0m"<<std::endl;
+    return 0;
+}
+static int a = mes();
+
+
+struct SuperVector_zeroes {
+    operator m128_t() {return SuperVector<16>::Zeroes();}
+};
+
+struct SuperVector_ones {
+    operator m128_t() {return SuperVector<16>::Ones();}
+};
+
+/*
+void SuperVector_loadu(m128_t *a, const void *ptr) { *a = SuperVector<16>::loadu(ptr); }
+void SuperVector_loadu(m256_t *a, const void *ptr) { *a = SuperVector<32>::loadu(ptr); }
+void SuperVector_loadu(m512_t *a, const void *ptr) { *a = SuperVector<64>::loadu(ptr); }
+
+void SuperVector_load(m128_t *a, const void *ptr) { *a = SuperVector<16>::load(ptr); }
+void SuperVector_load(m256_t *a, const void *ptr) { *a = SuperVector<32>::load(ptr); }
+void SuperVector_load(m512_t *a, const void *ptr) { *a = SuperVector<64>::load(ptr); }
+*/
+
+
+template<typename T>
+class SuperVectorUtilsTest : public testing::Test {
+    // empty
+};
+
+//Declare test types
+typedef ::testing::Types<m128_t> SuperVectorTypes;
+
+TYPED_TEST_CASE(SuperVectorUtilsTest, SuperVectorTypes);
+
+
+/*Begin init tests*/
+TYPED_TEST(SuperVectorUtilsTest, zero){
+    const TypeParam zeroes = SuperVector_zeroes();
+    // Should have no bits on.
+    char cmp[sizeof(zeroes)];
+    std::memset(cmp, 0, sizeof(zeroes));
+    ASSERT_EQ(0, std::memcmp(cmp, &zeroes, sizeof(zeroes)));
+}
+
+TYPED_TEST(SuperVectorUtilsTest, ones) {
+    const TypeParam ones = SuperVector_ones();
+    // Should have all bits on.
+    char cmp[sizeof(ones)];
+    memset(cmp, 0xff, sizeof(ones));
+    ASSERT_EQ(0, memcmp(cmp, &ones, sizeof(ones)));
+}
+
+
+// Unaligned load
+/*
+TYPED_TEST(SuperVectorUtilsTest, loadu) {
+    const TypeParam ones = SuperVector_ones();
+
+    const size_t mem_len = sizeof(ones) * 2;
+    unique_ptr<char[]> mem_array = ue2::make_unique<char[]>(mem_len);
+    char *mem = mem_array.get();
+
+    for (size_t offset = 1; offset < sizeof(ones); offset++) {
+        std::memset(mem, 0, mem_len);
+        std::memset(mem + offset, 0xff, sizeof(ones));
+        TypeParam a;
+        SuperVector_loadu(&a, mem + offset);
+        ASSERT_EQ(0, simd_diff(a, ones));
+    }
+}
+*/
+>>>>>>> SuperVector tests
