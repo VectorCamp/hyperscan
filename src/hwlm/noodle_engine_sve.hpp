@@ -27,16 +27,6 @@
  */
 
 static really_inline
-svuint8_t getCharMaskSingle(const struct noodTable *n, bool noCase) {
-    if (noCase) {
-        uint16_t chars_u16 = (n->key0 & 0xdf) | ((n->key0 | 0x20) << 8);
-        return svreinterpret_u8(svdup_u16(chars_u16));
-    } else {
-        return svdup_u8(n->key0);
-    }
-}
-
-static really_inline
 hwlm_error_t checkMatched(const struct noodTable *n, const u8 *buf, size_t len,
                           const struct cb_info *cbi, const u8 *d,
                           svbool_t matched, bool needsConfirm) {
@@ -120,7 +110,7 @@ hwlm_error_t scanSingle(const struct noodTable *n, const u8 *buf, size_t len,
     assert(d < e);
     assert(d >= buf);
 
-    svuint8_t chars = getCharMaskSingle(n, noCase);
+    svuint8_t chars = getCharMaskSingle(n->key0, noCase);
 
     size_t scan_len = e - d;
     if (scan_len <= svcntb()) {

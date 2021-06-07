@@ -113,6 +113,92 @@ TEST(RVermicelli, Exec4) {
     }
 }
 
+TEST(RNVermicelli, ExecNoMatch1) {
+    char t1[] = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    for (size_t i = 0; i < 16; i++) {
+        SCOPED_TRACE(i);
+        for (size_t j = 0; j < 16; j++) {
+            SCOPED_TRACE(j);
+            const u8 *rv = rnvermicelliExec('b', 0, buf + i,
+                                                    buf + strlen(t1) - j);
+
+            ASSERT_EQ(buf + i - 1, rv);
+
+            rv = rnvermicelliExec('B', 1, buf + i, buf + strlen(t1) - j);
+
+            ASSERT_EQ(buf + i - 1, rv);
+        }
+    }
+}
+
+TEST(RNVermicelli, Exec1) {
+    char t1[] = "bbbbbbbbbbbbbbbbbabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbabbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    for (size_t i = 0; i < 16; i++) {
+        SCOPED_TRACE(i);
+        const u8 *rv = rnvermicelliExec('b', 0, buf, buf + strlen(t1) - i);
+
+        ASSERT_EQ(buf + 48, rv);
+
+        rv = rnvermicelliExec('B', 1, buf + i, buf + strlen(t1) - i);
+
+        ASSERT_EQ(buf + 48, rv);
+    }
+}
+
+TEST(RNVermicelli,  Exec2) {
+    char t1[] = "bbbbbbbbbbbbbbbbbabbbbbbbbaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    for (size_t i = 0; i < 16; i++) {
+        SCOPED_TRACE(i);
+        const u8 *rv = rnvermicelliExec('b', 0, buf, buf + strlen(t1) - i);
+
+        ASSERT_EQ(buf + 48, rv);
+
+        rv = rnvermicelliExec('B', 1, buf + i, buf + strlen(t1) - i);
+
+        ASSERT_EQ(buf + 48, rv);
+    }
+}
+
+TEST(RNVermicelli,  Exec3) {
+    char t1[] = "bbbbbbbbbbbbbbbbbabbbbbbbbaaaaaaaaaaaaaaaaaaaaaaAbbbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    for (size_t i = 0; i < 16; i++) {
+        SCOPED_TRACE(i);
+        const u8 *rv = rnvermicelliExec('b', 0, buf + i, buf + strlen(t1));
+
+        ASSERT_EQ(buf + 48, rv);
+
+        rv = rnvermicelliExec('B', 1, buf + i, buf + strlen(t1));
+
+        ASSERT_EQ(buf + 48, rv);
+    }
+}
+
+TEST(RNVermicelli, Exec4) {
+    char t1[] = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    for (size_t i = 0; i < 31; i++) {
+        SCOPED_TRACE(i);
+        t1[16 + i] = 'a';
+        const u8 *rv = rnvermicelliExec('b', 0, buf, buf + strlen(t1));
+
+        ASSERT_EQ(buf + 16 + i, rv);
+
+        rv = rnvermicelliExec('B', 1, buf, buf + strlen(t1));
+
+        ASSERT_EQ(buf + 16 + i, rv);
+    }
+}
+
+
 TEST(RDoubleVermicelli, Exec1) {
     char t1[] = "bbbbbbbbbbbbbbbbbbabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbabbbbbbbbbbbbbbbbbbbbb";
 

@@ -69,7 +69,6 @@ const u8 *shuftiRevSlow(const u8 *lo, const u8 *hi, const u8 *buf,
     return buf_end;
 }
 
-#if !defined(HAVE_SVE)
 #include "shufti_simd.hpp"
 
 const u8 *shuftiExec(m128 mask_lo, m128 mask_hi, const u8 *buf,
@@ -87,4 +86,3 @@ const u8 *shuftiDoubleExec(m128 mask1_lo, m128 mask1_hi,
                             const u8 *buf, const u8 *buf_end) {
     return shuftiDoubleExecReal<VECTORSIZE>(mask1_lo, mask1_hi, mask2_lo, mask2_hi, buf, buf_end);
 }
-#endif

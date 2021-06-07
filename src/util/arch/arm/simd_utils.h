@@ -34,11 +34,26 @@
 #define ARCH_ARM_SIMD_UTILS_H
 
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "ue2common.h"
 #include "util/simd_types.h"
 #include "util/unaligned.h"
 #include "util/intrinsics.h"
+
+#ifdef HAVE_SVE2
+
+static really_inline
+svuint8_t getCharMaskSingle(const u8 c, bool noCase) {
+    if (noCase) {
+        uint16_t chars_u16 = (c & 0xdf) | ((c | 0x20) << 8);
+        return svreinterpret_u8(svdup_u16(chars_u16));
+    } else {
+        return svdup_u8(c);
+    }
+}
+
+#endif
 
 #include <string.h> // for memcpy
 
