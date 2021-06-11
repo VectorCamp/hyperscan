@@ -38,6 +38,43 @@
 #include "util/simd/arch/arm/types.hpp"
 #endif
 
+#if defined(HAVE_SIMD_512_BITS)
+using Z_TYPE = u64a;
+#define Z_BITS 64
+#define Z_SHIFT 63
+#define DOUBLE_LOAD_MASK(l)        ((~0ULL) >> (Z_BITS -(l)))
+#define SINGLE_LOAD_MASK(l)        (((1ULL) << (l)) - 1ULL)
+#elif defined(HAVE_SIMD_256_BITS)
+using Z_TYPE = u32;
+#define Z_BITS 32
+#define Z_SHIFT 31
+#define DOUBLE_LOAD_MASK(l)        (((1ULL) << (l)) - 1ULL)
+#define SINGLE_LOAD_MASK(l)        (((1ULL) << (l)) - 1ULL)
+#elif defined(HAVE_SIMD_128_BITS)
+using Z_TYPE = u32;
+#define Z_BITS 32
+#define Z_SHIFT 0
+#define DOUBLE_LOAD_MASK(l)        (((1ULL) << (l)) - 1ULL)
+#define SINGLE_LOAD_MASK(l)        (((1ULL) << (l)) - 1ULL)
+#endif
+
+// Define a common assume_aligned using an appropriate compiler built-in, if
+// it's available. Note that we need to handle C or C++ compilation.
+#ifdef __cplusplus
+#  ifdef HAVE_CXX_BUILTIN_ASSUME_ALIGNED
+#    define assume_aligned(x, y) __builtin_assume_aligned((x), (y))
+#  endif
+#else
+#  ifdef HAVE_CC_BUILTIN_ASSUME_ALIGNED
+#    define assume_aligned(x, y) __builtin_assume_aligned((x), (y))
+#  endif
+#endif
+
+// Fallback to identity case.
+#ifndef assume_aligned
+#define assume_aligned(x, y) (x)
+#endif
+
 template <uint16_t SIZE>
 class SuperVector;
 
@@ -124,15 +161,36 @@ public:
   template<typename T>
   SuperVector(T const o);
 
+  static SuperVector set1u_16x8(uint8_t o) { return {o}; };
+  static SuperVector set1_16x8(int8_t o) { return {o}; };
+  static SuperVector set1u_8x16(uint16_t o) { return {o}; };
+  static SuperVector set1_8x16(int16_t o) { return {o}; };
+  static SuperVector set1u_4x32(uint32_t o) { return {o}; };
+  static SuperVector set1_4x32(int32_t o) { return {o}; };
+  static SuperVector set1u_2x64(uint64_t o) { return {o}; };
+  static SuperVector set1_2x64(int64_t o) { return {o}; };
+
   void operator=(SuperVector const &o);
+
   SuperVector operator&(SuperVector const b) const;
+
+  SuperVector mand(SuperVector const b) const;
+  SuperVector mandnot(SuperVector const b) const;
+
   SuperVector eq(SuperVector const b) const;
   SuperVector operator<<(uint8_t const N) const;
+  SuperVector operator>>(uint8_t const N) const;
   typename base_type::movemask_type movemask(void) const;
   typename base_type::movemask_type eqmask(SuperVector const b) const;
+
   static SuperVector loadu(void const *ptr);
   static SuperVector load(void const *ptr);
+  static SuperVector loadu_maskz(void const *ptr, uint8_t const len);
   SuperVector alignr(SuperVector l, int8_t offset);
+
+  SuperVector pshufb(SuperVector b);
+  SuperVector lshift64(uint8_t const l);
+  SuperVector rshift64(uint8_t const l);
 
   // Constants
   static SuperVector Ones();
@@ -144,10 +202,12 @@ public:
 // class SuperVector<64>;
 // class SuperVector<128>;
 
+#if defined(HS_OPTIMIZE)
 #if defined(ARCH_IA32) || defined(ARCH_X86_64)
-#include "util/simd/arch/x86/impl.hpp"
+#include "util/simd/arch/x86/impl.cpp"
 #elif defined(ARCH_ARM32) || defined(ARCH_AARCH64)
 #include "util/simd/arch/arm/impl.hpp"
+#endif
 #endif
 
 
