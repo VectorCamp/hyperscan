@@ -173,9 +173,11 @@ public:
   void operator=(SuperVector const &o);
 
   SuperVector operator&(SuperVector const b) const;
+  SuperVector operator|(SuperVector const b) const;
 
-  SuperVector mand(SuperVector const b) const;
-  SuperVector mandnot(SuperVector const b) const;
+  SuperVector opand(SuperVector const b) const;
+  SuperVector opor(SuperVector const b) const;
+  SuperVector opandnot(SuperVector const b) const;
 
   SuperVector eq(SuperVector const b) const;
   SuperVector operator<<(uint8_t const N) const;
@@ -206,7 +208,7 @@ public:
 #if defined(ARCH_IA32) || defined(ARCH_X86_64)
 #include "util/simd/arch/x86/impl.cpp"
 #elif defined(ARCH_ARM32) || defined(ARCH_AARCH64)
-#include "util/simd/arch/arm/impl.hpp"
+#include "util/simd/arch/arm/impl.cpp"
 #endif
 #endif
 

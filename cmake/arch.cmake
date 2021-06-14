@@ -13,6 +13,52 @@ else()
     message (FATAL_ERROR "No intrinsics header found")
 endif ()
 
+if (ARCH_ARM32 OR ARCH_AARCH64)
+    CHECK_C_SOURCE_COMPILES("#include <${INTRIN_INC_H}>
+int main() {
+    int32x4_t a = vdupq_n_s32(1);
+    (void)a;
+}" HAVE_NEON)
+endif ()
+
+if (ARCH_AARCH64)
+    set(PREV_FLAGS "${CMAKE_C_FLAGS}")
+    if (BUILD_SVE2_BITPERM)
+        set(CMAKE_C_FLAGS "-march=${GNUCC_ARCH} ${CMAKE_C_FLAGS}")
+        CHECK_C_SOURCE_COMPILES("#include <arm_sve.h>
+        int main() {
+            svuint8_t a = svbext(svdup_u8(1), svdup_u8(2));
+            (void)a;
+        }" HAVE_SVE2_BITPERM)
+        if (HAVE_SVE2_BITPERM)
+            add_definitions(-DHAVE_SVE2_BITPERM)
+        endif ()
+    endif()
+    if (BUILD_SVE2)
+        set(CMAKE_C_FLAGS "-march=${GNUCC_ARCH} ${CMAKE_C_FLAGS}")
+        CHECK_C_SOURCE_COMPILES("#include <arm_sve.h>
+        int main() {
+            svuint8_t a = svbsl(svdup_u8(1), svdup_u8(2), svdup_u8(3));
+            (void)a;
+        }" HAVE_SVE2)
+        if (HAVE_SVE2)
+            add_definitions(-DHAVE_SVE2)
+        endif ()
+    endif()
+    if (BUILD_SVE)
+        set(CMAKE_C_FLAGS "-march=${GNUCC_ARCH} ${CMAKE_C_FLAGS}")
+        CHECK_C_SOURCE_COMPILES("#include <arm_sve.h>
+        int main() {
+            svuint8_t a = svdup_u8(1);
+            (void)a;
+        }" HAVE_SVE)
+        if (HAVE_SVE)
+            add_definitions(-DHAVE_SVE)
+        endif ()
+    endif ()
+    set(CMAKE_C_FLAGS "${PREV_FLAGS}")
+endif()
+
 if (BUILD_AVX512)
     CHECK_C_COMPILER_FLAG(${SKYLAKE_FLAG} HAS_ARCH_SKYLAKE)
     if (NOT HAS_ARCH_SKYLAKE)
@@ -90,13 +136,7 @@ int main(){
     (void)_mm512_permutexvar_epi8(idx, a);
 }" HAVE_AVX512VBMI)
 
-elseif (ARCH_ARM32 OR ARCH_AARCH64)
-    CHECK_C_SOURCE_COMPILES("#include <${INTRIN_INC_H}>
-int main() {
-    int32x4_t a = vdupq_n_s32(1);
-    (void)a;
-}" HAVE_NEON)
-else ()
+elseif (!ARCH_ARM32 AND !ARCH_AARCH64)
     message (FATAL_ERROR "Unsupported architecture")
 endif ()
 
@@ -131,5 +171,6 @@ else (NOT FAT_RUNTIME)
     endif ()
 endif ()
 
+unset (PREV_FLAGS)
 unset (CMAKE_REQUIRED_FLAGS)
 unset (INTRIN_INC_H)
