@@ -31,28 +31,6 @@
 
 #include "util/simd/types.hpp"
 
-// using Z_TYPE = typename SuperVector<VECTORSIZE>::movemask_type;
-
-#if defined(HAVE_SIMD_512_BITS)
-using Z_TYPE = u64a;
-#define Z_BITS 64
-#define Z_SHIFT 63
-#define DOUBLE_LOAD_MASK(l)        ((~0ULL) >> (Z_BITS -l)) 
-#define SINGLE_LOAD_MASK(l)        (((1ULL) << l) - 1ULL)
-#elif defined(HAVE_SIMD_256_BITS)
-using Z_TYPE = u32;
-#define Z_BITS 32
-#define Z_SHIFT 31
-#define DOUBLE_LOAD_MASK(l)        (((1ULL) << l) - 1ULL)
-#define SINGLE_LOAD_MASK(l)        (((1ULL) << l) - 1ULL)
-#elif defined(HAVE_SIMD_128_BITS)
-using Z_TYPE = u32;
-#define Z_BITS 32
-#define Z_SHIFT 0
-#define DOUBLE_LOAD_MASK(l)        (((1ULL) << l) - 1ULL)
-#define SINGLE_LOAD_MASK(l)        (((1ULL) << l) - 1ULL)
-#endif
-
 static u8 CASEMASK[] = { 0xff, 0xdf };
 
 static really_inline

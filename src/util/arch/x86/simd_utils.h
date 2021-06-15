@@ -281,9 +281,7 @@ char testbit128(m128 val, unsigned int n) {
 
 static really_inline
 m128 pshufb_m128(m128 a, m128 b) {
-    m128 result;
-    result = _mm_shuffle_epi8(a, b);
-    return result;
+    return _mm_shuffle_epi8(a, b);
 }
 
 static really_inline

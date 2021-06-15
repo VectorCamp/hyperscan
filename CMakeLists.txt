@@ -209,9 +209,17 @@ else()
             message(SEND_ERROR "Something went wrong determining gcc tune: -mtune=${GNUCC_ARCH} not valid")
         endif()
         set(TUNE_FLAG ${GNUCC_ARCH})
-    else ()
+    elseif (NOT TUNE_FLAG)
         set(TUNE_FLAG native)
     endif()
+
+    if (BUILD_SVE2_BITPERM)
+        set(GNUCC_ARCH "${GNUCC_ARCH}+sve2-bitperm")
+    elseif (BUILD_SVE2)
+        set(GNUCC_ARCH "${GNUCC_ARCH}+sve2")
+    elseif (BUILD_SVE)
+        set(GNUCC_ARCH "${GNUCC_ARCH}+sve")
+    endif ()
 
     # compiler version checks TODO: test more compilers
     if (CMAKE_COMPILER_IS_GNUCXX)
@@ -252,11 +260,11 @@ else()
     endif()
 
     if (NOT CMAKE_C_FLAGS MATCHES .*march.* AND NOT CMAKE_C_FLAGS MATCHES .*mtune.*)
-        set(ARCH_C_FLAGS "-march=native -mtune=${TUNE_FLAG}")
+        set(ARCH_C_FLAGS "-march=${GNUCC_ARCH} -mtune=${TUNE_FLAG}")
     endif()
 
     if (NOT CMAKE_CXX_FLAGS MATCHES .*march.* AND NOT CMAKE_CXX_FLAGS MATCHES .*mtune.*)
-        set(ARCH_CXX_FLAGS "-march=native -mtune=${TUNE_FLAG}")
+        set(ARCH_CXX_FLAGS "-march=${GNUCC_ARCH} -mtune=${TUNE_FLAG}")
     endif()
 
     if(CMAKE_COMPILER_IS_GNUCC)
@@ -296,6 +304,9 @@ if (ARCH_IA32 OR ARCH_X86_64)
   CHECK_INCLUDE_FILE_CXX(x86intrin.h HAVE_CXX_X86INTRIN_H)
 elseif (ARCH_ARM32 OR ARCH_AARCH64)
   CHECK_INCLUDE_FILE_CXX(arm_neon.h HAVE_C_ARM_NEON_H)
+  if (BUILD_SVE OR BUILD_SVE2 OR BUILD_SVE2_BITPERM)
+    CHECK_INCLUDE_FILE_CXX(arm_sve.h HAVE_C_ARM_SVE_H)
+  endif()
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -flax-vector-conversions")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -flax-vector-conversions")
 endif()
@@ -460,7 +471,11 @@ endif()
 endif()
 
 if (NOT FAT_RUNTIME)
-    message(STATUS "Building for current host CPU: ${ARCH_C_FLAGS}")
+    if (CROSS_COMPILE_AARCH64)
+        message(STATUS "Building for target CPU: ${ARCH_C_FLAGS}")
+    else()
+        message(STATUS "Building for current host CPU: ${ARCH_C_FLAGS}")
+    endif()
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ARCH_C_FLAGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ARCH_CXX_FLAGS}")
 else()
@@ -587,7 +602,7 @@ set (hs_exec_common_SRCS
     ${hs_exec_common_SRCS}
     src/util/arch/x86/cpuid_flags.c
     )
-else (ARCH_ARM32 OR ARCH_AARCH64)
+elseif (ARCH_ARM32 OR ARCH_AARCH64)
 set (hs_exec_common_SRCS
     ${hs_exec_common_SRCS}
     src/util/arch/arm/cpuid_flags.c
@@ -676,7 +691,7 @@ set (hs_exec_SRCS
     src/nfa/sheng_impl.h
     src/nfa/sheng_impl4.h
     src/nfa/sheng_internal.h
-    src/nfa/shufti.c
+    src/nfa/shufti.cpp
     src/nfa/shufti.h
     src/nfa/tamarama.c
     src/nfa/tamarama.h
@@ -737,6 +752,18 @@ set (hs_exec_SRCS
     src/database.c
     src/database.h
 )
+
+if (NOT OPTIMISE)
+if (ARCH_IA32 OR ARCH_X86_64)
+set (hs_exec_SRCS
+    ${hs_exec_SRCS}
+    src/util/simd/arch/x86/impl.cpp)
+elseif (ARCH_ARM32 OR ARCH_AARCH64)
+set (hs_exec_SRCS
+    ${hs_exec_SRCS}
+    src/util/simd/arch/arm/impl.cpp)
+endif ()
+endif()
 
 set (hs_exec_avx2_SRCS
     src/fdr/teddy_avx2.c

@@ -31,16 +31,8 @@
 #define SIMD_IMPL_HPP
 
 #include <cstdint>
-#include <cstdio>
 
-#include "ue2common.h"
-#include "util/arch.h"
-#include "util/unaligned.h"
-#include "util/simd/types.hpp"
-
-#if !defined(m128) && defined(HAVE_NEON)
-typedef int32x4_t m128;
-#endif
+#include "util/simd/arch/arm/types.hpp"
 
 // 128-bit NEON implementation
 
@@ -126,8 +118,6 @@ really_inline SuperVector<16>::SuperVector<uint64_t>(uint64_t const o)
 	u.v128[0] = vdupq_n_u64(o);
 }
 
-
-
 // Constants
 template<>
 really_inline SuperVector<16> SuperVector<16>::Ones(void)
@@ -141,6 +131,8 @@ really_inline SuperVector<16> SuperVector<16>::Zeroes(void)
     return {vdupq_n_u8(0)};
 }
 
+// Methods
+
 template <>
 really_inline void SuperVector<16>::operator=(SuperVector<16> const &o)
 {
@@ -149,6 +141,24 @@ really_inline void SuperVector<16>::operator=(SuperVector<16> const &o)
 
 template <>
 really_inline SuperVector<16> SuperVector<16>::operator&(SuperVector<16> const b) const
+{
+    return {vandq_s8(u.v128[0], b.u.v128[0])};
+}
+
+template <>
+really_inline SuperVector<16> SuperVector<16>::operator|(SuperVector<16> const b) const
+{
+    return {vandq_s8(u.v128[0], b.u.v128[0])};
+}
+
+template <>
+really_inline SuperVector<16> SuperVector<16>::opand(SuperVector<16> const b) const
+{
+    return {vandq_s8(u.v128[0], b.u.v128[0])};
+}
+
+template <>
+really_inline SuperVector<16> SuperVector<16>::opandnot(SuperVector<16> const b) const
 {
     return {vandq_s8(u.v128[0], b.u.v128[0])};
 }
@@ -181,7 +191,7 @@ really_inline typename SuperVector<16>::movemask_type SuperVector<16>::eqmask(Su
 	return eq(b).movemask();
 }
 
-#ifndef DEBUG
+#ifndef HS_OPTIMIZE
 template <>
 really_inline SuperVector<16> SuperVector<16>::operator<<(uint8_t const N) const
 {
@@ -215,6 +225,38 @@ really_inline SuperVector<16> SuperVector<16>::operator<<(uint8_t const N) const
 }
 #endif
 
+#ifdef HS_OPTIMIZE
+template <>
+really_inline SuperVector<16> SuperVector<16>::operator>>(uint8_t const N) const
+{
+	return {vshrq_n_s32(u.v128[0], N)};
+}
+#else
+template <>
+really_inline SuperVector<16> SuperVector<16>::operator>>(uint8_t const N) const
+{
+	switch(N) {
+	case 0: return {vshrq_n_s32(u.v128[0], 0)}; break;
+	case 1: return {vshrq_n_s32(u.v128[0], 1)}; break;
+	case 2: return {vshrq_n_s32(u.v128[0], 2)}; break;
+	case 3: return {vshrq_n_s32(u.v128[0], 3)}; break;
+	case 4: return {vshrq_n_s32(u.v128[0], 4)}; break;
+	case 5: return {vshrq_n_s32(u.v128[0], 5)}; break;
+	case 6: return {vshrq_n_s32(u.v128[0], 6)}; break;
+	case 7: return {vshrq_n_s32(u.v128[0], 7)}; break;
+	case 8: return {vshrq_n_s32(u.v128[0], 8)}; break;
+	case 9: return {vshrq_n_s32(u.v128[0], 9)}; break;
+	case 10: return {vshrq_n_s32(u.v128[0], 10)}; break;
+	case 11: return {vshrq_n_s32(u.v128[0], 11)}; break;
+	case 12: return {vshrq_n_s32(u.v128[0], 12)}; break;
+	case 13: return {vshrq_n_s32(u.v128[0], 13)}; break;
+	case 14: return {vshrq_n_s32(u.v128[0], 14)}; break;
+	case 15: return {vshrq_n_s32(u.v128[0], 15)}; break;
+	default: break;
+	}
+	return *this;
+}
+#endif
 
 template <>
 really_inline SuperVector<16> SuperVector<16>::loadu(void const *ptr)
@@ -227,10 +269,20 @@ really_inline SuperVector<16> SuperVector<16>::load(void const *ptr)
 {
     assert(ISALIGNED_N(ptr, alignof(SuperVector::size)));
     ptr = assume_aligned(ptr, SuperVector::size);
-    return vld1q_s32((const int32_t *)ptr);
+    return {vld1q_s32((const int32_t *)ptr)};
 }
 
-#ifndef DEBUG
+template <>
+really_inline SuperVector<16> SuperVector<16>::loadu_maskz(void const *ptr, uint8_t const len)
+{
+    uint8_t alignment = (uintptr_t)(ptr) & 15;
+    SuperVector<16> maskb = Ones() << alignment;
+    SuperVector<16> maske = Ones() >> (16 -len - alignment);
+    SuperVector<16> v = SuperVector<16>::loadu((const m128 *)ptr);
+    return {maskb.u.v128[0] & maske.u.v128[0] & v.u.v128[0]};
+}
+
+#ifndef HS_OPTIMIZE
 template<>
 really_inline SuperVector<16> SuperVector<16>::alignr(SuperVector<16> r, int8_t offset)
 {
@@ -264,6 +316,81 @@ really_inline SuperVector<16> SuperVector<16>::alignr(SuperVector<16> l, int8_t 
 }
 #endif
 
+template<>
+really_inline SuperVector<16> SuperVector<16>::pshufb(SuperVector<16> b)
+{
+    /* On Intel, if bit 0x80 is set, then result is zero, otherwise which the lane it is &0xf.
+       In NEON, if >=16, then the result is zero, otherwise it is that lane.
+       btranslated is the version that is converted from Intel to NEON.  */
+    int8x16_t btranslated = vandq_s8((int8x16_t)b.u.v128[0], vdupq_n_s8(0x8f));
+    return {vqtbl1q_s8((int8x16_t)u.v128[0], (uint8x16_t)btranslated)};
+}
+
+#ifdef HS_OPTIMIZE
+template<>
+really_inline SuperVector<16> SuperVector<16>::lshift64(uint8_t const l)
+{
+	return {(m128)vshlq_n_s64(u.v128[0], l)};
+}
+#else
+template<>
+really_inline SuperVector<16> SuperVector<16>::lshift64(uint8_t const l)
+{
+	switch(l) {
+	case 0: return {vshlq_n_s64(u.v128[0], 0)}; break;
+	case 1: return {vshlq_n_s64(u.v128[0], 1)}; break;
+	case 2: return {vshlq_n_s64(u.v128[0], 2)}; break;
+	case 3: return {vshlq_n_s64(u.v128[0], 3)}; break;
+	case 4: return {vshlq_n_s64(u.v128[0], 4)}; break;
+	case 5: return {vshlq_n_s64(u.v128[0], 5)}; break;
+	case 6: return {vshlq_n_s64(u.v128[0], 6)}; break;
+	case 7: return {vshlq_n_s64(u.v128[0], 7)}; break;
+	case 8: return {vshlq_n_s64(u.v128[0], 8)}; break;
+	case 9: return {vshlq_n_s64(u.v128[0], 9)}; break;
+	case 10: return {vshlq_n_s64(u.v128[0], 10)}; break;
+	case 11: return {vshlq_n_s64(u.v128[0], 11)}; break;
+	case 12: return {vshlq_n_s64(u.v128[0], 12)}; break;
+	case 13: return {vshlq_n_s64(u.v128[0], 13)}; break;
+	case 14: return {vshlq_n_s64(u.v128[0], 14)}; break;
+	case 15: return {vshlq_n_s64(u.v128[0], 15)}; break;
+	default: break;
+	}
+	return *this;
+}
+#endif
+
+#ifdef HS_OPTIMIZE
+template<>
+really_inline SuperVector<16> SuperVector<16>::rshift64(uint8_t const l)
+{
+	return {(m128)vshrq_n_s64(u.v128[0], l)};
+}
+#else
+template<>
+really_inline SuperVector<16> SuperVector<16>::rshift64(uint8_t const l)
+{
+	switch(l) {
+	case 0: return {vshrq_n_s64(u.v128[0], 0)}; break;
+	case 1: return {vshrq_n_s64(u.v128[0], 1)}; break;
+	case 2: return {vshrq_n_s64(u.v128[0], 2)}; break;
+	case 3: return {vshrq_n_s64(u.v128[0], 3)}; break;
+	case 4: return {vshrq_n_s64(u.v128[0], 4)}; break;
+	case 5: return {vshrq_n_s64(u.v128[0], 5)}; break;
+	case 6: return {vshrq_n_s64(u.v128[0], 6)}; break;
+	case 7: return {vshrq_n_s64(u.v128[0], 7)}; break;
+	case 8: return {vshrq_n_s64(u.v128[0], 8)}; break;
+	case 9: return {vshrq_n_s64(u.v128[0], 9)}; break;
+	case 10: return {vshrq_n_s64(u.v128[0], 10)}; break;
+	case 11: return {vshrq_n_s64(u.v128[0], 11)}; break;
+	case 12: return {vshrq_n_s64(u.v128[0], 12)}; break;
+	case 13: return {vshrq_n_s64(u.v128[0], 13)}; break;
+	case 14: return {vshrq_n_s64(u.v128[0], 14)}; break;
+	case 15: return {vshrq_n_s64(u.v128[0], 15)}; break;
+	default: break;
+	}
+	return *this;
+}
+#endif
 
 
 #endif // SIMD_IMPL_HPP
