@@ -1,0 +1,284 @@
+Performing C SOURCE FILE Test ARCH_IA32 failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_e9723/fast && /usr/bin/make -f CMakeFiles/cmTC_e9723.dir/build.make CMakeFiles/cmTC_e9723.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e9723.dir/src.c.o
+/usr/bin/gcc-10   -DARCH_IA32   -o CMakeFiles/cmTC_e9723.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c:2:2: error: #error not 32bit
+    2 | #error not 32bit
+      |  ^~~~~
+make[1]: *** [CMakeFiles/cmTC_e9723.dir/build.make:66: CMakeFiles/cmTC_e9723.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_e9723/fast] Error 2
+
+
+Source file was:
+#if !(defined(__i386__) || defined(_M_IX86))
+#error not 32bit
+#endif
+int main(void) { return 0; }
+Performing C SOURCE FILE Test ARCH_AARCH64 failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_d1a60/fast && /usr/bin/make -f CMakeFiles/cmTC_d1a60.dir/build.make CMakeFiles/cmTC_d1a60.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d1a60.dir/src.c.o
+/usr/bin/gcc-10   -DARCH_AARCH64   -o CMakeFiles/cmTC_d1a60.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c:2:2: error: #error not 64bit
+    2 | #error not 64bit
+      |  ^~~~~
+make[1]: *** [CMakeFiles/cmTC_d1a60.dir/build.make:66: CMakeFiles/cmTC_d1a60.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_d1a60/fast] Error 2
+
+
+Source file was:
+#if !defined(__ARM_ARCH_ISA_A64)
+#error not 64bit
+#endif
+int main(void) { return 0; }
+Performing C SOURCE FILE Test ARCH_ARM32 failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_10fd0/fast && /usr/bin/make -f CMakeFiles/cmTC_10fd0.dir/build.make CMakeFiles/cmTC_10fd0.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_10fd0.dir/src.c.o
+/usr/bin/gcc-10   -DARCH_ARM32   -o CMakeFiles/cmTC_10fd0.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c:2:2: error: #error not 32bit
+    2 | #error not 32bit
+      |  ^~~~~
+make[1]: *** [CMakeFiles/cmTC_10fd0.dir/build.make:66: CMakeFiles/cmTC_10fd0.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_10fd0/fast] Error 2
+
+
+Source file was:
+#if !defined(__ARM_ARCH_ISA_ARM)
+#error not 32bit
+#endif
+int main(void) { return 0; }
+Determining if files intrin.h exist failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_20c5d/fast && /usr/bin/make -f CMakeFiles/cmTC_20c5d.dir/build.make CMakeFiles/cmTC_20c5d.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_20c5d.dir/HAVE_C_INTRIN_H.c.o
+/usr/bin/gcc-10    -o CMakeFiles/cmTC_20c5d.dir/HAVE_C_INTRIN_H.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CheckIncludeFiles/HAVE_C_INTRIN_H.c
+/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CheckIncludeFiles/HAVE_C_INTRIN_H.c:2:10: fatal error: intrin.h: No such file or directory
+    2 | #include <intrin.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_20c5d.dir/build.make:66: CMakeFiles/cmTC_20c5d.dir/HAVE_C_INTRIN_H.c.o] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_20c5d/fast] Error 2
+
+
+Source:
+/* */
+#include <intrin.h>
+
+
+int main(void){return 0;}
+
+Determining if the include file intrin.h exists failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_e1d98/fast && /usr/bin/make -f CMakeFiles/cmTC_e1d98.dir/build.make CMakeFiles/cmTC_e1d98.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e1d98.dir/CheckIncludeFile.cxx.o
+/usr/bin/g++-10     -o CMakeFiles/cmTC_e1d98.dir/CheckIncludeFile.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: intrin.h: No such file or directory
+    1 | #include <intrin.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_e1d98.dir/build.make:66: CMakeFiles/cmTC_e1d98.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_e1d98/fast] Error 2
+
+
+
+Determining if the function _aligned_malloc exists failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_18515/fast && /usr/bin/make -f CMakeFiles/cmTC_18515.dir/build.make CMakeFiles/cmTC_18515.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_18515.dir/CheckFunctionExists.c.o
+/usr/bin/gcc-10   -DCHECK_FUNCTION_EXISTS=_aligned_malloc   -o CMakeFiles/cmTC_18515.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_18515
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_18515.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DCHECK_FUNCTION_EXISTS=_aligned_malloc    -rdynamic CMakeFiles/cmTC_18515.dir/CheckFunctionExists.c.o  -o cmTC_18515 
+/usr/bin/ld: CMakeFiles/cmTC_18515.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text+0x14): undefined reference to `_aligned_malloc'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_18515.dir/build.make:87: cmTC_18515] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_18515/fast] Error 2
+
+
+
+Determining if the _LIBCPP_VERSION exist failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_49142/fast && /usr/bin/make -f CMakeFiles/cmTC_49142.dir/build.make CMakeFiles/cmTC_49142.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_49142.dir/CheckSymbolExists.cxx.o
+/usr/bin/g++-10     -o CMakeFiles/cmTC_49142.dir/CheckSymbolExists.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main(int, char**)’:
+/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:8:19: error: ‘_LIBCPP_VERSION’ was not declared in this scope
+    8 |   return ((int*)(&_LIBCPP_VERSION))[argc];
+      |                   ^~~~~~~~~~~~~~~
+make[1]: *** [CMakeFiles/cmTC_49142.dir/build.make:66: CMakeFiles/cmTC_49142.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_49142/fast] Error 2
+
+
+File /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <ciso646>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef _LIBCPP_VERSION
+  return ((int*)(&_LIBCPP_VERSION))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+Performing C SOURCE FILE Test CC_SELF_ASSIGN failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_239bd/fast && /usr/bin/make -f CMakeFiles/cmTC_239bd.dir/build.make CMakeFiles/cmTC_239bd.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_239bd.dir/src.c.o
+/usr/bin/gcc-10   -DCC_SELF_ASSIGN   -Wself-assign -o CMakeFiles/cmTC_239bd.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+gcc-10: error: unrecognized command-line option '-Wself-assign'
+make[1]: *** [CMakeFiles/cmTC_239bd.dir/build.make:66: CMakeFiles/cmTC_239bd.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_239bd/fast] Error 2
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C++ SOURCE FILE Test CXX_SELF_ASSIGN failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_0d525/fast && /usr/bin/make -f CMakeFiles/cmTC_0d525.dir/build.make CMakeFiles/cmTC_0d525.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_0d525.dir/src.cxx.o
+/usr/bin/g++-10    -DCXX_SELF_ASSIGN   -Wself-assign -o CMakeFiles/cmTC_0d525.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
+g++-10: error: unrecognized command-line option '-Wself-assign'
+make[1]: *** [CMakeFiles/cmTC_0d525.dir/build.make:66: CMakeFiles/cmTC_0d525.dir/src.cxx.o] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_0d525/fast] Error 2
+
+
+Source file was:
+int main() { return 0; }
+Performing C SOURCE FILE Test CC_PAREN_EQUALITY failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_7aa7b/fast && /usr/bin/make -f CMakeFiles/cmTC_7aa7b.dir/build.make CMakeFiles/cmTC_7aa7b.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7aa7b.dir/src.c.o
+/usr/bin/gcc-10   -DCC_PAREN_EQUALITY   -Wparentheses-equality -o CMakeFiles/cmTC_7aa7b.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+gcc-10: error: unrecognized command-line option '-Wparentheses-equality'
+make[1]: *** [CMakeFiles/cmTC_7aa7b.dir/build.make:66: CMakeFiles/cmTC_7aa7b.dir/src.c.o] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_7aa7b/fast] Error 2
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C++ SOURCE FILE Test CXX_WEAK_VTABLES failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_7820a/fast && /usr/bin/make -f CMakeFiles/cmTC_7820a.dir/build.make CMakeFiles/cmTC_7820a.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_7820a.dir/src.cxx.o
+/usr/bin/g++-10    -DCXX_WEAK_VTABLES   -Wweak-vtables -o CMakeFiles/cmTC_7820a.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
+g++-10: error: unrecognized command-line option '-Wweak-vtables'
+make[1]: *** [CMakeFiles/cmTC_7820a.dir/build.make:66: CMakeFiles/cmTC_7820a.dir/src.cxx.o] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_7820a/fast] Error 2
+
+
+Source file was:
+int main() { return 0; }
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_a880e/fast && /usr/bin/make -f CMakeFiles/cmTC_a880e.dir/build.make CMakeFiles/cmTC_a880e.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_a880e.dir/src.c.o
+/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_a880e.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_a880e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a880e.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake -DCMAKE_HAVE_LIBC_PTHREAD    -rdynamic CMakeFiles/cmTC_a880e.dir/src.c.o  -o cmTC_a880e 
+/usr/bin/ld: CMakeFiles/cmTC_a880e.dir/src.c.o: in function `main':
+src.c:(.text+0x46): undefined reference to `pthread_create'
+/usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
+/usr/bin/ld: src.c:(.text+0x63): undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_a880e.dir/build.make:87: cmTC_a880e] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_a880e/fast] Error 2
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_60082/fast && /usr/bin/make -f CMakeFiles/cmTC_60082.dir/build.make CMakeFiles/cmTC_60082.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_60082.dir/CheckFunctionExists.c.o
+/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_60082.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_60082
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_60082.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_60082.dir/CheckFunctionExists.c.o  -o cmTC_60082  -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_60082.dir/build.make:87: cmTC_60082] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_60082/fast] Error 2
+
+
+
+Determining if the include file pthread_np.h exists failed with the following output:
+Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_c30f1/fast && /usr/bin/make -f CMakeFiles/cmTC_c30f1.dir/build.make CMakeFiles/cmTC_c30f1.dir/build
+make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_c30f1.dir/CheckIncludeFile.cxx.o
+/usr/bin/g++-10    -march=tigerlake -mtune=tigerlake    -o CMakeFiles/cmTC_c30f1.dir/CheckIncludeFile.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: pthread_np.h: No such file or directory
+    1 | #include <pthread_np.h>
+      |          ^~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_c30f1.dir/build.make:66: CMakeFiles/cmTC_c30f1.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_c30f1/fast] Error 2
+
+
+
