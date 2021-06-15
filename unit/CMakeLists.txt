@@ -115,11 +115,7 @@ set(unit_internal_SOURCES
     internal/rose_mask_32.cpp
     internal/rvermicelli.cpp
     internal/simd_utils.cpp
-<<<<<<< HEAD
     internal/supervector.cpp
-=======
-    #internal/supervector.cpp
->>>>>>> upstream/feature/templates-refactor
     internal/shuffle.cpp
     internal/shufti.cpp
     internal/state_compress.cpp
