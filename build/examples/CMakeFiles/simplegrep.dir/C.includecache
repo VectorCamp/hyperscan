@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/hs.h
+hs_compile.h
+../src/hs_compile.h
+hs_runtime.h
+../src/hs_runtime.h
+
+../src/hs_common.h
+stdlib.h
+-
+
+../src/hs_compile.h
+hs_common.h
+../src/hs_common.h
+
+../src/hs_runtime.h
+stdlib.h
+-
+hs_common.h
+../src/hs_common.h
+
+/home/vcamp/Vectrocamp/vectorscan/examples/simplegrep.c
+errno.h
+-
+limits.h
+-
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+hs.h
+-
+

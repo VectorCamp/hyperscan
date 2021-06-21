@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libcorpusomatic.a  CMakeFiles/corpusomatic.dir/ng_corpus_editor.cpp.o CMakeFiles/corpusomatic.dir/ng_corpus_generator.cpp.o CMakeFiles/corpusomatic.dir/ng_corpus_properties.cpp.o CMakeFiles/corpusomatic.dir/ng_find_matches.cpp.o
+/usr/bin/ranlib ../lib/libcorpusomatic.a

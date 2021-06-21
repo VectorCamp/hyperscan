@@ -28,13 +28,13 @@ The CXX compiler identification is GNU, found in "/home/vcamp/Vectrocamp/vectors
 Determining if the C compiler works passed with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_c9978/fast && /usr/bin/make -f CMakeFiles/cmTC_c9978.dir/build.make CMakeFiles/cmTC_c9978.dir/build
+Run Build Command(s):/usr/bin/make cmTC_12ce8/fast && /usr/bin/make -f CMakeFiles/cmTC_12ce8.dir/build.make CMakeFiles/cmTC_12ce8.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_c9978.dir/testCCompiler.c.o
-/usr/bin/gcc-10    -o CMakeFiles/cmTC_c9978.dir/testCCompiler.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTC_c9978
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c9978.dir/link.txt --verbose=1
-/usr/bin/gcc-10      -rdynamic CMakeFiles/cmTC_c9978.dir/testCCompiler.c.o  -o cmTC_c9978 
+Building C object CMakeFiles/cmTC_12ce8.dir/testCCompiler.c.o
+/usr/bin/gcc-10    -o CMakeFiles/cmTC_12ce8.dir/testCCompiler.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_12ce8
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_12ce8.dir/link.txt --verbose=1
+/usr/bin/gcc-10      -rdynamic CMakeFiles/cmTC_12ce8.dir/testCCompiler.c.o  -o cmTC_12ce8 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -42,10 +42,10 @@ make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/C
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_9c216/fast && /usr/bin/make -f CMakeFiles/cmTC_9c216.dir/build.make CMakeFiles/cmTC_9c216.dir/build
+Run Build Command(s):/usr/bin/make cmTC_44b70/fast && /usr/bin/make -f CMakeFiles/cmTC_44b70.dir/build.make CMakeFiles/cmTC_44b70.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o
-/usr/bin/gcc-10   -v -o CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c
+Building C object CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o
+/usr/bin/gcc-10   -v -o CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c
 Using built-in specs.
 COLLECT_GCC=/usr/bin/gcc-10
 OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa:hsa
@@ -55,8 +55,8 @@ Configured with: ../src/configure -v --with-pkgversion='Ubuntu 10.2.0-5ubuntu1~2
 Thread model: posix
 Supported LTO compression algorithms: zlib zstd
 gcc version 10.2.0 (Ubuntu 10.2.0-5ubuntu1~20.04) 
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/10/cc1 -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccSoezax.s
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/10/cc1 -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/cc0DpSfI.s
 GNU C17 (Ubuntu 10.2.0-5ubuntu1~20.04) version 10.2.0 (x86_64-linux-gnu)
 	compiled by GNU C version 10.2.0, GMP version 6.2.0, MPFR version 4.0.2, MPC version 1.1.0, isl version isl-0.22.1-GMP
 
@@ -76,15 +76,15 @@ GNU C17 (Ubuntu 10.2.0-5ubuntu1~20.04) version 10.2.0 (x86_64-linux-gnu)
 
 GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
 Compiler executable checksum: 906b24afdf1e82d3a400022896441367
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
- as -v --64 -o CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o /tmp/ccSoezax.s
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
+ as -v --64 -o CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o /tmp/cc0DpSfI.s
 GNU assembler version 2.34 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.34
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
-Linking C executable cmTC_9c216
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9c216.dir/link.txt --verbose=1
-/usr/bin/gcc-10     -v -rdynamic CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o  -o cmTC_9c216 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64'
+Linking C executable cmTC_44b70
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_44b70.dir/link.txt --verbose=1
+/usr/bin/gcc-10     -v -rdynamic CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o  -o cmTC_44b70 
 Using built-in specs.
 COLLECT_GCC=/usr/bin/gcc-10
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper
@@ -97,9 +97,9 @@ Supported LTO compression algorithms: zlib zstd
 gcc version 10.2.0 (Ubuntu 10.2.0-5ubuntu1~20.04) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_9c216' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/10/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/10/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper -plugin-opt=-fresolution=/tmp/cctrtlnY.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_9c216 /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/10/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/10 -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/10/../../.. CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/10/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_9c216' '-mtune=generic' '-march=x86-64'
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_44b70' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/10/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/10/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper -plugin-opt=-fresolution=/tmp/cc8zuoQ7.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_44b70 /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/10/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/10 -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/10/../../.. CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/10/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_44b70' '-mtune=generic' '-march=x86-64'
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -123,10 +123,10 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command(s):/usr/bin/make cmTC_9c216/fast && /usr/bin/make -f CMakeFiles/cmTC_9c216.dir/build.make CMakeFiles/cmTC_9c216.dir/build]
+  ignore line: [Run Build Command(s):/usr/bin/make cmTC_44b70/fast && /usr/bin/make -f CMakeFiles/cmTC_44b70.dir/build.make CMakeFiles/cmTC_44b70.dir/build]
   ignore line: [make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp']
-  ignore line: [Building C object CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/gcc-10   -v -o CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c]
+  ignore line: [Building C object CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/gcc-10   -v -o CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/gcc-10]
   ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa:hsa]
@@ -136,8 +136,8 @@ Parsed C implicit link information from above output:
   ignore line: [Thread model: posix]
   ignore line: [Supported LTO compression algorithms: zlib zstd]
   ignore line: [gcc version 10.2.0 (Ubuntu 10.2.0-5ubuntu1~20.04) ]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
-  ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/10/cc1 -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccSoezax.s]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/10/cc1 -quiet -v -imultiarch x86_64-linux-gnu /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/cc0DpSfI.s]
   ignore line: [GNU C17 (Ubuntu 10.2.0-5ubuntu1~20.04) version 10.2.0 (x86_64-linux-gnu)]
   ignore line: [	compiled by GNU C version 10.2.0  GMP version 6.2.0  MPFR version 4.0.2  MPC version 1.1.0  isl version isl-0.22.1-GMP]
   ignore line: []
@@ -157,15 +157,15 @@ Parsed C implicit link information from above output:
   ignore line: []
   ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
   ignore line: [Compiler executable checksum: 906b24afdf1e82d3a400022896441367]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
-  ignore line: [ as -v --64 -o CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o /tmp/ccSoezax.s]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [ as -v --64 -o CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o /tmp/cc0DpSfI.s]
   ignore line: [GNU assembler version 2.34 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.34]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
-  ignore line: [Linking C executable cmTC_9c216]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9c216.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/gcc-10     -v -rdynamic CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o  -o cmTC_9c216 ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [Linking C executable cmTC_44b70]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_44b70.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/gcc-10     -v -rdynamic CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o  -o cmTC_44b70 ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/gcc-10]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper]
@@ -178,13 +178,13 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 10.2.0 (Ubuntu 10.2.0-5ubuntu1~20.04) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_9c216' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/10/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/10/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper -plugin-opt=-fresolution=/tmp/cctrtlnY.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_9c216 /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/10/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/10 -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/10/../../.. CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/10/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_44b70' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/10/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/10/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper -plugin-opt=-fresolution=/tmp/cc8zuoQ7.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_44b70 /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/10/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/10 -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/10/../../.. CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/10/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/10/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/10/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/cctrtlnY.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/cc8zuoQ7.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -203,7 +203,7 @@ Parsed C implicit link information from above output:
     arg [-znow] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_9c216] ==> ignore
+    arg [cmTC_44b70] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/Scrt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/10/crtbeginS.o] ==> ignore
@@ -215,7 +215,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/10/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/10/../../..]
-    arg [CMakeFiles/cmTC_9c216.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_44b70.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--push-state] ==> ignore
     arg [--as-needed] ==> ignore
@@ -245,13 +245,13 @@ Parsed C implicit link information from above output:
 Determining if the CXX compiler works passed with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_2966e/fast && /usr/bin/make -f CMakeFiles/cmTC_2966e.dir/build.make CMakeFiles/cmTC_2966e.dir/build
+Run Build Command(s):/usr/bin/make cmTC_5f7cf/fast && /usr/bin/make -f CMakeFiles/cmTC_5f7cf.dir/build.make CMakeFiles/cmTC_5f7cf.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_2966e.dir/testCXXCompiler.cxx.o
-/usr/bin/g++-10     -o CMakeFiles/cmTC_2966e.dir/testCXXCompiler.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTC_2966e
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2966e.dir/link.txt --verbose=1
-/usr/bin/g++-10       -rdynamic CMakeFiles/cmTC_2966e.dir/testCXXCompiler.cxx.o  -o cmTC_2966e 
+Building CXX object CMakeFiles/cmTC_5f7cf.dir/testCXXCompiler.cxx.o
+/usr/bin/g++-10     -o CMakeFiles/cmTC_5f7cf.dir/testCXXCompiler.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_5f7cf
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5f7cf.dir/link.txt --verbose=1
+/usr/bin/g++-10       -rdynamic CMakeFiles/cmTC_5f7cf.dir/testCXXCompiler.cxx.o  -o cmTC_5f7cf 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -259,10 +259,10 @@ make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/C
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_4d4ab/fast && /usr/bin/make -f CMakeFiles/cmTC_4d4ab.dir/build.make CMakeFiles/cmTC_4d4ab.dir/build
+Run Build Command(s):/usr/bin/make cmTC_33a40/fast && /usr/bin/make -f CMakeFiles/cmTC_33a40.dir/build.make CMakeFiles/cmTC_33a40.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/g++-10    -v -o CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp
+Building CXX object CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/g++-10    -v -o CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp
 Using built-in specs.
 COLLECT_GCC=/usr/bin/g++-10
 OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa:hsa
@@ -272,8 +272,8 @@ Configured with: ../src/configure -v --with-pkgversion='Ubuntu 10.2.0-5ubuntu1~2
 Thread model: posix
 Supported LTO compression algorithms: zlib zstd
 gcc version 10.2.0 (Ubuntu 10.2.0-5ubuntu1~20.04) 
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/10/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccz9wFTs.s
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/10/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccUcE2aD.s
 GNU C++14 (Ubuntu 10.2.0-5ubuntu1~20.04) version 10.2.0 (x86_64-linux-gnu)
 	compiled by GNU C version 10.2.0, GMP version 6.2.0, MPFR version 4.0.2, MPC version 1.1.0, isl version isl-0.22.1-GMP
 
@@ -297,15 +297,15 @@ GNU C++14 (Ubuntu 10.2.0-5ubuntu1~20.04) version 10.2.0 (x86_64-linux-gnu)
 
 GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
 Compiler executable checksum: d716f9df9d1b12ebc8fe860554136f35
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- as -v --64 -o CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccz9wFTs.s
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ as -v --64 -o CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccUcE2aD.s
 GNU assembler version 2.34 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.34
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
-Linking CXX executable cmTC_4d4ab
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4d4ab.dir/link.txt --verbose=1
-/usr/bin/g++-10      -v -rdynamic CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_4d4ab 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+Linking CXX executable cmTC_33a40
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_33a40.dir/link.txt --verbose=1
+/usr/bin/g++-10      -v -rdynamic CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_33a40 
 Using built-in specs.
 COLLECT_GCC=/usr/bin/g++-10
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper
@@ -318,9 +318,9 @@ Supported LTO compression algorithms: zlib zstd
 gcc version 10.2.0 (Ubuntu 10.2.0-5ubuntu1~20.04) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_4d4ab' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/10/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/10/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper -plugin-opt=-fresolution=/tmp/ccJ4qJQV.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_4d4ab /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/10/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/10 -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/10/../../.. CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/10/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_4d4ab' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_33a40' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/10/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/10/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper -plugin-opt=-fresolution=/tmp/cc6y9FW5.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_33a40 /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/10/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/10 -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/10/../../.. CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/10/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_33a40' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -350,10 +350,10 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command(s):/usr/bin/make cmTC_4d4ab/fast && /usr/bin/make -f CMakeFiles/cmTC_4d4ab.dir/build.make CMakeFiles/cmTC_4d4ab.dir/build]
+  ignore line: [Run Build Command(s):/usr/bin/make cmTC_33a40/fast && /usr/bin/make -f CMakeFiles/cmTC_33a40.dir/build.make CMakeFiles/cmTC_33a40.dir/build]
   ignore line: [make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp']
-  ignore line: [Building CXX object CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/g++-10    -v -o CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Building CXX object CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/g++-10    -v -o CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/g++-10]
   ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa:hsa]
@@ -363,8 +363,8 @@ Parsed CXX implicit link information from above output:
   ignore line: [Thread model: posix]
   ignore line: [Supported LTO compression algorithms: zlib zstd]
   ignore line: [gcc version 10.2.0 (Ubuntu 10.2.0-5ubuntu1~20.04) ]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/10/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccz9wFTs.s]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/10/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccUcE2aD.s]
   ignore line: [GNU C++14 (Ubuntu 10.2.0-5ubuntu1~20.04) version 10.2.0 (x86_64-linux-gnu)]
   ignore line: [	compiled by GNU C version 10.2.0  GMP version 6.2.0  MPFR version 4.0.2  MPC version 1.1.0  isl version isl-0.22.1-GMP]
   ignore line: []
@@ -388,15 +388,15 @@ Parsed CXX implicit link information from above output:
   ignore line: []
   ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
   ignore line: [Compiler executable checksum: d716f9df9d1b12ebc8fe860554136f35]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  ignore line: [ as -v --64 -o CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccz9wFTs.s]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  ignore line: [ as -v --64 -o CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccUcE2aD.s]
   ignore line: [GNU assembler version 2.34 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.34]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  ignore line: [Linking CXX executable cmTC_4d4ab]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4d4ab.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/g++-10      -v -rdynamic CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_4d4ab ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  ignore line: [Linking CXX executable cmTC_33a40]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_33a40.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/g++-10      -v -rdynamic CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_33a40 ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/g++-10]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper]
@@ -409,13 +409,13 @@ Parsed CXX implicit link information from above output:
   ignore line: [gcc version 10.2.0 (Ubuntu 10.2.0-5ubuntu1~20.04) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/10/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/10/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_4d4ab' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/10/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/10/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper -plugin-opt=-fresolution=/tmp/ccJ4qJQV.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_4d4ab /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/10/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/10 -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/10/../../.. CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/10/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_33a40' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/10/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/10/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper -plugin-opt=-fresolution=/tmp/cc6y9FW5.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_33a40 /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/10/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/10 -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/10/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/10/../../.. CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/10/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/10/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/10/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/10/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccJ4qJQV.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/cc6y9FW5.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -434,7 +434,7 @@ Parsed CXX implicit link information from above output:
     arg [-znow] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_4d4ab] ==> ignore
+    arg [cmTC_33a40] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/Scrt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/10/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/10/crtbeginS.o] ==> ignore
@@ -446,7 +446,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/10/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/10/../../..]
-    arg [CMakeFiles/cmTC_4d4ab.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_33a40.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -472,13 +472,13 @@ Parsed CXX implicit link information from above output:
 Performing C SOURCE FILE Test ARCH_X86_64 succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_b06a5/fast && /usr/bin/make -f CMakeFiles/cmTC_b06a5.dir/build.make CMakeFiles/cmTC_b06a5.dir/build
+Run Build Command(s):/usr/bin/make cmTC_5b84e/fast && /usr/bin/make -f CMakeFiles/cmTC_5b84e.dir/build.make CMakeFiles/cmTC_5b84e.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_b06a5.dir/src.c.o
-/usr/bin/gcc-10   -DARCH_X86_64   -o CMakeFiles/cmTC_b06a5.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_b06a5
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b06a5.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DARCH_X86_64    -rdynamic CMakeFiles/cmTC_b06a5.dir/src.c.o  -o cmTC_b06a5 
+Building C object CMakeFiles/cmTC_5b84e.dir/src.c.o
+/usr/bin/gcc-10   -DARCH_X86_64   -o CMakeFiles/cmTC_5b84e.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_5b84e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5b84e.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DARCH_X86_64    -rdynamic CMakeFiles/cmTC_5b84e.dir/src.c.o  -o cmTC_5b84e 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -490,13 +490,13 @@ int main(void) { return 0; }
 Determining if files unistd.h exist passed with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_179e0/fast && /usr/bin/make -f CMakeFiles/cmTC_179e0.dir/build.make CMakeFiles/cmTC_179e0.dir/build
+Run Build Command(s):/usr/bin/make cmTC_e5cf7/fast && /usr/bin/make -f CMakeFiles/cmTC_e5cf7.dir/build.make CMakeFiles/cmTC_e5cf7.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_179e0.dir/HAVE_UNISTD_H.c.o
-/usr/bin/gcc-10    -o CMakeFiles/cmTC_179e0.dir/HAVE_UNISTD_H.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CheckIncludeFiles/HAVE_UNISTD_H.c
-Linking C executable cmTC_179e0
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_179e0.dir/link.txt --verbose=1
-/usr/bin/gcc-10      -rdynamic CMakeFiles/cmTC_179e0.dir/HAVE_UNISTD_H.c.o  -o cmTC_179e0 
+Building C object CMakeFiles/cmTC_e5cf7.dir/HAVE_UNISTD_H.c.o
+/usr/bin/gcc-10    -o CMakeFiles/cmTC_e5cf7.dir/HAVE_UNISTD_H.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CheckIncludeFiles/HAVE_UNISTD_H.c
+Linking C executable cmTC_e5cf7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e5cf7.dir/link.txt --verbose=1
+/usr/bin/gcc-10      -rdynamic CMakeFiles/cmTC_e5cf7.dir/HAVE_UNISTD_H.c.o  -o cmTC_e5cf7 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -504,13 +504,13 @@ make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/C
 Determining if files x86intrin.h exist passed with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_12f76/fast && /usr/bin/make -f CMakeFiles/cmTC_12f76.dir/build.make CMakeFiles/cmTC_12f76.dir/build
+Run Build Command(s):/usr/bin/make cmTC_50703/fast && /usr/bin/make -f CMakeFiles/cmTC_50703.dir/build.make CMakeFiles/cmTC_50703.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_12f76.dir/HAVE_C_X86INTRIN_H.c.o
-/usr/bin/gcc-10    -o CMakeFiles/cmTC_12f76.dir/HAVE_C_X86INTRIN_H.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CheckIncludeFiles/HAVE_C_X86INTRIN_H.c
-Linking C executable cmTC_12f76
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_12f76.dir/link.txt --verbose=1
-/usr/bin/gcc-10      -rdynamic CMakeFiles/cmTC_12f76.dir/HAVE_C_X86INTRIN_H.c.o  -o cmTC_12f76 
+Building C object CMakeFiles/cmTC_50703.dir/HAVE_C_X86INTRIN_H.c.o
+/usr/bin/gcc-10    -o CMakeFiles/cmTC_50703.dir/HAVE_C_X86INTRIN_H.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CheckIncludeFiles/HAVE_C_X86INTRIN_H.c
+Linking C executable cmTC_50703
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_50703.dir/link.txt --verbose=1
+/usr/bin/gcc-10      -rdynamic CMakeFiles/cmTC_50703.dir/HAVE_C_X86INTRIN_H.c.o  -o cmTC_50703 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -518,13 +518,13 @@ make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/C
 Determining if the include file x86intrin.h exists passed with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_a98f5/fast && /usr/bin/make -f CMakeFiles/cmTC_a98f5.dir/build.make CMakeFiles/cmTC_a98f5.dir/build
+Run Build Command(s):/usr/bin/make cmTC_76979/fast && /usr/bin/make -f CMakeFiles/cmTC_76979.dir/build.make CMakeFiles/cmTC_76979.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_a98f5.dir/CheckIncludeFile.cxx.o
-/usr/bin/g++-10     -o CMakeFiles/cmTC_a98f5.dir/CheckIncludeFile.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
-Linking CXX executable cmTC_a98f5
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a98f5.dir/link.txt --verbose=1
-/usr/bin/g++-10       -rdynamic CMakeFiles/cmTC_a98f5.dir/CheckIncludeFile.cxx.o  -o cmTC_a98f5 
+Building CXX object CMakeFiles/cmTC_76979.dir/CheckIncludeFile.cxx.o
+/usr/bin/g++-10     -o CMakeFiles/cmTC_76979.dir/CheckIncludeFile.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+Linking CXX executable cmTC_76979
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_76979.dir/link.txt --verbose=1
+/usr/bin/g++-10       -rdynamic CMakeFiles/cmTC_76979.dir/CheckIncludeFile.cxx.o  -o cmTC_76979 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -532,15 +532,15 @@ make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/C
 Determining if the function posix_memalign exists passed with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_4be27/fast && /usr/bin/make -f CMakeFiles/cmTC_4be27.dir/build.make CMakeFiles/cmTC_4be27.dir/build
+Run Build Command(s):/usr/bin/make cmTC_a277d/fast && /usr/bin/make -f CMakeFiles/cmTC_a277d.dir/build.make CMakeFiles/cmTC_a277d.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_4be27.dir/CheckFunctionExists.c.o
-/usr/bin/gcc-10   -DCHECK_FUNCTION_EXISTS=posix_memalign   -o CMakeFiles/cmTC_4be27.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Building C object CMakeFiles/cmTC_a277d.dir/CheckFunctionExists.c.o
+/usr/bin/gcc-10   -DCHECK_FUNCTION_EXISTS=posix_memalign   -o CMakeFiles/cmTC_a277d.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
 <command-line>: warning: conflicting types for built-in function ‘posix_memalign’; expected ‘int(void **, long unsigned int,  long unsigned int)’ [-Wbuiltin-declaration-mismatch]
 <command-line>: note: in definition of macro ‘CHECK_FUNCTION_EXISTS’
-Linking C executable cmTC_4be27
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4be27.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DCHECK_FUNCTION_EXISTS=posix_memalign    -rdynamic CMakeFiles/cmTC_4be27.dir/CheckFunctionExists.c.o  -o cmTC_4be27 
+Linking C executable cmTC_a277d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a277d.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DCHECK_FUNCTION_EXISTS=posix_memalign    -rdynamic CMakeFiles/cmTC_a277d.dir/CheckFunctionExists.c.o  -o cmTC_a277d 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -548,13 +548,13 @@ make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/C
 Performing C SOURCE FILE Test HAS_C_HIDDEN succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_f1846/fast && /usr/bin/make -f CMakeFiles/cmTC_f1846.dir/build.make CMakeFiles/cmTC_f1846.dir/build
+Run Build Command(s):/usr/bin/make cmTC_d7eb3/fast && /usr/bin/make -f CMakeFiles/cmTC_d7eb3.dir/build.make CMakeFiles/cmTC_d7eb3.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_f1846.dir/src.c.o
-/usr/bin/gcc-10   -DHAS_C_HIDDEN   -fvisibility=hidden -o CMakeFiles/cmTC_f1846.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_f1846
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f1846.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DHAS_C_HIDDEN    -rdynamic CMakeFiles/cmTC_f1846.dir/src.c.o  -o cmTC_f1846 
+Building C object CMakeFiles/cmTC_d7eb3.dir/src.c.o
+/usr/bin/gcc-10   -DHAS_C_HIDDEN   -fvisibility=hidden -o CMakeFiles/cmTC_d7eb3.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_d7eb3
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d7eb3.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DHAS_C_HIDDEN    -rdynamic CMakeFiles/cmTC_d7eb3.dir/src.c.o  -o cmTC_d7eb3 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -563,13 +563,13 @@ int main(void) { return 0; }
 Performing C++ SOURCE FILE Test HAS_CXX_HIDDEN succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_2f941/fast && /usr/bin/make -f CMakeFiles/cmTC_2f941.dir/build.make CMakeFiles/cmTC_2f941.dir/build
+Run Build Command(s):/usr/bin/make cmTC_52ef0/fast && /usr/bin/make -f CMakeFiles/cmTC_52ef0.dir/build.make CMakeFiles/cmTC_52ef0.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_2f941.dir/src.cxx.o
-/usr/bin/g++-10    -DHAS_CXX_HIDDEN   -fvisibility=hidden -o CMakeFiles/cmTC_2f941.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_2f941
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2f941.dir/link.txt --verbose=1
-/usr/bin/g++-10   -DHAS_CXX_HIDDEN    -rdynamic CMakeFiles/cmTC_2f941.dir/src.cxx.o  -o cmTC_2f941 
+Building CXX object CMakeFiles/cmTC_52ef0.dir/src.cxx.o
+/usr/bin/g++-10    -DHAS_CXX_HIDDEN   -fvisibility=hidden -o CMakeFiles/cmTC_52ef0.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_52ef0
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_52ef0.dir/link.txt --verbose=1
+/usr/bin/g++-10   -DHAS_CXX_HIDDEN    -rdynamic CMakeFiles/cmTC_52ef0.dir/src.cxx.o  -o cmTC_52ef0 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -578,13 +578,13 @@ int main() { return 0; }
 Performing C SOURCE FILE Test HAS_C_ATTR_IFUNC succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_21660/fast && /usr/bin/make -f CMakeFiles/cmTC_21660.dir/build.make CMakeFiles/cmTC_21660.dir/build
+Run Build Command(s):/usr/bin/make cmTC_0fcf9/fast && /usr/bin/make -f CMakeFiles/cmTC_0fcf9.dir/build.make CMakeFiles/cmTC_0fcf9.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_21660.dir/src.c.o
-/usr/bin/gcc-10   -DHAS_C_ATTR_IFUNC -Werror   -o CMakeFiles/cmTC_21660.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_21660
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_21660.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DHAS_C_ATTR_IFUNC -Werror    -rdynamic CMakeFiles/cmTC_21660.dir/src.c.o  -o cmTC_21660 
+Building C object CMakeFiles/cmTC_0fcf9.dir/src.c.o
+/usr/bin/gcc-10   -DHAS_C_ATTR_IFUNC -Werror   -o CMakeFiles/cmTC_0fcf9.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_0fcf9
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0fcf9.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DHAS_C_ATTR_IFUNC -Werror    -rdynamic CMakeFiles/cmTC_0fcf9.dir/src.c.o  -o cmTC_0fcf9 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -598,13 +598,13 @@ Source file was:
 Performing C SOURCE FILE Test HAVE_SSSE3 succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_f724b/fast && /usr/bin/make -f CMakeFiles/cmTC_f724b.dir/build.make CMakeFiles/cmTC_f724b.dir/build
+Run Build Command(s):/usr/bin/make cmTC_145e9/fast && /usr/bin/make -f CMakeFiles/cmTC_145e9.dir/build.make CMakeFiles/cmTC_145e9.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_f724b.dir/src.c.o
-/usr/bin/gcc-10   -DHAVE_SSSE3  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake   -o CMakeFiles/cmTC_f724b.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_f724b
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f724b.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DHAVE_SSSE3  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake    -rdynamic CMakeFiles/cmTC_f724b.dir/src.c.o  -o cmTC_f724b 
+Building C object CMakeFiles/cmTC_145e9.dir/src.c.o
+/usr/bin/gcc-10   -DHAVE_SSSE3  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake   -o CMakeFiles/cmTC_145e9.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_145e9
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_145e9.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DHAVE_SSSE3  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake    -rdynamic CMakeFiles/cmTC_145e9.dir/src.c.o  -o cmTC_145e9 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -617,13 +617,13 @@ int main() {
 Performing C SOURCE FILE Test HAVE_AVX2 succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_4c1c1/fast && /usr/bin/make -f CMakeFiles/cmTC_4c1c1.dir/build.make CMakeFiles/cmTC_4c1c1.dir/build
+Run Build Command(s):/usr/bin/make cmTC_0601f/fast && /usr/bin/make -f CMakeFiles/cmTC_0601f.dir/build.make CMakeFiles/cmTC_0601f.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_4c1c1.dir/src.c.o
-/usr/bin/gcc-10   -DHAVE_AVX2  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake   -o CMakeFiles/cmTC_4c1c1.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_4c1c1
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4c1c1.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DHAVE_AVX2  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake    -rdynamic CMakeFiles/cmTC_4c1c1.dir/src.c.o  -o cmTC_4c1c1 
+Building C object CMakeFiles/cmTC_0601f.dir/src.c.o
+/usr/bin/gcc-10   -DHAVE_AVX2  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake   -o CMakeFiles/cmTC_0601f.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_0601f
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0601f.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DHAVE_AVX2  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake    -rdynamic CMakeFiles/cmTC_0601f.dir/src.c.o  -o cmTC_0601f 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -640,13 +640,13 @@ int main(){
 Performing C SOURCE FILE Test HAVE_AVX512 succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_de36e/fast && /usr/bin/make -f CMakeFiles/cmTC_de36e.dir/build.make CMakeFiles/cmTC_de36e.dir/build
+Run Build Command(s):/usr/bin/make cmTC_fff9b/fast && /usr/bin/make -f CMakeFiles/cmTC_fff9b.dir/build.make CMakeFiles/cmTC_fff9b.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_de36e.dir/src.c.o
-/usr/bin/gcc-10   -DHAVE_AVX512  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake   -o CMakeFiles/cmTC_de36e.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_de36e
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_de36e.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DHAVE_AVX512  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake    -rdynamic CMakeFiles/cmTC_de36e.dir/src.c.o  -o cmTC_de36e 
+Building C object CMakeFiles/cmTC_fff9b.dir/src.c.o
+/usr/bin/gcc-10   -DHAVE_AVX512  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake   -o CMakeFiles/cmTC_fff9b.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_fff9b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fff9b.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DHAVE_AVX512  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake    -rdynamic CMakeFiles/cmTC_fff9b.dir/src.c.o  -o cmTC_fff9b 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -663,13 +663,13 @@ int main(){
 Performing C SOURCE FILE Test HAVE_AVX512VBMI succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_e3754/fast && /usr/bin/make -f CMakeFiles/cmTC_e3754.dir/build.make CMakeFiles/cmTC_e3754.dir/build
+Run Build Command(s):/usr/bin/make cmTC_917f2/fast && /usr/bin/make -f CMakeFiles/cmTC_917f2.dir/build.make CMakeFiles/cmTC_917f2.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_e3754.dir/src.c.o
-/usr/bin/gcc-10   -DHAVE_AVX512VBMI  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake   -o CMakeFiles/cmTC_e3754.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_e3754
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e3754.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DHAVE_AVX512VBMI  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake    -rdynamic CMakeFiles/cmTC_e3754.dir/src.c.o  -o cmTC_e3754 
+Building C object CMakeFiles/cmTC_917f2.dir/src.c.o
+/usr/bin/gcc-10   -DHAVE_AVX512VBMI  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake   -o CMakeFiles/cmTC_917f2.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_917f2
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_917f2.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DHAVE_AVX512VBMI  -O3 -std=c99 -Wall -Wextra -Wshadow -Wcast-qual -fno-strict-aliasing -Werror -Wno-array-bounds -Wno-maybe-uninitialized -Wno-abi -fno-omit-frame-pointer -march=tigerlake -mtune=tigerlake    -rdynamic CMakeFiles/cmTC_917f2.dir/src.c.o  -o cmTC_917f2 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -687,13 +687,13 @@ int main(){
 Performing C SOURCE FILE Test HAVE_CC_BUILTIN_ASSUME_ALIGNED succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_ce123/fast && /usr/bin/make -f CMakeFiles/cmTC_ce123.dir/build.make CMakeFiles/cmTC_ce123.dir/build
+Run Build Command(s):/usr/bin/make cmTC_4cd07/fast && /usr/bin/make -f CMakeFiles/cmTC_4cd07.dir/build.make CMakeFiles/cmTC_4cd07.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_ce123.dir/src.c.o
-/usr/bin/gcc-10   -DHAVE_CC_BUILTIN_ASSUME_ALIGNED   -o CMakeFiles/cmTC_ce123.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_ce123
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ce123.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DHAVE_CC_BUILTIN_ASSUME_ALIGNED    -rdynamic CMakeFiles/cmTC_ce123.dir/src.c.o  -o cmTC_ce123 
+Building C object CMakeFiles/cmTC_4cd07.dir/src.c.o
+/usr/bin/gcc-10   -DHAVE_CC_BUILTIN_ASSUME_ALIGNED   -o CMakeFiles/cmTC_4cd07.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_4cd07
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4cd07.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DHAVE_CC_BUILTIN_ASSUME_ALIGNED    -rdynamic CMakeFiles/cmTC_4cd07.dir/src.c.o  -o cmTC_4cd07 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -703,13 +703,13 @@ int main(void) { return 0; }
 Performing C++ SOURCE FILE Test HAVE_CXX_BUILTIN_ASSUME_ALIGNED succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_a6a53/fast && /usr/bin/make -f CMakeFiles/cmTC_a6a53.dir/build.make CMakeFiles/cmTC_a6a53.dir/build
+Run Build Command(s):/usr/bin/make cmTC_ff08e/fast && /usr/bin/make -f CMakeFiles/cmTC_ff08e.dir/build.make CMakeFiles/cmTC_ff08e.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_a6a53.dir/src.cxx.o
-/usr/bin/g++-10    -DHAVE_CXX_BUILTIN_ASSUME_ALIGNED   -o CMakeFiles/cmTC_a6a53.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_a6a53
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a6a53.dir/link.txt --verbose=1
-/usr/bin/g++-10   -DHAVE_CXX_BUILTIN_ASSUME_ALIGNED    -rdynamic CMakeFiles/cmTC_a6a53.dir/src.cxx.o  -o cmTC_a6a53 
+Building CXX object CMakeFiles/cmTC_ff08e.dir/src.cxx.o
+/usr/bin/g++-10    -DHAVE_CXX_BUILTIN_ASSUME_ALIGNED   -o CMakeFiles/cmTC_ff08e.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_ff08e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ff08e.dir/link.txt --verbose=1
+/usr/bin/g++-10   -DHAVE_CXX_BUILTIN_ASSUME_ALIGNED    -rdynamic CMakeFiles/cmTC_ff08e.dir/src.cxx.o  -o cmTC_ff08e 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -719,13 +719,13 @@ int main(void) { return 0; }
 Performing C SOURCE FILE Test HAVE__BUILTIN_CONSTANT_P succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_1b588/fast && /usr/bin/make -f CMakeFiles/cmTC_1b588.dir/build.make CMakeFiles/cmTC_1b588.dir/build
+Run Build Command(s):/usr/bin/make cmTC_feb58/fast && /usr/bin/make -f CMakeFiles/cmTC_feb58.dir/build.make CMakeFiles/cmTC_feb58.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_1b588.dir/src.c.o
-/usr/bin/gcc-10   -DHAVE__BUILTIN_CONSTANT_P   -o CMakeFiles/cmTC_1b588.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_1b588
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1b588.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DHAVE__BUILTIN_CONSTANT_P    -rdynamic CMakeFiles/cmTC_1b588.dir/src.c.o  -o cmTC_1b588 
+Building C object CMakeFiles/cmTC_feb58.dir/src.c.o
+/usr/bin/gcc-10   -DHAVE__BUILTIN_CONSTANT_P   -o CMakeFiles/cmTC_feb58.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_feb58
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_feb58.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DHAVE__BUILTIN_CONSTANT_P    -rdynamic CMakeFiles/cmTC_feb58.dir/src.c.o  -o cmTC_feb58 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -734,13 +734,13 @@ int main(void) { __builtin_constant_p(0); }
 Performing C SOURCE FILE Test C_FLAG_Wvla succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_4fc4c/fast && /usr/bin/make -f CMakeFiles/cmTC_4fc4c.dir/build.make CMakeFiles/cmTC_4fc4c.dir/build
+Run Build Command(s):/usr/bin/make cmTC_c0652/fast && /usr/bin/make -f CMakeFiles/cmTC_c0652.dir/build.make CMakeFiles/cmTC_c0652.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_4fc4c.dir/src.c.o
-/usr/bin/gcc-10   -DC_FLAG_Wvla   -Wvla -o CMakeFiles/cmTC_4fc4c.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_4fc4c
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4fc4c.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DC_FLAG_Wvla    -rdynamic CMakeFiles/cmTC_4fc4c.dir/src.c.o  -o cmTC_4fc4c 
+Building C object CMakeFiles/cmTC_c0652.dir/src.c.o
+/usr/bin/gcc-10   -DC_FLAG_Wvla   -Wvla -o CMakeFiles/cmTC_c0652.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_c0652
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c0652.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DC_FLAG_Wvla    -rdynamic CMakeFiles/cmTC_c0652.dir/src.c.o  -o cmTC_c0652 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -749,13 +749,13 @@ int main(void) { return 0; }
 Performing C SOURCE FILE Test C_FLAG_Wpointer_arith succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_1e19d/fast && /usr/bin/make -f CMakeFiles/cmTC_1e19d.dir/build.make CMakeFiles/cmTC_1e19d.dir/build
+Run Build Command(s):/usr/bin/make cmTC_17d25/fast && /usr/bin/make -f CMakeFiles/cmTC_17d25.dir/build.make CMakeFiles/cmTC_17d25.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_1e19d.dir/src.c.o
-/usr/bin/gcc-10   -DC_FLAG_Wpointer_arith   -Wpointer-arith -o CMakeFiles/cmTC_1e19d.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_1e19d
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1e19d.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DC_FLAG_Wpointer_arith    -rdynamic CMakeFiles/cmTC_1e19d.dir/src.c.o  -o cmTC_1e19d 
+Building C object CMakeFiles/cmTC_17d25.dir/src.c.o
+/usr/bin/gcc-10   -DC_FLAG_Wpointer_arith   -Wpointer-arith -o CMakeFiles/cmTC_17d25.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_17d25
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_17d25.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DC_FLAG_Wpointer_arith    -rdynamic CMakeFiles/cmTC_17d25.dir/src.c.o  -o cmTC_17d25 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -764,13 +764,13 @@ int main(void) { return 0; }
 Performing C SOURCE FILE Test C_FLAG_Wstrict_prototypes succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_fcea0/fast && /usr/bin/make -f CMakeFiles/cmTC_fcea0.dir/build.make CMakeFiles/cmTC_fcea0.dir/build
+Run Build Command(s):/usr/bin/make cmTC_1fa2d/fast && /usr/bin/make -f CMakeFiles/cmTC_1fa2d.dir/build.make CMakeFiles/cmTC_1fa2d.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_fcea0.dir/src.c.o
-/usr/bin/gcc-10   -DC_FLAG_Wstrict_prototypes   -Wstrict-prototypes -o CMakeFiles/cmTC_fcea0.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_fcea0
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fcea0.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DC_FLAG_Wstrict_prototypes    -rdynamic CMakeFiles/cmTC_fcea0.dir/src.c.o  -o cmTC_fcea0 
+Building C object CMakeFiles/cmTC_1fa2d.dir/src.c.o
+/usr/bin/gcc-10   -DC_FLAG_Wstrict_prototypes   -Wstrict-prototypes -o CMakeFiles/cmTC_1fa2d.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_1fa2d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1fa2d.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DC_FLAG_Wstrict_prototypes    -rdynamic CMakeFiles/cmTC_1fa2d.dir/src.c.o  -o cmTC_1fa2d 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -779,13 +779,13 @@ int main(void) { return 0; }
 Performing C SOURCE FILE Test C_FLAG_Wmissing_prototypes succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_52e91/fast && /usr/bin/make -f CMakeFiles/cmTC_52e91.dir/build.make CMakeFiles/cmTC_52e91.dir/build
+Run Build Command(s):/usr/bin/make cmTC_6c48a/fast && /usr/bin/make -f CMakeFiles/cmTC_6c48a.dir/build.make CMakeFiles/cmTC_6c48a.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_52e91.dir/src.c.o
-/usr/bin/gcc-10   -DC_FLAG_Wmissing_prototypes   -Wmissing-prototypes -o CMakeFiles/cmTC_52e91.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_52e91
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_52e91.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DC_FLAG_Wmissing_prototypes    -rdynamic CMakeFiles/cmTC_52e91.dir/src.c.o  -o cmTC_52e91 
+Building C object CMakeFiles/cmTC_6c48a.dir/src.c.o
+/usr/bin/gcc-10   -DC_FLAG_Wmissing_prototypes   -Wmissing-prototypes -o CMakeFiles/cmTC_6c48a.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_6c48a
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6c48a.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DC_FLAG_Wmissing_prototypes    -rdynamic CMakeFiles/cmTC_6c48a.dir/src.c.o  -o cmTC_6c48a 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -794,13 +794,13 @@ int main(void) { return 0; }
 Performing C++ SOURCE FILE Test CXX_FLAG_Wvla succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_adaba/fast && /usr/bin/make -f CMakeFiles/cmTC_adaba.dir/build.make CMakeFiles/cmTC_adaba.dir/build
+Run Build Command(s):/usr/bin/make cmTC_3f21d/fast && /usr/bin/make -f CMakeFiles/cmTC_3f21d.dir/build.make CMakeFiles/cmTC_3f21d.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_adaba.dir/src.cxx.o
-/usr/bin/g++-10    -DCXX_FLAG_Wvla   -Wvla -o CMakeFiles/cmTC_adaba.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_adaba
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_adaba.dir/link.txt --verbose=1
-/usr/bin/g++-10   -DCXX_FLAG_Wvla    -rdynamic CMakeFiles/cmTC_adaba.dir/src.cxx.o  -o cmTC_adaba 
+Building CXX object CMakeFiles/cmTC_3f21d.dir/src.cxx.o
+/usr/bin/g++-10    -DCXX_FLAG_Wvla   -Wvla -o CMakeFiles/cmTC_3f21d.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_3f21d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3f21d.dir/link.txt --verbose=1
+/usr/bin/g++-10   -DCXX_FLAG_Wvla    -rdynamic CMakeFiles/cmTC_3f21d.dir/src.cxx.o  -o cmTC_3f21d 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -809,13 +809,13 @@ int main() { return 0; }
 Performing C++ SOURCE FILE Test CXX_FLAG_Wpointer_arith succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_0ece1/fast && /usr/bin/make -f CMakeFiles/cmTC_0ece1.dir/build.make CMakeFiles/cmTC_0ece1.dir/build
+Run Build Command(s):/usr/bin/make cmTC_29d21/fast && /usr/bin/make -f CMakeFiles/cmTC_29d21.dir/build.make CMakeFiles/cmTC_29d21.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_0ece1.dir/src.cxx.o
-/usr/bin/g++-10    -DCXX_FLAG_Wpointer_arith   -Wpointer-arith -o CMakeFiles/cmTC_0ece1.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_0ece1
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0ece1.dir/link.txt --verbose=1
-/usr/bin/g++-10   -DCXX_FLAG_Wpointer_arith    -rdynamic CMakeFiles/cmTC_0ece1.dir/src.cxx.o  -o cmTC_0ece1 
+Building CXX object CMakeFiles/cmTC_29d21.dir/src.cxx.o
+/usr/bin/g++-10    -DCXX_FLAG_Wpointer_arith   -Wpointer-arith -o CMakeFiles/cmTC_29d21.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_29d21
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_29d21.dir/link.txt --verbose=1
+/usr/bin/g++-10   -DCXX_FLAG_Wpointer_arith    -rdynamic CMakeFiles/cmTC_29d21.dir/src.cxx.o  -o cmTC_29d21 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -824,13 +824,13 @@ int main() { return 0; }
 Performing C++ SOURCE FILE Test CXX_UNUSED_CONST_VAR succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_c45d9/fast && /usr/bin/make -f CMakeFiles/cmTC_c45d9.dir/build.make CMakeFiles/cmTC_c45d9.dir/build
+Run Build Command(s):/usr/bin/make cmTC_f875b/fast && /usr/bin/make -f CMakeFiles/cmTC_f875b.dir/build.make CMakeFiles/cmTC_f875b.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_c45d9.dir/src.cxx.o
-/usr/bin/g++-10    -DCXX_UNUSED_CONST_VAR   -Wunused-const-variable -o CMakeFiles/cmTC_c45d9.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_c45d9
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c45d9.dir/link.txt --verbose=1
-/usr/bin/g++-10   -DCXX_UNUSED_CONST_VAR    -rdynamic CMakeFiles/cmTC_c45d9.dir/src.cxx.o  -o cmTC_c45d9 
+Building CXX object CMakeFiles/cmTC_f875b.dir/src.cxx.o
+/usr/bin/g++-10    -DCXX_UNUSED_CONST_VAR   -Wunused-const-variable -o CMakeFiles/cmTC_f875b.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_f875b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f875b.dir/link.txt --verbose=1
+/usr/bin/g++-10   -DCXX_UNUSED_CONST_VAR    -rdynamic CMakeFiles/cmTC_f875b.dir/src.cxx.o  -o cmTC_f875b 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -839,13 +839,13 @@ int main() { return 0; }
 Performing C++ SOURCE FILE Test CXX_IGNORED_ATTR succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_bb930/fast && /usr/bin/make -f CMakeFiles/cmTC_bb930.dir/build.make CMakeFiles/cmTC_bb930.dir/build
+Run Build Command(s):/usr/bin/make cmTC_53d1b/fast && /usr/bin/make -f CMakeFiles/cmTC_53d1b.dir/build.make CMakeFiles/cmTC_53d1b.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_bb930.dir/src.cxx.o
-/usr/bin/g++-10    -DCXX_IGNORED_ATTR   -Wignored-attributes -o CMakeFiles/cmTC_bb930.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_bb930
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bb930.dir/link.txt --verbose=1
-/usr/bin/g++-10   -DCXX_IGNORED_ATTR    -rdynamic CMakeFiles/cmTC_bb930.dir/src.cxx.o  -o cmTC_bb930 
+Building CXX object CMakeFiles/cmTC_53d1b.dir/src.cxx.o
+/usr/bin/g++-10    -DCXX_IGNORED_ATTR   -Wignored-attributes -o CMakeFiles/cmTC_53d1b.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_53d1b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_53d1b.dir/link.txt --verbose=1
+/usr/bin/g++-10   -DCXX_IGNORED_ATTR    -rdynamic CMakeFiles/cmTC_53d1b.dir/src.cxx.o  -o cmTC_53d1b 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -854,13 +854,13 @@ int main() { return 0; }
 Performing C++ SOURCE FILE Test CXX_REDUNDANT_MOVE succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_dbe6b/fast && /usr/bin/make -f CMakeFiles/cmTC_dbe6b.dir/build.make CMakeFiles/cmTC_dbe6b.dir/build
+Run Build Command(s):/usr/bin/make cmTC_234c0/fast && /usr/bin/make -f CMakeFiles/cmTC_234c0.dir/build.make CMakeFiles/cmTC_234c0.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_dbe6b.dir/src.cxx.o
-/usr/bin/g++-10    -DCXX_REDUNDANT_MOVE   -Wredundant-move -o CMakeFiles/cmTC_dbe6b.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_dbe6b
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dbe6b.dir/link.txt --verbose=1
-/usr/bin/g++-10   -DCXX_REDUNDANT_MOVE    -rdynamic CMakeFiles/cmTC_dbe6b.dir/src.cxx.o  -o cmTC_dbe6b 
+Building CXX object CMakeFiles/cmTC_234c0.dir/src.cxx.o
+/usr/bin/g++-10    -DCXX_REDUNDANT_MOVE   -Wredundant-move -o CMakeFiles/cmTC_234c0.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_234c0
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_234c0.dir/link.txt --verbose=1
+/usr/bin/g++-10   -DCXX_REDUNDANT_MOVE    -rdynamic CMakeFiles/cmTC_234c0.dir/src.cxx.o  -o cmTC_234c0 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -869,13 +869,13 @@ int main() { return 0; }
 Performing C++ SOURCE FILE Test CXX_MISSING_DECLARATIONS succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_a6c39/fast && /usr/bin/make -f CMakeFiles/cmTC_a6c39.dir/build.make CMakeFiles/cmTC_a6c39.dir/build
+Run Build Command(s):/usr/bin/make cmTC_bdfb1/fast && /usr/bin/make -f CMakeFiles/cmTC_bdfb1.dir/build.make CMakeFiles/cmTC_bdfb1.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_a6c39.dir/src.cxx.o
-/usr/bin/g++-10    -DCXX_MISSING_DECLARATIONS   -Wmissing-declarations -o CMakeFiles/cmTC_a6c39.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_a6c39
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a6c39.dir/link.txt --verbose=1
-/usr/bin/g++-10   -DCXX_MISSING_DECLARATIONS    -rdynamic CMakeFiles/cmTC_a6c39.dir/src.cxx.o  -o cmTC_a6c39 
+Building CXX object CMakeFiles/cmTC_bdfb1.dir/src.cxx.o
+/usr/bin/g++-10    -DCXX_MISSING_DECLARATIONS   -Wmissing-declarations -o CMakeFiles/cmTC_bdfb1.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_bdfb1
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bdfb1.dir/link.txt --verbose=1
+/usr/bin/g++-10   -DCXX_MISSING_DECLARATIONS    -rdynamic CMakeFiles/cmTC_bdfb1.dir/src.cxx.o  -o cmTC_bdfb1 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -884,13 +884,13 @@ int main() { return 0; }
 Performing C++ SOURCE FILE Test CXX_UNUSED_LOCAL_TYPEDEFS succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_0c0e5/fast && /usr/bin/make -f CMakeFiles/cmTC_0c0e5.dir/build.make CMakeFiles/cmTC_0c0e5.dir/build
+Run Build Command(s):/usr/bin/make cmTC_c303e/fast && /usr/bin/make -f CMakeFiles/cmTC_c303e.dir/build.make CMakeFiles/cmTC_c303e.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_0c0e5.dir/src.cxx.o
-/usr/bin/g++-10    -DCXX_UNUSED_LOCAL_TYPEDEFS   -Wunused-local-typedefs -o CMakeFiles/cmTC_0c0e5.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_0c0e5
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0c0e5.dir/link.txt --verbose=1
-/usr/bin/g++-10   -DCXX_UNUSED_LOCAL_TYPEDEFS    -rdynamic CMakeFiles/cmTC_0c0e5.dir/src.cxx.o  -o cmTC_0c0e5 
+Building CXX object CMakeFiles/cmTC_c303e.dir/src.cxx.o
+/usr/bin/g++-10    -DCXX_UNUSED_LOCAL_TYPEDEFS   -Wunused-local-typedefs -o CMakeFiles/cmTC_c303e.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_c303e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c303e.dir/link.txt --verbose=1
+/usr/bin/g++-10   -DCXX_UNUSED_LOCAL_TYPEDEFS    -rdynamic CMakeFiles/cmTC_c303e.dir/src.cxx.o  -o cmTC_c303e 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -899,13 +899,13 @@ int main() { return 0; }
 Performing C++ SOURCE FILE Test CXX_WUNUSED_VARIABLE succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_84cc7/fast && /usr/bin/make -f CMakeFiles/cmTC_84cc7.dir/build.make CMakeFiles/cmTC_84cc7.dir/build
+Run Build Command(s):/usr/bin/make cmTC_1667d/fast && /usr/bin/make -f CMakeFiles/cmTC_1667d.dir/build.make CMakeFiles/cmTC_1667d.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_84cc7.dir/src.cxx.o
-/usr/bin/g++-10    -DCXX_WUNUSED_VARIABLE   -Wunused-variable -o CMakeFiles/cmTC_84cc7.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_84cc7
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_84cc7.dir/link.txt --verbose=1
-/usr/bin/g++-10   -DCXX_WUNUSED_VARIABLE    -rdynamic CMakeFiles/cmTC_84cc7.dir/src.cxx.o  -o cmTC_84cc7 
+Building CXX object CMakeFiles/cmTC_1667d.dir/src.cxx.o
+/usr/bin/g++-10    -DCXX_WUNUSED_VARIABLE   -Wunused-variable -o CMakeFiles/cmTC_1667d.dir/src.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_1667d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1667d.dir/link.txt --verbose=1
+/usr/bin/g++-10   -DCXX_WUNUSED_VARIABLE    -rdynamic CMakeFiles/cmTC_1667d.dir/src.cxx.o  -o cmTC_1667d 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -914,13 +914,13 @@ int main() { return 0; }
 Performing C SOURCE FILE Test CC_STRINGOP_OVERFLOW succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_2556b/fast && /usr/bin/make -f CMakeFiles/cmTC_2556b.dir/build.make CMakeFiles/cmTC_2556b.dir/build
+Run Build Command(s):/usr/bin/make cmTC_c2b59/fast && /usr/bin/make -f CMakeFiles/cmTC_c2b59.dir/build.make CMakeFiles/cmTC_c2b59.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_2556b.dir/src.c.o
-/usr/bin/gcc-10   -DCC_STRINGOP_OVERFLOW   -Wstringop-overflow -o CMakeFiles/cmTC_2556b.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_2556b
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2556b.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -DCC_STRINGOP_OVERFLOW    -rdynamic CMakeFiles/cmTC_2556b.dir/src.c.o  -o cmTC_2556b 
+Building C object CMakeFiles/cmTC_c2b59.dir/src.c.o
+/usr/bin/gcc-10   -DCC_STRINGOP_OVERFLOW   -Wstringop-overflow -o CMakeFiles/cmTC_c2b59.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_c2b59
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c2b59.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -DCC_STRINGOP_OVERFLOW    -rdynamic CMakeFiles/cmTC_c2b59.dir/src.c.o  -o cmTC_c2b59 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -929,13 +929,13 @@ int main(void) { return 0; }
 Determining if the function mmap exists passed with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_419fc/fast && /usr/bin/make -f CMakeFiles/cmTC_419fc.dir/build.make CMakeFiles/cmTC_419fc.dir/build
+Run Build Command(s):/usr/bin/make cmTC_ba50e/fast && /usr/bin/make -f CMakeFiles/cmTC_ba50e.dir/build.make CMakeFiles/cmTC_ba50e.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_419fc.dir/CheckFunctionExists.c.o
-/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=mmap   -o CMakeFiles/cmTC_419fc.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
-Linking C executable cmTC_419fc
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_419fc.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=mmap    -rdynamic CMakeFiles/cmTC_419fc.dir/CheckFunctionExists.c.o  -o cmTC_419fc 
+Building C object CMakeFiles/cmTC_ba50e.dir/CheckFunctionExists.c.o
+/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=mmap   -o CMakeFiles/cmTC_ba50e.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_ba50e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ba50e.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=mmap    -rdynamic CMakeFiles/cmTC_ba50e.dir/CheckFunctionExists.c.o  -o cmTC_ba50e 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -943,13 +943,13 @@ make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/C
 Determining if the include file pthread.h exists passed with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_126d2/fast && /usr/bin/make -f CMakeFiles/cmTC_126d2.dir/build.make CMakeFiles/cmTC_126d2.dir/build
+Run Build Command(s):/usr/bin/make cmTC_fc603/fast && /usr/bin/make -f CMakeFiles/cmTC_fc603.dir/build.make CMakeFiles/cmTC_fc603.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_126d2.dir/CheckIncludeFile.c.o
-/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake    -o CMakeFiles/cmTC_126d2.dir/CheckIncludeFile.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
-Linking C executable cmTC_126d2
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_126d2.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake     -rdynamic CMakeFiles/cmTC_126d2.dir/CheckIncludeFile.c.o  -o cmTC_126d2 
+Building C object CMakeFiles/cmTC_fc603.dir/CheckIncludeFile.c.o
+/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake    -o CMakeFiles/cmTC_fc603.dir/CheckIncludeFile.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_fc603
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fc603.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake     -rdynamic CMakeFiles/cmTC_fc603.dir/CheckIncludeFile.c.o  -o cmTC_fc603 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -957,13 +957,13 @@ make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/C
 Determining if the function pthread_create exists in the pthread passed with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_c88d7/fast && /usr/bin/make -f CMakeFiles/cmTC_c88d7.dir/build.make CMakeFiles/cmTC_c88d7.dir/build
+Run Build Command(s):/usr/bin/make cmTC_e9d1f/fast && /usr/bin/make -f CMakeFiles/cmTC_e9d1f.dir/build.make CMakeFiles/cmTC_e9d1f.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_c88d7.dir/CheckFunctionExists.c.o
-/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_c88d7.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
-Linking C executable cmTC_c88d7
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c88d7.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_c88d7.dir/CheckFunctionExists.c.o  -o cmTC_c88d7  -lpthread 
+Building C object CMakeFiles/cmTC_e9d1f.dir/CheckFunctionExists.c.o
+/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_e9d1f.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_e9d1f
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e9d1f.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_e9d1f.dir/CheckFunctionExists.c.o  -o cmTC_e9d1f  -lpthread 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -971,13 +971,13 @@ make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/C
 Performing C SOURCE FILE Test SQLITE_VERSION_OK succeeded with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_20f7d/fast && /usr/bin/make -f CMakeFiles/cmTC_20f7d.dir/build.make CMakeFiles/cmTC_20f7d.dir/build
+Run Build Command(s):/usr/bin/make cmTC_0d340/fast && /usr/bin/make -f CMakeFiles/cmTC_0d340.dir/build.make CMakeFiles/cmTC_0d340.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_20f7d.dir/src.c.o
-/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake -DSQLITE_VERSION_OK   -o CMakeFiles/cmTC_20f7d.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
-Linking C executable cmTC_20f7d
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_20f7d.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake -DSQLITE_VERSION_OK    -rdynamic CMakeFiles/cmTC_20f7d.dir/src.c.o  -o cmTC_20f7d 
+Building C object CMakeFiles/cmTC_0d340.dir/src.c.o
+/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake -DSQLITE_VERSION_OK   -o CMakeFiles/cmTC_0d340.dir/src.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_0d340
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0d340.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake -DSQLITE_VERSION_OK    -rdynamic CMakeFiles/cmTC_0d340.dir/src.c.o  -o cmTC_0d340 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -990,13 +990,13 @@ int main() {return 0;}
 Determining if the sqlite3_open_v2 exist passed with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_dc899/fast && /usr/bin/make -f CMakeFiles/cmTC_dc899.dir/build.make CMakeFiles/cmTC_dc899.dir/build
+Run Build Command(s):/usr/bin/make cmTC_4bac6/fast && /usr/bin/make -f CMakeFiles/cmTC_4bac6.dir/build.make CMakeFiles/cmTC_4bac6.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_dc899.dir/CheckSymbolExists.c.o
-/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake    -o CMakeFiles/cmTC_dc899.dir/CheckSymbolExists.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
-Linking C executable cmTC_dc899
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dc899.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake     -rdynamic CMakeFiles/cmTC_dc899.dir/CheckSymbolExists.c.o  -o cmTC_dc899  -lsqlite3 
+Building C object CMakeFiles/cmTC_4bac6.dir/CheckSymbolExists.c.o
+/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake    -o CMakeFiles/cmTC_4bac6.dir/CheckSymbolExists.c.o   -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_4bac6
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4bac6.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake     -rdynamic CMakeFiles/cmTC_4bac6.dir/CheckSymbolExists.c.o  -o cmTC_4bac6  -lsqlite3 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -1017,13 +1017,13 @@ int main(int argc, char** argv)
 Determining if the pthread_setaffinity_np exist passed with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_635b5/fast && /usr/bin/make -f CMakeFiles/cmTC_635b5.dir/build.make CMakeFiles/cmTC_635b5.dir/build
+Run Build Command(s):/usr/bin/make cmTC_eec09/fast && /usr/bin/make -f CMakeFiles/cmTC_eec09.dir/build.make CMakeFiles/cmTC_eec09.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_635b5.dir/CheckSymbolExists.cxx.o
-/usr/bin/g++-10    -march=tigerlake -mtune=tigerlake  -D_GNU_SOURCE   -o CMakeFiles/cmTC_635b5.dir/CheckSymbolExists.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
-Linking CXX executable cmTC_635b5
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_635b5.dir/link.txt --verbose=1
-/usr/bin/g++-10   -march=tigerlake -mtune=tigerlake  -D_GNU_SOURCE    -rdynamic CMakeFiles/cmTC_635b5.dir/CheckSymbolExists.cxx.o  -o cmTC_635b5  -lpthread 
+Building CXX object CMakeFiles/cmTC_eec09.dir/CheckSymbolExists.cxx.o
+/usr/bin/g++-10    -march=tigerlake -mtune=tigerlake  -D_GNU_SOURCE   -o CMakeFiles/cmTC_eec09.dir/CheckSymbolExists.cxx.o -c /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+Linking CXX executable cmTC_eec09
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eec09.dir/link.txt --verbose=1
+/usr/bin/g++-10   -march=tigerlake -mtune=tigerlake  -D_GNU_SOURCE    -rdynamic CMakeFiles/cmTC_eec09.dir/CheckSymbolExists.cxx.o  -o cmTC_eec09  -lpthread 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -1044,13 +1044,13 @@ int main(int argc, char** argv)
 Determining if the function malloc_info exists passed with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_f7904/fast && /usr/bin/make -f CMakeFiles/cmTC_f7904.dir/build.make CMakeFiles/cmTC_f7904.dir/build
+Run Build Command(s):/usr/bin/make cmTC_f7075/fast && /usr/bin/make -f CMakeFiles/cmTC_f7075.dir/build.make CMakeFiles/cmTC_f7075.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_f7904.dir/CheckFunctionExists.c.o
-/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=malloc_info  -D_GNU_SOURCE   -o CMakeFiles/cmTC_f7904.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
-Linking C executable cmTC_f7904
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f7904.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=malloc_info  -D_GNU_SOURCE    -rdynamic CMakeFiles/cmTC_f7904.dir/CheckFunctionExists.c.o  -o cmTC_f7904  -lpthread 
+Building C object CMakeFiles/cmTC_f7075.dir/CheckFunctionExists.c.o
+/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=malloc_info  -D_GNU_SOURCE   -o CMakeFiles/cmTC_f7075.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_f7075
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f7075.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=malloc_info  -D_GNU_SOURCE    -rdynamic CMakeFiles/cmTC_f7075.dir/CheckFunctionExists.c.o  -o cmTC_f7075  -lpthread 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 
@@ -1058,13 +1058,13 @@ make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/C
 Determining if the function shmget exists passed with the following output:
 Change Dir: /home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/make cmTC_51bd7/fast && /usr/bin/make -f CMakeFiles/cmTC_51bd7.dir/build.make CMakeFiles/cmTC_51bd7.dir/build
+Run Build Command(s):/usr/bin/make cmTC_80220/fast && /usr/bin/make -f CMakeFiles/cmTC_80220.dir/build.make CMakeFiles/cmTC_80220.dir/build
 make[1]: Entering directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_51bd7.dir/CheckFunctionExists.c.o
-/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=shmget  -D_GNU_SOURCE   -o CMakeFiles/cmTC_51bd7.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
-Linking C executable cmTC_51bd7
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_51bd7.dir/link.txt --verbose=1
-/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=shmget  -D_GNU_SOURCE    -rdynamic CMakeFiles/cmTC_51bd7.dir/CheckFunctionExists.c.o  -o cmTC_51bd7  -lpthread 
+Building C object CMakeFiles/cmTC_80220.dir/CheckFunctionExists.c.o
+/usr/bin/gcc-10   -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=shmget  -D_GNU_SOURCE   -o CMakeFiles/cmTC_80220.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_80220
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_80220.dir/link.txt --verbose=1
+/usr/bin/gcc-10  -march=tigerlake -mtune=tigerlake -DCHECK_FUNCTION_EXISTS=shmget  -D_GNU_SOURCE    -rdynamic CMakeFiles/cmTC_80220.dir/CheckFunctionExists.c.o  -o cmTC_80220  -lpthread 
 make[1]: Leaving directory '/home/vcamp/Vectrocamp/vectorscan/build/CMakeFiles/CMakeTmp'
 
 

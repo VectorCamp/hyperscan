@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/hs_common.h
+stdlib.h
+-
+
+/home/vcamp/Vectrocamp/vectorscan/util/database_util.cpp
+database_util.h
+/home/vcamp/Vectrocamp/vectorscan/util/database_util.h
+hs_common.h
+/home/vcamp/Vectrocamp/vectorscan/util/hs_common.h
+cassert
+-
+cstdlib
+-
+cstring
+-
+fstream
+-
+iostream
+-
+sys/mman.h
+-
+unistd.h
+-
+sys/fcntl.h
+-
+sys/stat.h
+-
+
+/home/vcamp/Vectrocamp/vectorscan/util/database_util.h
+
