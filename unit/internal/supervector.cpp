@@ -30,6 +30,7 @@
 #include<iostream>
 #include<cstring>
 #include<time.h>
+#include<stdlib.h>     
 #include"gtest/gtest.h"
 #include"ue2common.h"
 #include"util/arch.h"
@@ -37,156 +38,237 @@
 #include"util/simd/types.hpp"
 
 
-typedef union uni128i{__m128i f; int8_t vec[16];}u128i;
-
-TEST(SuperVectorUtilsTest, Zero128) {
+TEST(SuperVectorUtilsTest, Zero128c) {
     m128_t zeroes = SuperVector<16>::Zeroes();
-    u128i z;
-    z.f = _mm_set1_epi8(0);
-    for(int i=0; i<16; i++){ASSERT_EQ(zeroes.u.s8[i],z.vec[i]);}     
+    char buf[16]{0};
+    for(int i=0; i<16; i++){ASSERT_EQ(zeroes.u.s8[i],buf[i]);}
 }
 
-TEST(SuperVectorUtilsTest, Ones128) {
+
+TEST(SuperVectorUtilsTest, Ones128c) {
     m128_t ones = SuperVector<16>::Ones();
-    u128i z;
-    z.f = _mm_set1_epi8(0xff);
-    for(int i=0; i<16; i++){ASSERT_EQ(ones.u.s8[i],z.vec[i]);}
+    char buf[16];
+    for (int i=0; i<16; i++){buf[i]=0xff;}
+    for(int i=0; i<16; i++){ASSERT_EQ(ones.u.s8[i],buf[i]);}
 }
 
 
-TEST(SuperVectorUtilsTest, Loadu128) {
-    int vec[4];
-    srand(time(NULL));
-    for (int i=0; i<4; i++) {vec[i]=rand() %1000 +1;}
-    m128_t SP = SuperVector<16>::loadu((__m128i*)vec);
-    u128i test_vector;
-    test_vector.f = _mm_lddqu_si128((__m128i*)vec);
-    for(int i=0; i<16; i++){ ASSERT_EQ(SP.u.s8[i],test_vector.vec[i]);}
+TEST(SuperVectorUtilsTest, Loadu128c) {
+    char vec[32];
+    for(int i=0; i<32;i++){vec[i]=i;}
+    for(int i=0; i<=16;i++){
+        m128_t SP = SuperVector<16>::loadu(vec+i);
+        for(int j=0; j<16; j++){
+            ASSERT_EQ(SP.u.s8[j],vec[j+i]);
+        }
+    }
 }
 
-TEST(SuperVectorUtilsTest, Load128) {
-    int vec[4] __attribute__((aligned(16)));
-    srand(time(NULL));
-    for (int i=0; i<4; i++) {vec[i]=rand() %1000 +1;}
-    m128_t SP = SuperVector<16>::load((__m128i*)vec);
-    u128i test_vector;
-    test_vector.f = _mm_load_si128((__m128i*)vec);
-    for(int i=0; i<16; i++){ ASSERT_EQ(SP.u.s8[i],test_vector.vec[i]);}
+TEST(SuperVectorUtilsTest, Load128c) {
+    char vec[128] __attribute__((aligned(16)));
+    for(int i=0; i<128;i++){vec[i]=i;}
+    for(int i=0;i<=16;i+=16){
+        m128_t SP = SuperVector<16>::loadu(vec+i);
+        for(int j=0; j<16; j++){
+            ASSERT_EQ(SP.u.s8[j],vec[j+i]);
+        }
+    }    
 }
 
-TEST(SuperVectorUtilsTest,Equal128){
-    int vec[8];
-    srand(time(NULL));
-    for (int i=0; i<8; i++) {vec[i]=rand() %1000 +1;}
-    m128_t SP1 = SuperVector<16>::loadu((__m128i*)vec);
-    m128_t SP2 = SuperVector<16>::loadu((__m128i*)vec+4);
-    u128i test_vector1;
-    u128i test_vector2;
-    test_vector1.f = _mm_loadu_si128((__m128i*)vec);
-    test_vector2.f = _mm_loadu_si128((__m128i*)vec+4);
+TEST(SuperVectorUtilsTest,Equal128c){
+    char vec[32];
+     for (int i=0; i<32; i++) {vec[i]=i;};
+    m128_t SP1 = SuperVector<16>::loadu(vec);
+    m128_t SP2 = SuperVector<16>::loadu(vec+16);
+    char buf[16]={0};
+    /*check for equality byte by byte*/
+    for (int s=0; s<16; s++){
+        if(vec[s]==vec[s+16]){
+            buf[s]=1;
+        }
+    }
     m128_t SPResult = SP1.eq(SP2);
-    u128i test_result;
-    test_result.f = _mm_cmpeq_epi8(test_vector1.f,test_vector2.f);
-    for (int i=0; i<16; i++){ASSERT_EQ(SPResult.u.s8[i],test_result.vec[i]);}
+    for (int i=0; i<16; i++){ASSERT_EQ(SPResult.u.s8[i],buf[i]);}
 }
 
-TEST(SuperVectorUtilsTest,And128){
+TEST(SuperVectorUtilsTest,And128c){
     m128_t SPResult = SuperVector<16>::Zeroes() & SuperVector<16>::Ones();
-    __m128i test_vector1 = _mm_set1_epi8(0);
-    __m128i test_vector2 = _mm_set1_epi8(0xff);
-    u128i test_result;
-    test_result.f = _mm_and_si128(test_vector1,test_vector2);
-    for (int i=0; i<16; i++){ASSERT_EQ(SPResult.u.s8[i],test_result.vec[i]);}
+    for (int i=0; i<16; i++){ASSERT_EQ(SPResult.u.s8[i],0);}
 }
 
-TEST(SuperVectorUtilsTest,Movemask128){
-    int vec[4];
-    srand(time(NULL));
-    for (int i=0; i<4; i++) {vec[i]=rand() %1000 +1;}
-    m128_t SP = SuperVector<16>::loadu((__m128i*)vec);
-    __m128i test_vector = _mm_loadu_si128((__m128i*)vec);
+TEST(SuperVectorUtilsTest,OPAnd128c){
+    m128_t SP1 = SuperVector<16>::Zeroes(); 
+    m128_t SP2 = SuperVector<16>::Ones();
+    SP2 = SP2.opand(SP1);
+    for (int i=0; i<16; i++){ASSERT_EQ(SP2.u.s8[i],0);}
+}
+
+
+TEST(SuperVectorUtilsTest,OR128c){
+    m128_t SPResult = SuperVector<16>::Zeroes() | SuperVector<16>::Ones();
+    for (int i=0; i<16; i++){ASSERT_EQ(SPResult.u.s8[i],-1);}
+}
+
+TEST(SuperVectorUtilsTest,OPANDNOT128c){
+    m128_t SP1 = SuperVector<16>::Zeroes(); 
+    m128_t SP2 = SuperVector<16>::Ones();
+    SP2 = SP2.opandnot(SP1);
+    for (int i=0; i<16; i++){ASSERT_EQ(SP2.u.s8[i],0);}
+}
+
+TEST(SuperVectorUtilsTest,Movemask128c){
+    uint8_t vec[16] = {0,0xff,0xff,3,4,5,6,7,8,9,0xff,11,12,13,14,0xff};
+    /*according to the array above the movemask outcome must be the following:
+      10000100000000110 or 0x8406*/
+    m128_t SP = SuperVector<16>::loadu(vec);
     int SP_Mask = SP.movemask();
-    int test_result = _mm_movemask_epi8(test_vector);
-    ASSERT_EQ(SP_Mask,test_result);
+    ASSERT_EQ(SP_Mask,0x8406);
 }
 
-TEST(SuperVectorUtilsTest,Eqmask128){
-    int vec[8];
-    srand(time(NULL));
-    for (int i=0; i<8; i++) {vec[i]=rand() %1000 +1;}
-    m128_t SP = SuperVector<16>::loadu((__m128i*)vec);
-    m128_t SP1 = SuperVector<16>::loadu((__m128i*)vec+4);
-    __m128i test_vector1 = _mm_loadu_si128((__m128i*)vec);
-    __m128i test_vector2 = _mm_loadu_si128((__m128i*)vec+4);
-    __m128i test_result = _mm_cmpeq_epi8(test_vector1,test_vector2);
+TEST(SuperVectorUtilsTest,Eqmask128c){
+    uint8_t vec[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+    uint8_t vec2[16] = {16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31};
+    uint8_t vec3[16] = {16,17,3,4,5,6,7,8,1,2,11,12,13,14,15,16};
+    m128_t SP = SuperVector<16>::loadu(vec);
+    m128_t SP1 = SuperVector<16>::loadu(vec);
     int SP_Mask = SP.eqmask(SP1);
-    int test_res = _mm_movemask_epi8(test_result);
-    ASSERT_EQ(SP_Mask,test_res);
+    /*if masks are equal the outcome is 1111111111111111 or 0xffff*/
+    ASSERT_EQ(SP_Mask,0xffff);
+    SP = SuperVector<16>::loadu(vec);
+    SP1 = SuperVector<16>::loadu(vec2);
+    SP_Mask = SP.eqmask(SP1);
+    ASSERT_EQ(SP_Mask,0);
+    SP = SuperVector<16>::loadu(vec2);
+    SP1 = SuperVector<16>::loadu(vec3);
+    SP_Mask = SP.eqmask(SP1);
+    ASSERT_EQ(SP_Mask,3);
 }
 
-/*Define SHIFT128 macro*/
-#define TEST_SHIFT128(l)                                                                     \
-SP_after_shift = SP<<(l);                                                                    \
-test_vector_after_shift.f = _mm_slli_si128(test_vector.f,l);                                 \
-for(int i=0; i<16; i++) {ASSERT_EQ(SP_after_shift.u.s8[i],test_vector_after_shift.vec[i]);}  \
 
-TEST(SuperVectorUtilsTest,Shift128){
-    int vec[4];
-    srand(time(NULL));
-    for (int i=0; i<4; i++) {vec[i]=rand() %1000 +1;}
-    m128_t SP = SuperVector<16>::loadu((__m128i*)vec);
-    u128i test_vector;
-    test_vector.f = _mm_loadu_si128((__m128i*)vec);
-    u128i test_vector_after_shift;
-    m128_t SP_after_shift = SP<<(0);
-    TEST_SHIFT128(1)
-    TEST_SHIFT128(2)
-    TEST_SHIFT128(3)
-    TEST_SHIFT128(4)
-    TEST_SHIFT128(5)
-    TEST_SHIFT128(6)
-    TEST_SHIFT128(7)
-    TEST_SHIFT128(8)
-    TEST_SHIFT128(9)
-    TEST_SHIFT128(10)
-    TEST_SHIFT128(11)
-    TEST_SHIFT128(12)
-    TEST_SHIFT128(13)
-    TEST_SHIFT128(14)
-    TEST_SHIFT128(15)
-    TEST_SHIFT128(16)
+TEST(SuperVectorUtilsTest,pshufbc){
+    srand (time(NULL));
+    uint8_t vec[16];
+    for (int i=0; i<16; i++){vec[i]=rand() % 100 + 1;};
+    uint8_t vec2[16];
+    for (int i=0; i<16; i++){vec2[i]=i;};
+    m128_t SP1 = SuperVector<16>::loadu(vec);
+    m128_t SP2 = SuperVector<16>::loadu(vec2);
+    m128_t SResult = SP1.pshufb(SP2);
+    for (int i=0; i<16; i++){
+            ASSERT_EQ(vec[vec2[i]],SResult.u.u8[i]);
+        }
 }
 
-#define ALIGNR128(l)                                                    \
-al_test.f = _mm_alignr_epi8(test_vector1,test_vector2,l);               \
-SP_test = SP.alignr(SP1,l);                                             \
-for (int i=0; i<16; i++) {ASSERT_EQ(SP_test.u.s8[i],al_test.vec[i]);}   \
+TEST(SuperVectorUtilsTest,LShift64_128c){
+    u_int64_t vec[2] = {128, 512}; 
+    m128_t SP = SuperVector<16>::loadu(vec);
+    for(int s = 0; s<16; s++){
+        m128_t SP_after_shift = SP.lshift64(s);
+        for (int i=0; i<2; i++){ASSERT_EQ(SP_after_shift.u.u64[i],vec[i]<<s);}
+    }   
+}
 
-TEST(SuperVectorUtilsTest,Alignr128){
-    int vec[8];
-    srand(time(NULL));
-    for (int i=0; i<8; i++) {vec[i]=rand() %1000 +1;}
-    m128_t SP = SuperVector<16>::loadu((__m128i*)vec);
-    m128_t SP1 = SuperVector<16>::loadu((__m128i*)vec+4);
-    __m128i test_vector1 = _mm_loadu_si128((__m128i*)vec);
-    __m128i test_vector2 = _mm_loadu_si128((__m128i*)vec+4);
-    u128i al_test;
-    m128_t SP_test = SP.alignr(SP1,0);
-    ALIGNR128(1);
-    ALIGNR128(2);
-    ALIGNR128(3);
-    ALIGNR128(4);
-    ALIGNR128(5);
-    ALIGNR128(6);
-    ALIGNR128(7);
-    ALIGNR128(8);
-    ALIGNR128(9);
-    ALIGNR128(10);
-    ALIGNR128(11);
-    ALIGNR128(12);
-    ALIGNR128(13);
-    ALIGNR128(14);
-    ALIGNR128(15);
-    ALIGNR128(16);
+TEST(SuperVectorUtilsTest,RShift64_128c){
+    u_int64_t vec[2] = {128, 512}; 
+    m128_t SP = SuperVector<16>::loadu(vec);
+    for(int s = 0; s<16; s++){
+        m128_t SP_after_shift = SP.rshift64(s);
+        for (int i=0; i<2; i++){ASSERT_EQ(SP_after_shift.u.u64[i],vec[i]>>s);}
+    }   
+}
+
+
+/*Define LSHIFT128 macro*/
+#define TEST_LSHIFT128(l)   {   SP_after_Lshift = SP<<(l);                                              \
+                                buf[l-1]=0;                                                             \
+                                for(int i=0; i<16; i++){ASSERT_EQ(SP_after_Lshift.u.s8[i],buf[i]);}     \
+                            }           
+
+TEST(SuperVectorUtilsTest,LShift128c){
+    char vec[16];
+    for (int i=0; i<16; i++) {vec[i]=0xff;}
+    m128_t SP = SuperVector<16>::loadu(vec);
+    char buf[16];
+    for (int i=0; i<16; i++){buf[i]=0xff;}
+    m128_t SP_after_Lshift = SP<<(0);
+    TEST_LSHIFT128(1)
+    TEST_LSHIFT128(2)
+    TEST_LSHIFT128(3)
+    TEST_LSHIFT128(4)
+    TEST_LSHIFT128(5)
+    TEST_LSHIFT128(6)
+    TEST_LSHIFT128(7)
+    TEST_LSHIFT128(8)
+    TEST_LSHIFT128(9)
+    TEST_LSHIFT128(10)
+    TEST_LSHIFT128(11)
+    TEST_LSHIFT128(12)
+    TEST_LSHIFT128(13)
+    TEST_LSHIFT128(14)
+    TEST_LSHIFT128(15)
+    TEST_LSHIFT128(16)
+}
+
+
+/*Define RSHIFT128 macro*/
+#define TEST_RSHIFT128(l)   {   SP_after_Rshift = SP>>(l);                                           \
+                                buf[16-l] = 0;                                                       \
+                                for(int i=0; i<16; i++) {ASSERT_EQ(SP_after_Rshift.u.u8[i],buf[i]);} \
+                            }   
+
+TEST(SuperVectorUtilsTest,RShift128c){
+    char vec[16];
+    for (int i=0; i<16; i++) {vec[i]=0xff;}
+    m128_t SP = SuperVector<16>::loadu(vec);
+    uint8_t buf[16];
+    for (int i=0; i<16; i++){buf[i]=0xff;}
+    m128_t SP_after_Rshift = SP>>(0);
+    TEST_RSHIFT128(1)
+    TEST_RSHIFT128(2)
+    TEST_RSHIFT128(3)
+    TEST_RSHIFT128(4)
+    TEST_RSHIFT128(5)
+    TEST_RSHIFT128(6)
+    TEST_RSHIFT128(7)
+    TEST_RSHIFT128(8)
+    TEST_RSHIFT128(9)
+    TEST_RSHIFT128(10)
+    TEST_RSHIFT128(11)
+    TEST_RSHIFT128(12)
+    TEST_RSHIFT128(13)
+    TEST_RSHIFT128(14)
+    TEST_RSHIFT128(15)
+    TEST_RSHIFT128(16)
+}
+
+
+/*Define ALIGNR128 macro*/
+#define TEST_ALIGNR128(l)   {  SP_test = SP1.alignr(SP,l);                                       \
+                                for (int i=0; i<16; i++){ASSERT_EQ(SP_test.u.u8[i],vec[i+l]);}   \
+                            }
+
+TEST(SuperVectorUtilsTest,Alignr128c){
+    uint8_t vec[32];
+    for (int i=0; i<32; i++) {vec[i]=i;}
+    m128_t SP = SuperVector<16>::loadu(vec);
+    m128_t SP1 = SuperVector<16>::loadu(vec+16);
+    m128_t SP_test = SP1.alignr(SP,0);
+    TEST_ALIGNR128(1)
+    TEST_ALIGNR128(2)
+    TEST_ALIGNR128(3)
+    TEST_ALIGNR128(4)
+    TEST_ALIGNR128(5)
+    TEST_ALIGNR128(6)
+    TEST_ALIGNR128(7)
+    TEST_ALIGNR128(8)
+    TEST_ALIGNR128(9)
+    TEST_ALIGNR128(10)
+    TEST_ALIGNR128(11)
+    TEST_ALIGNR128(12)
+    TEST_ALIGNR128(13)
+    TEST_ALIGNR128(14)
+    TEST_ALIGNR128(15)
+    TEST_ALIGNR128(16)
+    
 }
 
