@@ -301,7 +301,7 @@ void createVertices(RoseBuildImpl *tbi,
             }
 
             DEBUG_PRINTF("  adding new vertex index=%zu\n", tbi->g[w].index);
-            vertex_map[iv].push_back(w);
+            vertex_map[iv].emplace_back(w);
         } else {
             w = created[key];
         }
@@ -612,7 +612,7 @@ void doRoseLiteralVertex(RoseBuildImpl *tbi, bool use_eod_table,
         RoseVertex v = tryForAnchoredVertex(tbi, iv_info, ep);
         if (v != RoseGraph::null_vertex()) {
             DEBUG_PRINTF("add anchored literal vertex\n");
-            vertex_map[iv].push_back(v);
+            vertex_map[iv].emplace_back(v);
             return;
         }
     }
@@ -656,7 +656,7 @@ unique_ptr<NGHolder> makeRoseEodPrefix(const NGHolder &h, RoseBuildImpl &build,
             continue;
         }
         add_edge_if_not_present(u, g.accept, g);
-        dead.push_back(e);
+        dead.emplace_back(e);
 
         if (!contains(remap, g[u].reports)) {
             remap[g[u].reports] = build.getNewNfaReport();
@@ -967,11 +967,11 @@ void populateRoseGraph(RoseBuildImpl *tbi, RoseBuildData &bd) {
 
         if (ig[iv].type == RIV_START) {
             DEBUG_PRINTF("is root\n");
-            vertex_map[iv].push_back(tbi->root);
+            vertex_map[iv].emplace_back(tbi->root);
             continue;
         } else if (ig[iv].type == RIV_ANCHORED_START) {
             DEBUG_PRINTF("is anchored root\n");
-            vertex_map[iv].push_back(tbi->anchored_root);
+            vertex_map[iv].emplace_back(tbi->anchored_root);
             continue;
         }
 
@@ -1544,7 +1544,7 @@ bool RoseBuildImpl::addRose(const RoseInGraph &ig, bool prefilter) {
         NGHolder *h = in[e].graph.get();
 
         assert(isCorrectlyTopped(*h));
-        graphs[h].push_back(e);
+        graphs[h].emplace_back(e);
     }
 
     vector<RoseInEdge> graph_edges;
@@ -1624,7 +1624,7 @@ bool roseCheckRose(const RoseInGraph &ig, bool prefilter,
             continue;
         }
 
-        graphs.push_back(ig[e].graph.get());
+        graphs.emplace_back(ig[e].graph.get());
     }
 
     for (const auto &g : graphs) {
@@ -1781,9 +1781,9 @@ bool RoseBuildImpl::addOutfix(const NGHolder &h) {
     }
 
     if (rdfa) {
-        outfixes.push_back(OutfixInfo(move(rdfa)));
+        outfixes.emplace_back(OutfixInfo(move(rdfa)));
     } else {
-        outfixes.push_back(OutfixInfo(cloneHolder(h)));
+        outfixes.emplace_back(OutfixInfo(cloneHolder(h)));
     }
 
     populateOutfixInfo(outfixes.back(), h, *this);
@@ -1794,7 +1794,7 @@ bool RoseBuildImpl::addOutfix(const NGHolder &h) {
 bool RoseBuildImpl::addOutfix(const NGHolder &h, const raw_som_dfa &haig) {
     DEBUG_PRINTF("haig with %zu states\n", haig.states.size());
 
-    outfixes.push_back(OutfixInfo(ue2::make_unique<raw_som_dfa>(haig)));
+    outfixes.emplace_back(OutfixInfo(ue2::make_unique<raw_som_dfa>(haig)));
     populateOutfixInfo(outfixes.back(), h, *this);
 
     return true; /* failure is not yet an option */
@@ -1807,7 +1807,7 @@ bool RoseBuildImpl::addOutfix(const raw_puff &rp) {
 
     auto *mpv = mpv_outfix->mpv();
     assert(mpv);
-    mpv->puffettes.push_back(rp);
+    mpv->puffettes.emplace_back(rp);
 
     mpv_outfix->maxBAWidth = ROSE_BOUND_INF; /* not ba */
     mpv_outfix->minWidth = min(mpv_outfix->minWidth, depth(rp.repeats));
@@ -1832,7 +1832,7 @@ bool RoseBuildImpl::addChainTail(const raw_puff &rp, u32 *queue_out,
 
     auto *mpv = mpv_outfix->mpv();
     assert(mpv);
-    mpv->triggered_puffettes.push_back(rp);
+    mpv->triggered_puffettes.emplace_back(rp);
 
     mpv_outfix->maxBAWidth = ROSE_BOUND_INF; /* not ba */
     mpv_outfix->minWidth = min(mpv_outfix->minWidth, depth(rp.repeats));

@@ -60,10 +60,10 @@ vector<DepthMinMax> getDistancesFromSOM(const NGHolder &g_orig) {
     vector<NFAVertex> vstarts;
     for (auto v : vertices_range(g)) {
         if (is_virtual_start(v, g)) {
-            vstarts.push_back(v);
+            vstarts.emplace_back(v);
         }
     }
-    vstarts.push_back(g.startDs);
+    vstarts.emplace_back(g.startDs);
 
     // wire the successors of every virtual start or startDs to g.start.
     for (auto v : vstarts) {

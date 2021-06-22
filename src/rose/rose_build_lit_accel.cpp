@@ -346,7 +346,7 @@ void filterLits(const vector<AccelString> &lits, hwlm_group_t expected_groups,
         DEBUG_PRINTF("lit: '%s', nocase=%d, groups=0x%llx\n",
                      escapeString(lit.s).c_str(), lit.nocase ? 1 : 0,
                      lit.groups);
-        filtered_lits->push_back(&lit);
+        filtered_lits->emplace_back(&lit);
     }
 }
 

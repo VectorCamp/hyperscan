@@ -182,7 +182,7 @@ bool shuftiBuildDoubleMasks(const CharReach &onechar,
         }
         nibble_masks.clear();
         for (const auto &e : new_masks) {
-            nibble_masks.push_back(e.second);
+            nibble_masks.emplace_back(e.second);
         }
     }
 

@@ -49,19 +49,19 @@ using boost::adaptors::map_values;
 namespace ue2 {
 
 template<typename VarP, typename VarQ>
-void push_back_all_raw(vector<VarP> *out, const vector<VarQ> &in) {
+void emplace_back_all_raw(vector<VarP> *out, const vector<VarQ> &in) {
     for (const auto &var : in) {
-        out->push_back(var.get());
+        out->emplace_back(var.get());
     }
 }
 
 static
 void all_vars(const GoughGraph &g, vector<GoughSSAVar *> *out) {
     for (auto v : vertices_range(g)) {
-        push_back_all_raw(out, g[v].vars);
+        emplace_back_all_raw(out, g[v].vars);
     }
     for (const auto &e : edges_range(g)) {
-        push_back_all_raw(out, g[e].vars);
+        emplace_back_all_raw(out, g[e].vars);
     }
 }
 
@@ -380,7 +380,7 @@ template<typename VarP>
 void add_to_dom_ordering(const vector<VarP> &vars,
                          vector<GoughSSAVar *> *out) {
     for (const auto &var : vars) {
-        out->push_back(var.get());
+        out->emplace_back(var.get());
     }
 }
 
@@ -389,7 +389,7 @@ class FinishVisitor : public boost::default_dfs_visitor {
 public:
     explicit FinishVisitor(vector<GoughVertex> *o) : out(o) {}
     void finish_vertex(const GoughVertex v, const GoughGraph &) {
-        out->push_back(v);
+        out->emplace_back(v);
     }
     vector<GoughVertex> *out;
 };

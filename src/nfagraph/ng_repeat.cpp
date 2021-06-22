@@ -320,7 +320,7 @@ void splitSubgraph(const NGHolder &g, const deque<NFAVertex> &verts,
         }
         u32 comp_id = rit->second;
         assert(comp_id < num);
-        rs[comp_id].vertices.push_back(v);
+        rs[comp_id].vertices.emplace_back(v);
     }
 
     for (const auto &rsi : rs) {
@@ -409,7 +409,7 @@ void checkReachSubgraphs(const NGHolder &g, vector<ReachSubgraph> &rs,
                 continue;
             }
 
-            verts.push_back(v);
+            verts.emplace_back(v);
         }
 
         if (recalc) {
@@ -421,7 +421,7 @@ void checkReachSubgraphs(const NGHolder &g, vector<ReachSubgraph> &rs,
             splitSubgraph(g, verts, minNumVertices, q);
         } else {
             DEBUG_PRINTF("subgraph is ok\n");
-            rs_out.push_back(rsi);
+            rs_out.emplace_back(rsi);
         }
         q.pop();
     }
@@ -638,7 +638,7 @@ void buildTugTrigger(NGHolder &g, NFAVertex cyclic, NFAVertex v,
         DEBUG_PRINTF("all preds in subgraph, vertex %zu becomes tug\n",
                      g[v].index);
         add_edge(cyclic, v, g);
-        tugs.push_back(v);
+        tugs.emplace_back(v);
         return;
     }
 
@@ -650,7 +650,7 @@ void buildTugTrigger(NGHolder &g, NFAVertex cyclic, NFAVertex v,
     DEBUG_PRINTF("there are other paths, cloned tug %zu from vertex %zu\n",
                   g[t].index, g[v].index);
 
-    tugs.push_back(t);
+    tugs.emplace_back(t);
     add_edge(cyclic, t, g);
 
     // New vertex gets all of v's successors, including v itself if it's
@@ -738,7 +738,7 @@ void unpeelNearEnd(NGHolder &g, ReachSubgraph &rsi,
         }
 
         succs->clear();
-        succs->push_back(d);
+        succs->emplace_back(d);
 
         rsi.repeatMax -= 1;
 
@@ -761,7 +761,7 @@ void getSuccessors(const NGHolder &g, const ReachSubgraph &rsi,
         if (v == last) { /* ignore self loop */
             continue;
         }
-        succs->push_back(v);
+        succs->emplace_back(v);
     }
 }
 
@@ -837,7 +837,7 @@ void replaceSubgraphWithSpecial(NGHolder &g, ReachSubgraph &rsi,
     remove_vertices(rsi.vertices, g, false);
     erase_all(&depths, rsi.vertices);
 
-    repeats->push_back(BoundedRepeatData(rsi.historyType, rsi.repeatMin,
+    repeats->emplace_back(BoundedRepeatData(rsi.historyType, rsi.repeatMin,
                                          rsi.repeatMax, rsi.minPeriod, cyclic,
                                          pos_trigger, tugs));
 }
@@ -905,7 +905,7 @@ void replaceSubgraphWithLazySpecial(NGHolder &g, ReachSubgraph &rsi,
     remove_vertices(rsi.vertices, g, false);
     erase_all(&depths, rsi.vertices);
 
-    repeats->push_back(BoundedRepeatData(rsi.historyType, rsi.repeatMin,
+    repeats->emplace_back(BoundedRepeatData(rsi.historyType, rsi.repeatMin,
                                          rsi.repeatMax, rsi.minPeriod, cyclic,
                                          pos_trigger, tugs));
 }
@@ -1057,7 +1057,7 @@ void buildReachSubgraphs(const NGHolder &g, vector<ReachSubgraph> &rs,
         }
         u32 comp_id = rit->second;
         assert(comp_id < num);
-        rs[comp_id].vertices.push_back(v);
+        rs[comp_id].vertices.emplace_back(v);
     }
 
 #ifdef DEBUG
@@ -1176,9 +1176,9 @@ void addTriggers(NGHolder &g,
                 goto next_edge;
             }
 
-            starts_by_top[top].push_back(v);
+            starts_by_top[top].emplace_back(v);
         }
-        dead.push_back(e);
+        dead.emplace_back(e);
     next_edge:;
     }
 
@@ -1519,7 +1519,7 @@ struct StrawWalker {
             }
 
             v = next;
-            straw.push_back(v);
+            straw.emplace_back(v);
         }
 
         straw.clear();
@@ -1615,13 +1615,13 @@ vector<CharReach> getUnionedTrigger(const NGHolder &g, const NFAVertex v) {
 
     if (contains(curr, g.start)) {
         DEBUG_PRINTF("start in repeat's immediate preds\n");
-        trigger.push_back(CharReach::dot()); // Trigger could be anything!
+        trigger.emplace_back(CharReach::dot()); // Trigger could be anything!
         return trigger;
     }
 
     for (size_t num_steps = 0; num_steps < MAX_TRIGGER_STEPS; num_steps++) {
         next.clear();
-        trigger.push_back(CharReach());
+        trigger.emplace_back(CharReach());
         CharReach &cr = trigger.back();
 
         for (auto v_c : curr) {
@@ -1664,7 +1664,7 @@ vector<vector<CharReach>> getRepeatTriggers(const NGHolder &g,
             triggers.push_back({}); // empty
             return triggers;
         }
-        q.push_back(Path(1, u));
+        q.emplace_back(Path(1, u));
     }
 
     while (!q.empty()) {
@@ -1673,7 +1673,7 @@ vector<vector<CharReach>> getRepeatTriggers(const NGHolder &g,
 
         if (path.size() >= max_len) {
             max_len = min(max_len, path.size());
-            done.push_back(path);
+            done.emplace_back(path);
             goto next_path;
         }
 
@@ -1682,16 +1682,16 @@ vector<vector<CharReach>> getRepeatTriggers(const NGHolder &g,
                 // Found an accept. There's no point expanding this path any
                 // further, we're done.
                 max_len = min(max_len, path.size());
-                done.push_back(path);
+                done.emplace_back(path);
                 goto next_path;
             }
 
             if (path.size() + 1 >= max_len) {
-                done.push_back(path);
-                done.back().push_back(u);
+                done.emplace_back(path);
+                done.back().emplace_back(u);
             } else {
-                q.push_back(path); // copy
-                q.back().push_back(u);
+                q.emplace_back(path); // copy
+                q.back().emplace_back(u);
             }
         }
 
@@ -1703,7 +1703,7 @@ vector<vector<CharReach>> getRepeatTriggers(const NGHolder &g,
         if (q.size() + done.size() > UNIONED_FALLBACK_THRESHOLD) {
             DEBUG_PRINTF("search too large, fall back to union trigger\n");
             triggers.clear();
-            triggers.push_back(getUnionedTrigger(g, sink));
+            triggers.emplace_back(getUnionedTrigger(g, sink));
             return triggers;
         }
     }
@@ -1715,7 +1715,7 @@ vector<vector<CharReach>> getRepeatTriggers(const NGHolder &g,
     for (const auto &path : done) {
         vector<CharReach> reach_path;
         for (auto jt = path.rbegin(), jte = path.rend(); jt != jte; ++jt) {
-            reach_path.push_back(g[*jt].char_reach);
+            reach_path.emplace_back(g[*jt].char_reach);
         }
         unique_triggers.insert(reach_path);
     }
@@ -1960,7 +1960,7 @@ vector<NFAVertex> makeOwnStraw(NGHolder &g, BoundedRepeatData &rd,
         if (!own_straw.empty()) {
             add_edge(own_straw.back(), v2, g);
         }
-        own_straw.push_back(v2);
+        own_straw.emplace_back(v2);
     }
 
     // Wire our straw to start, not startDs.
@@ -2536,7 +2536,7 @@ void findRepeats(const NGHolder &h, u32 minRepeatVertices,
             repeatMax = depth::infinity(); /* will continue to pump out matches */
         }
 
-        repeats_out->push_back(GraphRepeatInfo());
+        repeats_out->emplace_back(GraphRepeatInfo());
         GraphRepeatInfo &ri = repeats_out->back();
         ri.vertices.swap(rsi.vertices);
         ri.repeatMin = rsi.repeatMin;

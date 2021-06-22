@@ -36,6 +36,8 @@
 #if defined(__ARM_NEON) && (defined(ARCH_ARM32) || defined(ARCH_AARCH64))
 #define HAVE_NEON
 #define HAVE_SIMD_128_BITS
+#define CHUNKSIZE 128
+#define VECTORSIZE 16
 #endif
 
 #endif // UTIL_ARCH_ARM_H_

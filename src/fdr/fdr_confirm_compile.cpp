@@ -162,7 +162,7 @@ bytecode_ptr<FDRConfirm> getFDRConfirm(const vector<hwlmLiteral> &lits,
         LitInfo & li = tmpLitInfo[i];
         u32 hash = CONF_HASH_CALL(li.v, andmsk, mult, nBits);
         DEBUG_PRINTF("%016llx --> %u\n", li.v, hash);
-        res2lits[hash].push_back(i);
+        res2lits[hash].emplace_back(i);
         gm |= li.groups;
     }
 
@@ -303,7 +303,7 @@ setupFullConfs(const vector<hwlmLiteral> &lits,
         if (contains(bucketToLits, b)) {
             vector<hwlmLiteral> vl;
             for (const LiteralIndex &lit_idx : bucketToLits.at(b)) {
-                vl.push_back(lits[lit_idx]);
+                vl.emplace_back(lits[lit_idx]);
             }
 
             DEBUG_PRINTF("b %d sz %zu\n", b, vl.size());

@@ -413,7 +413,7 @@ bool handleStartPrefixCliche(const NGHolder &h, RoseGraph &g, RoseVertex v,
     } else {
         RoseEdge e_new = add_edge(ar, v, g);
         setEdgeBounds(g, e_new, bound_min, bound_max);
-        to_delete->push_back(e_old);
+        to_delete->emplace_back(e_old);
     }
 
     g[v].left.reset(); /* clear the prefix info */
@@ -605,7 +605,7 @@ bool handleMixedPrefixCliche(const NGHolder &h, RoseGraph &g, RoseVertex v,
         } else {
             RoseEdge e_new = add_edge(ar, v, g);
             setEdgeBounds(g, e_new, ri.repeatMin + width, ri.repeatMax + width);
-            to_delete->push_back(e_old);
+            to_delete->emplace_back(e_old);
         }
 
     } else {

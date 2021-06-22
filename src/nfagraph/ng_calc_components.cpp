@@ -213,7 +213,7 @@ vector<NFAEdge> findShellEdges(const NGHolder &g,
             (is_special(v, g) || contains(tail_shell, v))) {
             DEBUG_PRINTF("edge (%zu,%zu) is a shell edge\n", g[u].index,
                          g[v].index);
-            shell_edges.push_back(e);
+            shell_edges.emplace_back(e);
         }
     }
 
@@ -291,7 +291,7 @@ void splitIntoComponents(unique_ptr<NGHolder> g,
     if (head_shell.size() + tail_shell.size() + N_SPECIALS >=
         num_vertices(*g)) {
         DEBUG_PRINTF("all in shell component\n");
-        comps.push_back(std::move(g));
+        comps.emplace_back(std::move(g));
         *shell_comp = true;
         return;
     }
@@ -306,7 +306,7 @@ void splitIntoComponents(unique_ptr<NGHolder> g,
     // into the tail shell, we aren't going to find more than one component.
     if (shell_edges.empty() && shellHasOnePath(*g, head_shell, tail_shell)) {
         DEBUG_PRINTF("single component\n");
-        comps.push_back(std::move(g));
+        comps.emplace_back(std::move(g));
         return;
     }
 
@@ -329,7 +329,7 @@ void splitIntoComponents(unique_ptr<NGHolder> g,
     assert(num > 0);
     if (num == 1 && shell_edges.empty()) {
         DEBUG_PRINTF("single component\n");
-        comps.push_back(std::move(g));
+        comps.emplace_back(std::move(g));
         return;
     }
 
@@ -341,7 +341,7 @@ void splitIntoComponents(unique_ptr<NGHolder> g,
     for (const auto &m : split_components) {
         NFAVertex v = m.first;
         u32 c = m.second;
-        verts[c].push_back(v);
+        verts[c].emplace_back(v);
         DEBUG_PRINTF("vertex %zu is in comp %u\n", (*g)[v].index, c);
     }
 
@@ -370,7 +370,7 @@ void splitIntoComponents(unique_ptr<NGHolder> g,
         pruneUseless(*gc);
         DEBUG_PRINTF("component %zu has %zu vertices\n", comps.size(),
                      num_vertices(*gc));
-        comps.push_back(move(gc));
+        comps.emplace_back(move(gc));
     }
 
     // Another component to handle the direct shell-to-shell edges.
@@ -386,7 +386,7 @@ void splitIntoComponents(unique_ptr<NGHolder> g,
         pruneUseless(*gc);
         DEBUG_PRINTF("shell edge component %zu has %zu vertices\n",
                      comps.size(), num_vertices(*gc));
-        comps.push_back(move(gc));
+        comps.emplace_back(move(gc));
         *shell_comp = true;
     }
 
@@ -410,7 +410,7 @@ deque<unique_ptr<NGHolder>> calcComponents(unique_ptr<NGHolder> g,
     // For trivial cases, we needn't bother running the full
     // connected_components algorithm.
     if (!grey.calcComponents || isAlternationOfClasses(*g)) {
-        comps.push_back(std::move(g));
+        comps.emplace_back(std::move(g));
         return comps;
     }
 
@@ -444,7 +444,7 @@ void recalcComponents(deque<unique_ptr<NGHolder>> &comps, const Grey &grey) {
         }
 
         if (isAlternationOfClasses(*gc)) {
-            out.push_back(std::move(gc));
+            out.emplace_back(std::move(gc));
             continue;
         }
 

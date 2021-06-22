@@ -55,7 +55,7 @@ ComponentWordBoundary * ComponentWordBoundary::clone() const {
 
 vector<PositionInfo> ComponentWordBoundary::first() const {
     vector<PositionInfo> firsts;
-    firsts.push_back(position);
+    firsts.emplace_back(position);
     return firsts;
 }
 

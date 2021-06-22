@@ -155,9 +155,9 @@ GlushkovBuildStateImpl::GlushkovBuildStateImpl(NFABuilder &b,
     vector<PositionInfo> lasts, firsts;
 
     // start->startDs and startDs self-loop.
-    lasts.push_back(startState);
-    lasts.push_back(startDotstarState);
-    firsts.push_back(startDotstarState);
+    lasts.emplace_back(startState);
+    lasts.emplace_back(startDotstarState);
+    firsts.emplace_back(startDotstarState);
     connectRegions(lasts, firsts);
 
     // accept to acceptEod edges already wired
@@ -255,7 +255,7 @@ void generateAccepts(GlushkovBuildStateImpl &bs, const PositionInfo &from,
     bool require_accept = !(flags & POS_FLAG_ONLY_ENDS);
 
     if (require_eod) {
-        tolist->push_back(bs.acceptEodState);
+        tolist->emplace_back(bs.acceptEodState);
     }
 
     if (require_nl_accept) {
@@ -264,7 +264,7 @@ void generateAccepts(GlushkovBuildStateImpl &bs, const PositionInfo &from,
             bs.addSuccessor(newline, builder.getAccept());
             bs.acceptNlState = newline;
         }
-        tolist->push_back(bs.acceptNlState);
+        tolist->emplace_back(bs.acceptNlState);
     }
 
     if (require_nl_eod) {
@@ -273,11 +273,11 @@ void generateAccepts(GlushkovBuildStateImpl &bs, const PositionInfo &from,
             bs.addSuccessor(newline, builder.getAcceptEOD());
             bs.acceptNlEodState = newline;
         }
-        tolist->push_back(bs.acceptNlEodState);
+        tolist->emplace_back(bs.acceptNlEodState);
     }
 
     if (require_accept) {
-        tolist->push_back(bs.acceptState);
+        tolist->emplace_back(bs.acceptState);
     }
 }
 
@@ -458,7 +458,7 @@ void cleanupPositions(vector<PositionInfo> &a) {
 
     for (const auto &p : a) {
         if (seen.emplace(p.pos, p.flags).second) {
-            out.push_back(p); // first encounter
+            out.emplace_back(p); // first encounter
         }
     }
 

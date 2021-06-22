@@ -207,7 +207,7 @@ void succPredIntersection(const NFAVertex v, const flat_set<NFAVertex> &predSet,
             // Break out if we've reduced our intersection to [v]
             if (best->size() == 1) {
                 assert(*(best->begin()) == v);
-                intersection.push_back(v);
+                intersection.emplace_back(v);
                 return;
             }
         }
@@ -256,7 +256,7 @@ void predSuccIntersection(const NFAVertex v,
             // Break out if we've reduced our intersection to [v]
             if (best->size() == 1) {
                 assert(*(best->begin()) == v);
-                intersection.push_back(v);
+                intersection.emplace_back(v);
                 return;
             }
         }

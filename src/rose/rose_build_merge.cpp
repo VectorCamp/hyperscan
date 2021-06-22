@@ -239,7 +239,7 @@ bool dedupeLeftfixes(RoseBuildImpl &tbi) {
             continue;
         }
 
-        roses[RoseGroup(tbi, v)].push_back(v);
+        roses[RoseGroup(tbi, v)].emplace_back(v);
     }
 
     DEBUG_PRINTF("collected %zu rose groups\n", roses.size());
@@ -338,7 +338,7 @@ void dedupeSuffixes(RoseBuildImpl &tbi) {
 
         set<RoseVertex> &verts = suffix_map[s];
         if (verts.empty()) {
-            part[make_pair(suffix_size_key(s), all_reports(s))].push_back(s);
+            part[make_pair(suffix_size_key(s), all_reports(s))].emplace_back(s);
         }
         verts.insert(v);
     }
@@ -393,17 +393,17 @@ public:
     void insert(const EngineRef &h, RoseVertex v) {
         typename BouquetMap::iterator f = bouquet.find(h);
         if (f == bouquet.end()) {
-            ordering.push_back(h);
-            bouquet[h].push_back(v);
+            ordering.emplace_back(h);
+            bouquet[h].emplace_back(v);
         } else {
-            f->second.push_back(v);
+            f->second.emplace_back(v);
         }
     }
 
     void insert(const EngineRef &h, const deque<RoseVertex> &verts) {
         typename BouquetMap::iterator f = bouquet.find(h);
         if (f == bouquet.end()) {
-            ordering.push_back(h);
+            ordering.emplace_back(h);
             bouquet.insert(make_pair(h, verts));
         } else {
             f->second.insert(f->second.end(), verts.begin(), verts.end());
@@ -472,14 +472,14 @@ static void chunkBouquets(const Bouquet<EngineRef> &in,
                           deque<Bouquet<EngineRef>> &out,
                           const size_t chunk_size) {
     if (in.size() <= chunk_size) {
-        out.push_back(in);
+        out.emplace_back(in);
         return;
     }
 
-    out.push_back(Bouquet<EngineRef>());
+    out.emplace_back(Bouquet<EngineRef>());
     for (const auto &engine : in) {
         if (out.back().size() >= chunk_size) {
-            out.push_back(Bouquet<EngineRef>());
+            out.emplace_back(Bouquet<EngineRef>());
         }
         out.back().insert(engine, in.vertices(engine));
     }
@@ -820,7 +820,7 @@ bool checkPredDelays(const RoseBuildImpl &build, const VertexCont &v1,
     vector<const rose_literal_id *> pred_rose_lits;
     pred_rose_lits.reserve(pred_lits.size());
     for (const auto &p : pred_lits) {
-        pred_rose_lits.push_back(&build.literals.at(p));
+        pred_rose_lits.emplace_back(&build.literals.at(p));
     }
 
     for (auto v : v2) {
@@ -1322,18 +1322,18 @@ template <typename T>
 static
 void chunk(vector<T> in, vector<vector<T>> *out, size_t chunk_size) {
     if (in.size() <= chunk_size) {
-        out->push_back(std::move(in));
+        out->emplace_back(std::move(in));
         return;
     }
 
-    out->push_back(vector<T>());
+    out->emplace_back(vector<T>());
     out->back().reserve(chunk_size);
     for (const auto &t : in) {
         if (out->back().size() >= chunk_size) {
-            out->push_back(vector<T>());
+            out->emplace_back(vector<T>());
             out->back().reserve(chunk_size);
         }
-        out->back().push_back(std::move(t));
+        out->back().emplace_back(std::move(t));
     }
 }
 
@@ -1346,7 +1346,7 @@ insertion_ordered_map<left_id, vector<RoseVertex>> get_eng_verts(RoseGraph &g) {
             continue;
         }
         assert(contains(all_reports(left), left.leftfix_report));
-        eng_verts[left].push_back(v);
+        eng_verts[left].emplace_back(v);
     }
 
     return eng_verts;
@@ -1438,7 +1438,7 @@ void mergeLeftfixesVariableLag(RoseBuildImpl &build) {
         assert(!parents.empty());
 
 #ifndef _WIN32
-        engine_groups[MergeKey(left, parents)].push_back(left);
+        engine_groups[MergeKey(left, parents)].emplace_back(left);
 #else
         // On windows, when passing MergeKey object into map 'engine_groups',
         // it will not be copied, but will be freed along with
@@ -1448,7 +1448,7 @@ void mergeLeftfixesVariableLag(RoseBuildImpl &build) {
         // will cause is_block_type_valid() assertion error in MergeKey
         // destructor.
         MergeKey *mk = new MergeKey(left, parents);
-        engine_groups[*mk].push_back(left);
+        engine_groups[*mk].emplace_back(left);
 #endif
     }
 
@@ -1611,7 +1611,7 @@ void dedupeLeftfixesVariableLag(RoseBuildImpl &build) {
                 continue;
             }
         }
-        engine_groups[DedupeLeftKey(build, move(preds), left)].push_back(left);
+        engine_groups[DedupeLeftKey(build, move(preds), left)].emplace_back(left);
     }
 
     /* We don't bother chunking as we expect deduping to be successful if the
@@ -1871,7 +1871,7 @@ void mergeNfaLeftfixes(RoseBuildImpl &tbi, LeftfixBouquet &roses) {
             }
             roses.insert(r1, verts2);
 
-            merged.push_back(r2);
+            merged.emplace_back(r2);
 
             if (num_vertices(*winner) >= small_merge_max_vertices(tbi.cc)) {
                 DEBUG_PRINTF("h1 now has %zu vertices, proceeding to next\n",
@@ -2050,12 +2050,12 @@ void mergeCastleLeftfixes(RoseBuildImpl &build) {
             continue;
         }
 
-        eng_verts[g[v].left].push_back(v);
+        eng_verts[g[v].left].emplace_back(v);
     }
 
     map<CharReach, vector<left_id>> by_reach;
     for (const auto &left : eng_verts | map_keys) {
-        by_reach[left.castle()->reach()].push_back(left);
+        by_reach[left.castle()->reach()].emplace_back(left);
     }
 
     vector<vector<left_id>> chunks;
@@ -2151,7 +2151,7 @@ void mergeSuffixes(RoseBuildImpl &tbi, SuffixBouquet &suffixes,
                 g[v].suffix.graph = winner;
             }
             suffixes.insert(s1, verts2);
-            merged.push_back(s2);
+            merged.emplace_back(s2);
 
             if (num_vertices(*s1.graph()) >= small_merge_max_vertices(tbi.cc)) {
                 DEBUG_PRINTF("h1 now has %zu vertices, proceeding to next\n",
@@ -2324,7 +2324,7 @@ map<NGHolder *, NGHolder *> chunkedNfaMerge(RoseBuildImpl &build,
 
     vector<NGHolder *> batch;
     for (auto it = begin(nfas), ite = end(nfas); it != ite; ++it) {
-        batch.push_back(*it);
+        batch.emplace_back(*it);
         assert((*it)->kind == NFA_OUTFIX);
         if (batch.size() == MERGE_GROUP_SIZE_MAX || next(it) == ite) {
             auto batch_merged = mergeNfaCluster(batch, &build.rm, build.cc);
@@ -2463,7 +2463,7 @@ void chunkedDfaMerge(vector<RawDfa *> &dfas,
     vector<RawDfa *> out_dfas;
     vector<RawDfa *> chunk;
     for (auto it = begin(dfas), ite = end(dfas); it != ite; ++it) {
-        chunk.push_back(*it);
+        chunk.emplace_back(*it);
         if (chunk.size() >= DFA_CHUNK_SIZE_MAX || next(it) == ite) {
             pairwiseDfaMerge(chunk, dfa_mapping, outfixes, merge_func);
             out_dfas.insert(end(out_dfas), begin(chunk), end(chunk));
@@ -2542,7 +2542,7 @@ void mergeOutfixCombo(RoseBuildImpl &tbi, const ReportManager &rm,
 
         if (outfix.rdfa()) {
             auto *rdfa = outfix.rdfa();
-            dfas.push_back(rdfa);
+            dfas.emplace_back(rdfa);
             dfa_mapping[rdfa] = it - tbi.outfixes.begin();
             continue;
         }
@@ -2557,7 +2557,7 @@ void mergeOutfixCombo(RoseBuildImpl &tbi, const ReportManager &rm,
         if (rdfa) {
             // Transform this outfix into a DFA and add it to the merge set.
             dfa_mapping[rdfa.get()] = it - tbi.outfixes.begin();
-            dfas.push_back(rdfa.get());
+            dfas.emplace_back(rdfa.get());
             outfix.proto = move(rdfa);
             new_dfas++;
         }
@@ -2615,11 +2615,11 @@ void mergeOutfixes(RoseBuildImpl &tbi) {
 
     for (auto &outfix : tbi.outfixes) {
         if (outfix.rdfa()) {
-            dfas.push_back(outfix.rdfa());
+            dfas.emplace_back(outfix.rdfa());
         } else if (outfix.holder()) {
-            nfas.push_back(outfix.holder());
+            nfas.emplace_back(outfix.holder());
         } else if (outfix.haig()) {
-            som_dfas.push_back(outfix.haig());
+            som_dfas.emplace_back(outfix.haig());
         }
     }
 
@@ -2805,9 +2805,9 @@ void mergeCastleSuffixes(RoseBuildImpl &build) {
         }
 
         if (!contains(eng_verts, c)) {
-            by_reach[c->reach()].push_back(c);
+            by_reach[c->reach()].emplace_back(c);
         }
-        eng_verts[c].push_back(v);
+        eng_verts[c].emplace_back(v);
     }
 
     for (auto &chunk : by_reach | map_values) {

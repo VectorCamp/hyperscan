@@ -148,7 +148,7 @@ public:
     // unique push
     void push(unsigned id) {
         if (ids.insert(id).second) {
-            q.push_back(id);
+            q.emplace_back(id);
         }
     }
 
@@ -269,7 +269,7 @@ vector<unique_ptr<VertexInfo>> getVertexInfos(const NGHolder &g) {
     vertex_map.resize(num_verts);
 
     for (auto v : vertices_range(g)) {
-        infos.push_back(make_unique<VertexInfo>(v, g));
+        infos.emplace_back(make_unique<VertexInfo>(v, g));
         vertex_map[g[v].index] = infos.back().get();
     }
 
@@ -442,7 +442,7 @@ void equivalence(vector<VertexInfoSet> &classes, WorkQueue &work_queue,
                     classes[cur_class].erase(vi);
                     new_class_vertices.insert(vi);
                 }
-                classes.push_back(move(new_class_vertices));
+                classes.emplace_back(move(new_class_vertices));
 
                 if (contains(tmi->first, cur_class)) {
                     reval_queue.push(new_class);
@@ -516,7 +516,7 @@ void mergeClass(vector<unique_ptr<VertexInfo>> &infos, NGHolder &g,
     g[new_v].reports.clear(); /* populated as we pull in succs */
 
     // store this vertex in our global vertex list
-    infos.push_back(make_unique<VertexInfo>(new_v, g));
+    infos.emplace_back(make_unique<VertexInfo>(new_v, g));
     VertexInfo *new_vertex_info = infos.back().get();
 
     NFAVertex new_v_eod = NGHolder::null_vertex();
@@ -525,7 +525,7 @@ void mergeClass(vector<unique_ptr<VertexInfo>> &infos, NGHolder &g,
     if (require_separate_eod_vertex(cur_class_vertices, g)) {
         new_v_eod = clone_vertex(g, old_v);
         g[new_v_eod].reports.clear();
-        infos.push_back(make_unique<VertexInfo>(new_v_eod, g));
+        infos.emplace_back(make_unique<VertexInfo>(new_v_eod, g));
         new_vertex_info_eod = infos.back().get();
     }
 

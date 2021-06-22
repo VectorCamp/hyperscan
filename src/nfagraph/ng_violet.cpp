@@ -394,7 +394,7 @@ void getSimpleRoseLiterals(const NGHolder &g, bool seeking_anchored,
 
     lits->reserve(lit_info.size());
     for (auto &m : lit_info) {
-        lits->push_back(move(m.second));
+        lits->emplace_back(move(m.second));
     }
     DEBUG_PRINTF("%zu candidate literal sets\n", lits->size());
 }
@@ -434,7 +434,7 @@ void getRegionRoseLiterals(const NGHolder &g, bool seeking_anchored,
         }
 
         if (isRegionExit(g, v, regions)) {
-            exits[region].push_back(v);
+            exits[region].emplace_back(v);
         }
 
         if (isRegionEntry(g, v, regions)) {
@@ -531,7 +531,7 @@ void getRegionRoseLiterals(const NGHolder &g, bool seeking_anchored,
         }
 
         DEBUG_PRINTF("candidate is a candidate\n");
-        lits->push_back(make_unique<VertLitInfo>(vv, s, anchored));
+        lits->emplace_back(make_unique<VertLitInfo>(vv, s, anchored));
     }
 }
 
@@ -592,7 +592,7 @@ void getCandidatePivots(const NGHolder &g, set<NFAVertex> *cand,
     assert(ait != accepts.end());
     NFAVertex curr = *ait;
     while (curr && !is_special(curr, g)) {
-        dom_trace.push_back(curr);
+        dom_trace.emplace_back(curr);
         curr = dominators[curr];
     }
     reverse(dom_trace.begin(), dom_trace.end());
@@ -600,7 +600,7 @@ void getCandidatePivots(const NGHolder &g, set<NFAVertex> *cand,
         curr = *ait;
         vector<NFAVertex> dom_trace2;
         while (curr && !is_special(curr, g)) {
-            dom_trace2.push_back(curr);
+            dom_trace2.emplace_back(curr);
             curr = dominators[curr];
         }
         reverse(dom_trace2.begin(), dom_trace2.end());
@@ -1095,7 +1095,7 @@ bool splitRoseEdge(const NGHolder &base_graph, RoseInGraph &vg,
     for (const RoseInEdge &e : ee) {
         RoseInVertex src = source(e, vg);
         RoseInVertex dest = target(e, vg);
-        images[src].push_back(dest);
+        images[src].emplace_back(dest);
         remove_edge(e, vg);
     }
 
@@ -1149,7 +1149,7 @@ bool splitRoseEdge(const NGHolder &base_graph, RoseInGraph &vg,
                     add_edge(v, dest, RoseInEdgeProps(rhs, 0U), vg);
                 }
             }
-            verts_by_image[image].push_back(v);
+            verts_by_image[image].emplace_back(v);
         }
     }
 
@@ -1598,7 +1598,7 @@ void removeRedundantLiteralsFromPrefixes(RoseInGraph &g,
 
         if (delay == lit.length() && edge(h->start, h->accept, *h).second
             && num_vertices(*h) == N_SPECIALS) {
-            to_anchor.push_back(e);
+            to_anchor.emplace_back(e);
             continue;
         }
 
@@ -1775,7 +1775,7 @@ void removeRedundantLiteralsFromInfixes(RoseInGraph &g,
         }
 
         NGHolder *h = g[e].graph.get();
-        infixes[h].push_back(e);
+        infixes[h].emplace_back(e);
     }
 
     for (const auto &m : infixes) {
@@ -2110,7 +2110,7 @@ void findBetterPrefixes(RoseInGraph &vg, const CompileContext &cc) {
             assert(vg[target(e, vg)].type == RIV_LITERAL);
             if (vg[e].graph) {
                 NGHolder *h = vg[e].graph.get();
-                prefixes[h].push_back(e);
+                prefixes[h].emplace_back(e);
             }
         }
 
@@ -2174,7 +2174,7 @@ void extractStrongLiterals(RoseInGraph &vg, const CompileContext &cc) {
 
             if (vg[ve].graph) {
                 NGHolder *h = vg[ve].graph.get();
-                edges_by_graph[h].push_back(ve);
+                edges_by_graph[h].emplace_back(ve);
             }
         }
 
@@ -2262,7 +2262,7 @@ void improveWeakInfixes(RoseInGraph &vg, const CompileContext &cc) {
     for (const RoseInEdge &ve : edges_range(vg)) {
         NGHolder *h = vg[ve].graph.get();
         if (contains(weak, h)) {
-            weak_edges[h].push_back(ve);
+            weak_edges[h].emplace_back(ve);
         }
     }
 
@@ -2366,7 +2366,7 @@ bool replaceSuffixWithInfix(const NGHolder &h, RoseInGraph &vg,
 
         VertLitInfo &vli = by_reports[make_pair(false, h[v].reports)];
         insert(&vli.lit, ss);
-        vli.vv.push_back(v);
+        vli.vv.emplace_back(v);
         seen.insert(v);
     }
 
@@ -2384,7 +2384,7 @@ bool replaceSuffixWithInfix(const NGHolder &h, RoseInGraph &vg,
 
         VertLitInfo &vli = by_reports[make_pair(true, h[v].reports)];
         insert(&vli.lit, ss);
-        vli.vv.push_back(v);
+        vli.vv.emplace_back(v);
     }
 
     assert(!by_reports.empty());
@@ -2435,7 +2435,7 @@ void avoidSuffixes(RoseInGraph &vg, const CompileContext &cc) {
         assert(vg[e].graph); /* non suffix paths should be wired to other
                                 accepts */
         const NGHolder *h = vg[e].graph.get();
-        suffixes[h].push_back(e);
+        suffixes[h].emplace_back(e);
     }
 
     /* look at suffixes and try to split */
@@ -2530,7 +2530,7 @@ void lookForDoubleCut(RoseInGraph &vg, const CompileContext &cc) {
     for (const RoseInEdge &ve : edges_range(vg)) {
         if (vg[ve].graph && vg[source(ve, vg)].type == RIV_LITERAL) {
             const NGHolder *h = vg[ve].graph.get();
-            right_edges[h].push_back(ve);
+            right_edges[h].emplace_back(ve);
         }
     }
 
@@ -2671,7 +2671,7 @@ void decomposeLiteralChains(RoseInGraph &vg, const CompileContext &cc) {
         for (const RoseInEdge &ve : edges_range(vg)) {
             if (vg[ve].graph && vg[source(ve, vg)].type == RIV_LITERAL) {
                 const NGHolder *h = vg[ve].graph.get();
-                right_edges[h].push_back(ve);
+                right_edges[h].emplace_back(ve);
             }
         }
 
@@ -2721,7 +2721,7 @@ void lookForCleanEarlySplits(RoseInGraph &vg, const CompileContext &cc) {
             for (const RoseInEdge &e : out_edges_range(v, vg)) {
                 if (vg[e].graph) {
                     NGHolder *h = vg[e].graph.get();
-                    rightfixes[h].push_back(e);
+                    rightfixes[h].emplace_back(e);
                 }
             }
         }
@@ -2757,7 +2757,7 @@ void rehomeEodSuffixes(RoseInGraph &vg) {
             continue;
         }
 
-        acc_edges.push_back(e);
+        acc_edges.emplace_back(e);
     }
 
     for (const RoseInEdge &e : acc_edges) {
@@ -2797,7 +2797,7 @@ vector<vector<CharReach>> getDfaTriggers(RoseInGraph &vg,
     for (const auto &e : edges) {
         RoseInVertex s = source(e, vg);
         if (vg[s].type == RIV_LITERAL) {
-            triggers.push_back(as_cr_seq(vg[s].s));
+            triggers.emplace_back(as_cr_seq(vg[s].s));
         }
         ENSURE_AT_LEAST(&max_offset, vg[s].max_offset);
         LIMIT_TO_AT_MOST(&min_offset, vg[s].min_offset);
@@ -2911,7 +2911,7 @@ bool ensureImplementable(RoseBuild &rose, RoseInGraph &vg, bool allow_changes,
         for (const RoseInEdge &ve : edges_range(vg)) {
             if (vg[ve].graph && !vg[ve].dfa) {
                 auto &h = vg[ve].graph;
-                edges_by_graph[h].push_back(ve);
+                edges_by_graph[h].emplace_back(ve);
             }
         }
         for (auto &m : edges_by_graph) {

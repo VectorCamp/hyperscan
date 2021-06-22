@@ -558,12 +558,12 @@ void findMinCut(LitGraph &lg, vector<LitEdge> &cutset) {
 
         if (ucolor != small_color::white && vcolor == small_color::white) {
             assert(v != lg.sink);
-            white_cut.push_back(e);
+            white_cut.emplace_back(e);
             white_flow += lg[e].score;
         }
         if (ucolor == small_color::black && vcolor != small_color::black) {
             assert(v != lg.sink);
-            black_cut.push_back(e);
+            black_cut.emplace_back(e);
             black_flow += lg[e].score;
         }
     }
@@ -657,7 +657,7 @@ u64a sanitizeAndCompressAndScore(set<ue2_literal> &lits) {
         continue;
     dont_explode:
         make_nocase(&s);
-        replacements.push_back(s);
+        replacements.emplace_back(s);
     }
 
     insert(&lits, replacements);

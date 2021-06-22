@@ -353,7 +353,7 @@ bool anchorPatternWithBoundedRepeat(NGHolder &g, ReportManager &rm) {
         if (v == g.startDs) {
             continue;
         }
-        initials.push_back(v);
+        initials.emplace_back(v);
     }
     if (initials.empty()) {
         DEBUG_PRINTF("no initial vertices\n");
@@ -576,13 +576,13 @@ bool transformMinLengthToRepeat(NGHolder &g, ReportManager &rm) {
         if (u == cyclic) {
             continue;
         }
-        preds.push_back(u);
+        preds.emplace_back(u);
 
         // We want to delete the out-edges of each predecessor, but need to
         // make sure we don't delete the startDs self loop.
         for (const auto &e : out_edges_range(u, g)) {
             if (target(e, g) != g.startDs) {
-                dead.push_back(e);
+                dead.emplace_back(e);
             }
         }
     }
@@ -601,7 +601,7 @@ bool transformMinLengthToRepeat(NGHolder &g, ReportManager &rm) {
             add_edge(u, v, g);
         }
         preds.clear();
-        preds.push_back(v);
+        preds.emplace_back(v);
     }
     assert(!preds.empty());
     for (auto u : preds) {
@@ -732,7 +732,7 @@ void pruneExtUnreachable(NGHolder &g, const ReportManager &rm) {
     for (const auto &e : edges_range(g)) {
         if (isEdgePrunable(g, report, depths, e)) {
             DEBUG_PRINTF("pruning\n");
-            dead.push_back(e);
+            dead.emplace_back(e);
         }
     }
 
@@ -775,14 +775,14 @@ void pruneVacuousEdges(NGHolder &g, const ReportManager &rm) {
         // a min_offset.
         if (u == g.start && is_any_accept(v, g) && has_min_offset(u)) {
             DEBUG_PRINTF("vacuous edge in graph with min_offset!\n");
-            dead.push_back(e);
+            dead.emplace_back(e);
             continue;
         }
 
         // If a min_length is set, vacuous edges can be removed.
         if (is_any_start(u, g) && is_any_accept(v, g) && has_min_length(u)) {
             DEBUG_PRINTF("vacuous edge in graph with min_length!\n");
-            dead.push_back(e);
+            dead.emplace_back(e);
             continue;
         }
     }
@@ -825,14 +825,14 @@ void pruneUnmatchable(NGHolder &g, const vector<DepthMinMax> &depths,
         if (d.max.is_finite() && d.max < report.minLength) {
             DEBUG_PRINTF("prune, max match length %s < min_length=%llu\n",
                          d.max.str().c_str(), report.minLength);
-            dead.push_back(e);
+            dead.emplace_back(e);
             continue;
         }
 
         if (report.maxOffset != MAX_OFFSET && d.min > report.maxOffset) {
             DEBUG_PRINTF("prune, min match length %s > max_offset=%llu\n",
                          d.min.str().c_str(), report.maxOffset);
-            dead.push_back(e);
+            dead.emplace_back(e);
             continue;
         }
     }

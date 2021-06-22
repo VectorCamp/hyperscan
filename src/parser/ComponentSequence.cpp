@@ -61,7 +61,7 @@ ComponentSequence::ComponentSequence(const ComponentSequence &other)
     // Deep copy children.
     for (const auto &c : other.children) {
         assert(c);
-        children.push_back(unique_ptr<Component>(c->clone()));
+        children.emplace_back(unique_ptr<Component>(c->clone()));
     }
     if (other.alternation) {
         const ComponentAlternation &c = *other.alternation;
@@ -117,7 +117,7 @@ void ComponentSequence::accept(ConstComponentVisitor &v) const {
 }
 
 void ComponentSequence::addComponent(unique_ptr<Component> comp) {
-    children.push_back(move(comp));
+    children.emplace_back(move(comp));
 }
 
 bool ComponentSequence::addRepeat(u32 min, u32 max,
@@ -152,7 +152,7 @@ void ComponentSequence::finalize() {
     if (alternation) {
         addAlternation();
         assert(children.empty());
-        children.push_back(move(alternation));
+        children.emplace_back(move(alternation));
         alternation = nullptr;
     }
 }
@@ -171,7 +171,7 @@ vector<PositionInfo> ComponentSequence::first() const {
     if (firsts.empty()) {
         DEBUG_PRINTF("trivial empty sequence %zu\n", firsts.size());
         assert(children.empty());
-        firsts.push_back(GlushkovBuildState::POS_EPSILON);
+        firsts.emplace_back(GlushkovBuildState::POS_EPSILON);
     }
 
     DEBUG_PRINTF("%zu firsts\n", firsts.size());
@@ -202,7 +202,7 @@ void epsilonVisit(vector<eps_info> *info, const vector<PositionInfo> &f) {
                 continue;
             }
 
-            out.push_back(*it);
+            out.emplace_back(*it);
             out.back().flags = flags;
             seen_flags.insert(flags);
         }
@@ -220,7 +220,7 @@ void applyEpsilonVisits(vector<PositionInfo> &lasts,
 
     for (const auto &last : lasts) {
         for (const auto &e : eps_visits) {
-            out.push_back(last);
+            out.emplace_back(last);
             out.back().flags |= e.flags;
         }
     }

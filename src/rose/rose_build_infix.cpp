@@ -163,7 +163,7 @@ u32 findMaxLiteralMatches(const NGHolder &h, const set<ue2_literal> &lits) {
         }
 
         contractVertex(g, v, all_edges);
-        dead.push_back(v);
+        dead.emplace_back(v);
     }
 
     remove_vertices(dead, g);

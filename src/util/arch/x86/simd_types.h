@@ -33,7 +33,7 @@
 typedef __m128i m128;
 #endif
 
-#if !defined(m128) && defined(HAVE_AVX2)
+#if !defined(m256) && defined(HAVE_AVX2)
 typedef __m256i m256;
 #endif
 

@@ -231,7 +231,7 @@ void checkForMultilineStart(ReportManager &rm, NGHolder &g,
          * required so that ^ doesn't match trailing \n */
          for (const auto &e : out_edges_range(v, g)) {
             if (target(e, g) == g.accept) {
-                dead.push_back(e);
+                dead.emplace_back(e);
             }
         }
         /* assert has been resolved; clear flag */

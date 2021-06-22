@@ -112,13 +112,13 @@ void bfs(vector<mmbit_sparse_iter> &out, const TreeNode &tree) {
 
         if (depth != t->depth) {
             depth = t->depth;
-            levels.push_back(out.size());
+            levels.emplace_back(out.size());
         }
 
         DEBUG_PRINTF("pop: mask=0x%08llx, depth=%u, children.size()=%zu\n",
                      t->mask, t->depth, t->children.size());
 
-        out.push_back(mmbit_sparse_iter());
+        out.emplace_back(mmbit_sparse_iter());
         memset(&out.back(), 0, sizeof(mmbit_sparse_iter));
         mmbit_sparse_iter &record = out.back();
         record.mask = t->mask;

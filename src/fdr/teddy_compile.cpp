@@ -166,7 +166,7 @@ public:
                 nibbleSets[i * 2] = nibbleSets[i * 2 + 1] = 0xffff;
             }
         }
-        litIds.push_back(lit_id);
+        litIds.emplace_back(lit_id);
         sort_and_unique(litIds);
     }
 
@@ -515,7 +515,7 @@ void fillReinforcedTable(const map<BucketIndex,
                          u8 *rtable_base, const u32 num_tables) {
     vector<u8 *> tables;
     for (u32 i = 0; i < num_tables; i++) {
-        tables.push_back(rtable_base + i * RTABLE_SIZE);
+        tables.emplace_back(rtable_base + i * RTABLE_SIZE);
     }
 
     for (auto t : tables) {

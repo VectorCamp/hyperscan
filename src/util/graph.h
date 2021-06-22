@@ -157,7 +157,7 @@ find_vertices_in_cycles(const Graph &g) {
     std::map<size_t, std::vector<vertex_descriptor>> comps;
 
     for (const auto &e : comp_map) {
-        comps[e.second].push_back(e.first);
+        comps[e.second].emplace_back(e.first);
     }
 
     flat_set<vertex_descriptor> rv;

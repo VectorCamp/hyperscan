@@ -102,8 +102,8 @@ bool findPaths(const NGHolder &g, vector<Path> &paths) {
             assert(read_count[g[u].index]);
 
             for (const auto &p : built[g[u].index]) {
-                out.push_back(p);
-                out.back().push_back(v);
+                out.emplace_back(p);
+                out.back().emplace_back(v);
 
                 if (out.size() > MAX_PATHS) {
                     // All these paths should eventually end up at a sink, so
@@ -182,7 +182,7 @@ struct PathMask {
             if (is_special(v, g)) {
                 continue;
             }
-            mask.push_back(g[v].char_reach);
+            mask.emplace_back(g[v].char_reach);
         }
 
         // Reports are attached to the second-to-last vertex.
@@ -238,7 +238,7 @@ bool handleDecoratedLiterals(RoseBuild &rose, const NGHolder &g,
             DEBUG_PRINTF("failed validation\n");
             return false;
         }
-        masks.push_back(move(pm));
+        masks.emplace_back(move(pm));
     }
 
     for (const auto &pm : masks) {

@@ -353,7 +353,7 @@ void findMoreLiteralMasks(RoseBuildImpl &build) {
             continue;
         }
 
-        candidates.push_back(id);
+        candidates.emplace_back(id);
     }
 
     for (const u32 &id : candidates) {
@@ -827,7 +827,7 @@ MatcherProto makeMatcherProto(const RoseBuildImpl &build,
                 }
             }
 
-            used_lit_ids.push_back(id);
+            used_lit_ids.emplace_back(id);
         }
 
         if (used_lit_ids.empty()) {

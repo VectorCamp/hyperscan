@@ -407,7 +407,7 @@ void appendLiteral(NGHolder &h, const ue2_literal &s) {
     vector<NFAVertex> tail;
     assert(in_degree(h.acceptEod, h) == 1);
     for (auto v : inv_adjacent_vertices_range(h.accept, h)) {
-        tail.push_back(v);
+        tail.emplace_back(v);
     }
     assert(!tail.empty());
 
@@ -422,7 +422,7 @@ void appendLiteral(NGHolder &h, const ue2_literal &s) {
             add_edge(u, v, h);
         }
         tail.clear();
-        tail.push_back(v);
+        tail.emplace_back(v);
     }
 
     for (auto v : tail) {

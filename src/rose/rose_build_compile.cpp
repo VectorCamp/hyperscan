@@ -194,7 +194,7 @@ void RoseBuildImpl::handleMixedSensitivity(void) {
             limited_explosion(lit.s) && literal_info[id].delayed_ids.empty()) {
             DEBUG_PRINTF("need to explode existing string '%s'\n",
                          dumpString(lit.s).c_str());
-            explode.push_back(id);
+            explode.emplace_back(id);
         } else {
             literal_info[id].requires_benefits = true;
         }
@@ -734,9 +734,9 @@ void stealEodVertices(RoseBuildImpl &tbi) {
 
         if (lit.table == ROSE_EOD_ANCHORED) {
             if (suitableForAnchored(tbi, lit, info)) {
-                eodLiteralsForAnchored.push_back(i);
+                eodLiteralsForAnchored.emplace_back(i);
             } else {
-                eodLiteralsForFloating.push_back(i);
+                eodLiteralsForFloating.emplace_back(i);
             }
         } else if (lit.table == ROSE_FLOATING) {
             numFloatingLiterals++;
@@ -863,7 +863,7 @@ map<left_id, vector<RoseVertex>> findLeftSucc(const RoseBuildImpl &build) {
     for (auto v : vertices_range(build.g)) {
         if (build.g[v].left) {
             const LeftEngInfo &lei = build.g[v].left;
-            leftfixes[lei].push_back(v);
+            leftfixes[lei].emplace_back(v);
         }
     }
     return leftfixes;
@@ -1046,7 +1046,7 @@ void packInfixTops(NGHolder &h, RoseGraph &g,
         h[e].tops = std::move(updated_tops);
         if (h[e].tops.empty()) {
             DEBUG_PRINTF("edge (start,%zu) has only unused tops\n", h[v].index);
-            dead.push_back(e);
+            dead.emplace_back(e);
         }
     }
 
@@ -1481,7 +1481,7 @@ bool extractSEPLiterals(const raw_dfa &rdfa,
         if (!stateIsSEPLiteral(next, i, rdfa)) {
             return false;
         }
-        lits[rdfa.states[next].reports].push_back(i);
+        lits[rdfa.states[next].reports].emplace_back(i);
     }
 
     // Map from symbols back to character reachability.
@@ -1577,7 +1577,7 @@ void addAnchoredSmallBlockLiterals(RoseBuildImpl &tbi) {
                          dumpString(sai.literal).c_str(), sai.min_bound);
         }
 
-        anchored_lits.push_back(make_pair(sai, lit_ids));
+        anchored_lits.emplace_back(make_pair(sai, lit_ids));
         if (sai.literal.length() == 1) {
             oneByteLiterals++;
         }
@@ -1588,7 +1588,7 @@ void addAnchoredSmallBlockLiterals(RoseBuildImpl &tbi) {
     map<ue2_literal, flat_set<ReportID>> sep_literals;
     for (OutfixInfo &oi : tbi.outfixes) {
         if (extractSEPLiterals(oi, tbi.rm, sep_literals)) {
-            sep_outfixes.push_back(&oi);
+            sep_outfixes.emplace_back(&oi);
         }
     }
 
@@ -1782,7 +1782,7 @@ bytecode_ptr<RoseEngine> RoseBuildImpl::buildRose(u32 minWidth) {
 
     /* transfer mpv outfix to main queue */
     if (mpv_outfix) {
-        outfixes.push_back(move(*mpv_outfix));
+        outfixes.emplace_back(move(*mpv_outfix));
         mpv_outfix = nullptr;
     }
 

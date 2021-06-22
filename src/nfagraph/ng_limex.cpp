@@ -391,7 +391,7 @@ void reusePredsAsStarts(const NGHolder &g, const map<u32, CharReach> &top_reach,
     vector<NFAVertex> cand_starts;
     for (NFAVertex u : unhandled_succ_tops | map_keys) {
         if (hasSelfLoop(u, g)) {
-            cand_starts.push_back(u);
+            cand_starts.emplace_back(u);
         }
     }
 
@@ -525,7 +525,7 @@ void reverseStateOrdering(unordered_map<NFAVertex, u32> &state_ids) {
         if (e.second == NO_STATE) {
             continue;
         }
-        ordering.push_back(e.first);
+        ordering.emplace_back(e.first);
     }
 
     // Sort in reverse order by state ID.

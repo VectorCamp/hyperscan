@@ -346,7 +346,7 @@ bool doComponent(RoseBuild &rose, ReportManager &rm, NGHolder &g, NFAVertex a,
             unbounded = true;
         }
 
-        nodes.push_back(a);
+        nodes.emplace_back(a);
         DEBUG_PRINTF("vertex %zu has in_degree %zu\n", g[a].index,
                      in_degree(a, g));
 
@@ -379,7 +379,7 @@ bool doComponent(RoseBuild &rose, ReportManager &rm, NGHolder &g, NFAVertex a,
     if (a != g.startDs && edge(g.startDs, a, g).second
         && proper_out_degree(a, g) == 1
         && g[a].char_reach == cr) {
-        nodes.push_back(a);
+        nodes.emplace_back(a);
         a = g.startDs;
     }
 

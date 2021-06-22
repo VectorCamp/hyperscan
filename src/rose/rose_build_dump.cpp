@@ -696,7 +696,7 @@ vector<u32> sparseIterValues(const mmbit_sparse_iter *it, u32 num_bits) {
     u32 idx = 0;
     u32 i = mmbit_sparse_iter_begin(b, num_bits, &idx, it, s);
     while (i != MMB_INVALID) {
-        keys.push_back(i);
+        keys.emplace_back(i);
         i = mmbit_sparse_iter_next(b, num_bits, i, &idx, it, s);
     }
 
@@ -1575,10 +1575,10 @@ void dumpRoseLitPrograms(const vector<LitFragment> &fragments,
     vector<u32> programs;
     for (const auto &frag : fragments) {
         if (frag.lit_program_offset) {
-            programs.push_back(frag.lit_program_offset);
+            programs.emplace_back(frag.lit_program_offset);
         }
         if (frag.delay_program_offset) {
-            programs.push_back(frag.delay_program_offset);
+            programs.emplace_back(frag.delay_program_offset);
         }
     }
     sort_and_unique(programs);

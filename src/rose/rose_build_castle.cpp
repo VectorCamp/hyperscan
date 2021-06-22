@@ -130,7 +130,7 @@ vector<rose_literal_id> literals_for_vertex(const RoseBuildImpl &tbi,
     vector<rose_literal_id> rv;
 
     for (const u32 id : tbi.g[v].literals) {
-        rv.push_back(tbi.literals.at(id));
+        rv.emplace_back(tbi.literals.at(id));
     }
 
     return rv;
@@ -227,7 +227,7 @@ void makeCastles(RoseBuildImpl &tbi) {
         if (g[v].left && !tbi.isRootSuccessor(v)) {
             makeCastle(g[v].left, left_cache);
             if (g[v].left.castle) {
-                rev[g[v].left.castle.get()].push_back(v);
+                rev[g[v].left.castle.get()].emplace_back(v);
             }
         }
 
@@ -253,11 +253,11 @@ bool unmakeCastles(RoseBuildImpl &tbi) {
     for (auto v : vertices_range(g)) {
         const LeftEngInfo &left = g[v].left;
         if (left.castle && left.castle->repeats.size() > 1) {
-            left_castles[left].push_back(v);
+            left_castles[left].emplace_back(v);
         }
         const RoseSuffixInfo &suffix = g[v].suffix;
         if (suffix.castle && suffix.castle->repeats.size() > 1) {
-            suffix_castles[suffix].push_back(v);
+            suffix_castles[suffix].emplace_back(v);
         }
     }
 
@@ -303,10 +303,10 @@ void remapCastleTops(RoseBuildImpl &tbi) {
     RoseGraph &g = tbi.g;
     for (auto v : vertices_range(g)) {
         if (g[v].left.castle) {
-            rose_castles[g[v].left.castle.get()].push_back(v);
+            rose_castles[g[v].left.castle.get()].emplace_back(v);
         }
         if (g[v].suffix.castle) {
-            suffix_castles[g[v].suffix.castle.get()].push_back(v);
+            suffix_castles[g[v].suffix.castle.get()].emplace_back(v);
         }
     }
 

@@ -92,7 +92,7 @@ u32 ParsedLogical::logicalTreeAdd(u32 op, u32 left, u32 right) {
     lop.op = op;
     lop.lo = left;
     lop.ro = right;
-    logicalTree.push_back(lop);
+    logicalTree.emplace_back(lop);
     return lop.id;
 }
 
@@ -107,7 +107,7 @@ void ParsedLogical::combinationInfoAdd(UNUSED u32 ckey, u32 id, u32 ekey,
     ci.result = lkey_result;
     ci.min_offset = min_offset;
     ci.max_offset = max_offset;
-    combInfoMap.push_back(ci);
+    combInfoMap.emplace_back(ci);
 
     DEBUG_PRINTF("ckey %u (id %u) -> lkey %u..%u, ekey=0x%x\n", ckey, ci.id,
                  ci.start, ci.result, ci.ekey);
@@ -251,7 +251,7 @@ void popOperator(vector<LogicalOperator> &op_stack, vector<u32> &subid_stack,
         left = subid_stack.back();
         subid_stack.pop_back();
     }
-    subid_stack.push_back(pl.logicalTreeAdd(op_stack.back().op, left, right));
+    subid_stack.emplace_back(pl.logicalTreeAdd(op_stack.back().op, left, right));
     op_stack.pop_back();
 }
 
@@ -274,7 +274,7 @@ void ParsedLogical::parseLogicalCombination(unsigned id, const char *logical,
                 }
             } else {
                 if ((subid = fetchSubID(logical, digit, i)) != (u32)-1) {
-                    subid_stack.push_back(getLogicalKey(subid));
+                    subid_stack.emplace_back(getLogicalKey(subid));
                     addRelateCKey(subid_stack.back(), ckey);
                 }
                 if (logical[i] == ' ') { // skip whitespace
@@ -298,7 +298,7 @@ void ParsedLogical::parseLogicalCombination(unsigned id, const char *logical,
                                 lkey_start = subid_stack.back();
                             }
                         }
-                        op_stack.push_back(op);
+                        op_stack.emplace_back(op);
                     } else {
                         throw LocatedParseError("Unknown character");
                     }
@@ -309,7 +309,7 @@ void ParsedLogical::parseLogicalCombination(unsigned id, const char *logical,
             throw LocatedParseError("Not enough right parentheses");
         }
         if ((subid = fetchSubID(logical, digit, i)) != (u32)-1) {
-            subid_stack.push_back(getLogicalKey(subid));
+            subid_stack.emplace_back(getLogicalKey(subid));
             addRelateCKey(subid_stack.back(), ckey);
         }
         while (!op_stack.empty()) {

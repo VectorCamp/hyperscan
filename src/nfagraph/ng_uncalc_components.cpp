@@ -92,7 +92,7 @@ struct ranking_info {
     u32 add_to_tail(NFAVertex v) {
         u32 rank = size();
         to_rank[v] = rank;
-        to_vertex.push_back(v);
+        to_vertex.emplace_back(v);
         return rank;
     }
 

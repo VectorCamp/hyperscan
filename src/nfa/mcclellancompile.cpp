@@ -162,7 +162,7 @@ DfaPrevInfo::DfaPrevInfo(raw_dfa &rdfa)
     for (size_t i = 0; i < states.size(); i++) {
         for (symbol_t sym = 0; sym < impl_alpha_size; sym++) {
             dstate_id_t curr = rdfa.states[i].next[sym];
-            states[curr].prev_vec[sym].push_back(i);
+            states[curr].prev_vec[sym].emplace_back(i);
         }
         if (!rdfa.states[i].reports.empty()
             || !rdfa.states[i].reports_eod.empty()) {
@@ -398,7 +398,7 @@ unique_ptr<raw_report_info> mcclellan_build_strat::gatherReports(
 
     for (const dstate &s : rdfa.states) {
         if (s.reports.empty()) {
-            reports.push_back(MO_INVALID_IDX);
+            reports.emplace_back(MO_INVALID_IDX);
             continue;
         }
 
@@ -406,18 +406,18 @@ unique_ptr<raw_report_info> mcclellan_build_strat::gatherReports(
         DEBUG_PRINTF("non empty r\n");
         auto it = rev.find(rrl);
         if (it != rev.end()) {
-            reports.push_back(it->second);
+            reports.emplace_back(it->second);
         } else {
             DEBUG_PRINTF("adding to rl %zu\n", ri->size());
             rev.emplace(rrl, ri->size());
-            reports.push_back(ri->size());
-            ri->rl.push_back(rrl);
+            reports.emplace_back(ri->size());
+            ri->rl.emplace_back(rrl);
         }
     }
 
     for (const dstate &s : rdfa.states) {
         if (s.reports_eod.empty()) {
-            reports_eod.push_back(MO_INVALID_IDX);
+            reports_eod.emplace_back(MO_INVALID_IDX);
             continue;
         }
 
@@ -425,14 +425,14 @@ unique_ptr<raw_report_info> mcclellan_build_strat::gatherReports(
         raw_report_list rrl(s.reports_eod, rm, remap_reports);
         auto it = rev.find(rrl);
         if (it != rev.end()) {
-            reports_eod.push_back(it->second);
+            reports_eod.emplace_back(it->second);
             continue;
         }
 
         DEBUG_PRINTF("adding to rl eod %zu\n", s.reports_eod.size());
         rev.emplace(rrl, ri->size());
-        reports_eod.push_back(ri->size());
-        ri->rl.push_back(rrl);
+        reports_eod.emplace_back(ri->size());
+        ri->rl.emplace_back(rrl);
     }
 
     assert(!ri->rl.empty()); /* all components should be able to generate
@@ -484,7 +484,7 @@ size_t raw_report_info_impl::size() const {
 void raw_report_info_impl::fillReportLists(NFA *n, size_t base_offset,
                                            vector<u32> &ro) const {
     for (const auto &reps : rl) {
-        ro.push_back(base_offset);
+        ro.emplace_back(base_offset);
 
         report_list *p = (report_list *)((char *)n + base_offset);
 
@@ -569,13 +569,13 @@ bool allocateFSN16(dfa_info &info, dstate_id_t *sherman_base,
 
     for (u32 i = 1; i < info.size(); i++) {
         if (info.is_widehead(i)) {
-            wideHead.push_back(i);
+            wideHead.emplace_back(i);
         } else if (info.is_widestate(i)) {
-            wideState.push_back(i);
+            wideState.emplace_back(i);
         } else if (info.is_sherman(i)) {
-            sherm.push_back(i);
+            sherm.emplace_back(i);
         } else {
-            norm.push_back(i);
+            norm.emplace_back(i);
         }
     }
 
@@ -893,11 +893,11 @@ void allocateFSN8(dfa_info &info,
 
     for (u32 i = 1; i < info.size(); i++) {
         if (!info.states[i].reports.empty()) {
-            accept.push_back(i);
+            accept.emplace_back(i);
         } else if (contains(accel_escape_info, i)) {
-            accel.push_back(i);
+            accel.emplace_back(i);
         } else {
-            norm.push_back(i);
+            norm.emplace_back(i);
         }
     }
 
@@ -1248,7 +1248,7 @@ dstate_id_t find_chain_candidate(const raw_dfa &rdfa, const DfaPrevInfo &info,
                                  const symbol_t curr_sym,
                                  vector<dstate_id_t> &temp_chain) {
     //Record current id first.
-    temp_chain.push_back(curr_id);
+    temp_chain.emplace_back(curr_id);
 
     const u16 size = info.impl_alpha_size;
 
@@ -1311,7 +1311,7 @@ bool store_chain_longest(vector<vector<dstate_id_t>> &candidate_chain,
         DEBUG_PRINTF("This is a new chain!\n");
 
         // Add this new chain and get it marked.
-        candidate_chain.push_back(temp_chain);
+        candidate_chain.emplace_back(temp_chain);
 
         for (auto &id : temp_chain) {
             DEBUG_PRINTF("(Marking s%u ...)\n", id);
@@ -1385,18 +1385,18 @@ void generate_symbol_chain(dfa_info &info, vector<symbol_t> &chain_tail) {
 
             // The tail symbol comes from vector chain_tail;
             if (j == width - 1) {
-                symbol_chain.push_back(chain_tail[i]);
+                symbol_chain.emplace_back(chain_tail[i]);
             } else {
                 for (symbol_t sym = 0; sym < info.impl_alpha_size; sym++) {
                     if (rdfa.states[curr_id].next[sym] == next_id) {
-                        symbol_chain.push_back(sym);
+                        symbol_chain.emplace_back(sym);
                         break;
                     }
                 }
             }
         }
 
-        info.wide_symbol_chain.push_back(symbol_chain);
+        info.wide_symbol_chain.emplace_back(symbol_chain);
     }
 }
 
@@ -1445,12 +1445,12 @@ void find_wide_state(dfa_info &info) {
                 }
 
                 reverse(temp_chain.begin(), temp_chain.end());
-                temp_chain.push_back(curr_id);
+                temp_chain.emplace_back(curr_id);
 
                 assert(head > 0 && head == temp_chain.front());
                 if (store_chain_longest(info.wide_state_chain, temp_chain,
                                         added, head_is_new)) {
-                    chain_tail.push_back(sym);
+                    chain_tail.emplace_back(sym);
                 }
             }
         }

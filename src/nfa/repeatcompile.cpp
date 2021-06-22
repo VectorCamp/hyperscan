@@ -80,10 +80,10 @@ u32 repeatRecurTable(struct RepeatStateInfo *info, const depth &repeatMax,
     u32 repeatTmp = info->patchCount > 2 ? 64 : (u32)repeatMax;
     u32 repeat_index = repeatTmp < minPeriod ? repeatTmp : minPeriod;
     for (u32 i = 0; i <= repeat_index; i++) {
-        info->table.push_back(i + 1);
+        info->table.emplace_back(i + 1);
     }
     for (u32 i = minPeriod + 1; i <= repeatTmp; i++) {
-        info->table.push_back(info->table[i - 1] + info->table[i - minPeriod]);
+        info->table.emplace_back(info->table[i - 1] + info->table[i - minPeriod]);
         if (info->table[i] < info->table[i - 1]) {
             return i - 1;
         }
@@ -341,7 +341,7 @@ vector<size_t> minResetDistToEnd(const vector<vector<CharReach>> &triggers,
                 break;
             }
         }
-        out.push_back(i);
+        out.emplace_back(i);
     }
 
     return out;

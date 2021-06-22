@@ -665,7 +665,7 @@ size_t prepareZones(const u8 *buf, size_t len, const u8 *hend,
         const u8 *tryFloodDetect = zz->floodPtr;                            \
         const u8 *start_ptr = zz->start;                                    \
         const u8 *end_ptr = zz->end;                                        \
-        for (const u8 *itPtr = start_ptr; itPtr + 4*ITER_BYTES <= end_ptr;  \
+        for (const u8 *itPtr = ROUNDDOWN_PTR(start_ptr, 64); itPtr + 4*ITER_BYTES <= end_ptr;      \
             itPtr += 4*ITER_BYTES) {                                        \
             __builtin_prefetch(itPtr);                                      \
         }                                                                   \

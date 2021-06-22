@@ -145,7 +145,7 @@ void dump_var_mapping(const GoughGraph &g, const string &base,
             fprintf(f, "\tuses:");
             vector<u32> used_id;
             for (const GoughSSAVar *var : used) {
-                used_id.push_back(var->slot);
+                used_id.emplace_back(var->slot);
             }
             for (const u32 &id : used_id) {
                 fprintf(f, " %u", id);
@@ -167,7 +167,7 @@ void dump_var_mapping(const GoughGraph &g, const string &base,
             fprintf(f, "\tuses:");
             vector<u32> used_id;
             for (const GoughSSAVar *var : used) {
-                used_id.push_back(var->slot);
+                used_id.emplace_back(var->slot);
             }
             for (const u32 &id : used_id) {
                 fprintf(f, " %u", id);
@@ -194,7 +194,7 @@ void gather_vars(const GoughGraph &g, vector<const GoughSSAVar *> *vars,
             const GoughSSAVar *vp = g[v].vars[i].get();
             stringstream ss;
             ss << dump_name(g[v]) << "_" << i;
-            vars->push_back(vp);
+            vars->emplace_back(vp);
             names->insert(make_pair(vp, ss.str()));
             src_label->insert(make_pair(vp, dump_name(g[v])));
         }
@@ -205,7 +205,7 @@ void gather_vars(const GoughGraph &g, vector<const GoughSSAVar *> *vars,
             const GoughSSAVar *vp = g[e].vars[i].get();
             stringstream ss;
             ss << dump_name(g, e) << "_" << i;
-            vars->push_back(vp);
+            vars->emplace_back(vp);
             names->insert(make_pair(vp, ss.str()));
             src_label->insert(make_pair(vp, dump_name(g, e)));
         }

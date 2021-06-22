@@ -51,7 +51,7 @@ vector<u32> getNeighborInfo(const CliqueGraph &g,
     // find neighbors for cv
     for (const auto &v : adjacent_vertices_range(cv, g)) {
         if (g[v].stateId != id && contains(group, g[v].stateId)){
-            neighbor.push_back(g[v].stateId);
+            neighbor.emplace_back(g[v].stateId);
             DEBUG_PRINTF("Neighbor:%u\n", g[v].stateId);
         }
     }
@@ -68,7 +68,7 @@ vector<u32> findCliqueGroup(CliqueGraph &cg) {
     vector<u32> init;
     for (const auto &v : vertices_range(cg)) {
         vertexMap[cg[v].stateId] = v;
-        init.push_back(cg[v].stateId);
+        init.emplace_back(cg[v].stateId);
     }
     gStack.push(init);
 
@@ -81,7 +81,7 @@ vector<u32> findCliqueGroup(CliqueGraph &cg) {
         // Choose a vertex from the graph
         u32 id = g[0];
         CliqueVertex &n = vertexMap.at(id);
-        clique.push_back(id);
+        clique.emplace_back(id);
         // Corresponding vertex in the original graph
         set<u32> subgraphId(g.begin(), g.end());
         auto neighbor = getNeighborInfo(cg, n, subgraphId);
@@ -110,7 +110,7 @@ vector<vector<u32>> removeClique(CliqueGraph &cg) {
         for (const auto &v : vertices_range(cg)) {
             u32 id = cg[v].stateId;
             if (find(c.begin(), c.end(), id) != c.end()) {
-                dead.push_back(v);
+                dead.emplace_back(v);
             }
         }
         for (const auto &v : dead) {
@@ -121,7 +121,7 @@ vector<vector<u32>> removeClique(CliqueGraph &cg) {
             break;
         }
         auto clique = findCliqueGroup(cg);
-        cliquesVec.push_back(clique);
+        cliquesVec.emplace_back(clique);
     }
 
     return cliquesVec;

@@ -44,7 +44,7 @@ RdfaGraph::RdfaGraph(const raw_dfa &rdfa) {
     vector<RdfaGraph::vertex_descriptor> verts;
     verts.reserve(rdfa.states.size());
     for (dstate_id_t i = 0; i < rdfa.states.size(); i++) {
-        verts.push_back(add_vertex(g));
+        verts.emplace_back(add_vertex(g));
         assert(g[verts.back()].index == i);
     }
 

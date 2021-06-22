@@ -194,7 +194,7 @@ public:
     const vector<StateSet> initial() {
         vector<StateSet> rv = {init};
         if (start_floating != DEAD_STATE && start_floating != start_anchored) {
-            rv.push_back(initDS);
+            rv.emplace_back(initDS);
         }
         return rv;
     }
@@ -354,7 +354,7 @@ public:
 
                 if (t.any() && t != esets[i]) {
                     esets[i] &= ~t;
-                    esets.push_back(t);
+                    esets.emplace_back(t);
                 }
             }
         }
@@ -380,7 +380,7 @@ public:
     const vector<StateSet> initial() {
         vector<StateSet> rv(1, as);
         if (start_floating != DEAD_STATE && start_floating != start_anchored) {
-            rv.push_back(fs);
+            rv.emplace_back(fs);
         }
         return rv;
     }
@@ -454,7 +454,7 @@ void haig_do_preds(const NGHolder &g, const stateset &nfa_states,
         DEBUG_PRINTF("d vertex %zu\n", g[v].index);
         vector<u32> &out_map = preds[slot_id];
         for (auto u : inv_adjacent_vertices_range(v, g)) {
-            out_map.push_back(g[u].index);
+            out_map.emplace_back(g[u].index);
         }
 
         sort(out_map.begin(), out_map.end());
@@ -536,7 +536,7 @@ bool doHaig(const NGHolder &g, som_type som,
 
     rdfa->state_som.reserve(rdfa->states.size());
     for (u32 i = 0; i < rdfa->states.size(); i++) {
-        rdfa->state_som.push_back(dstate_som());
+        rdfa->state_som.emplace_back(dstate_som());
         const StateSet &source_states = nfa_state_map[i];
         if (source_states.count() > HAIG_MAX_LIVE_SOM_SLOTS) {
             DEBUG_PRINTF("too many live states\n");
@@ -632,9 +632,9 @@ void haig_merge_do_preds(const vector<const raw_som_dfa *> &dfas,
             for (vector<u32>::const_iterator jt = it->second.begin();
                  jt != it->second.end(); ++jt) {
                 if (*jt < N_SPECIALS || *jt == CREATE_NEW_SOM) {
-                    out.push_back(*jt);
+                    out.emplace_back(*jt);
                 } else {
-                    out.push_back(*jt + adj);
+                    out.emplace_back(*jt + adj);
                 }
             }
         }
@@ -741,7 +741,7 @@ unique_ptr<raw_som_dfa> attemptToMergeHaig(const vector<const raw_som_dfa *> &df
     vector<u32> per_dfa_adj;
     u32 curr_adj = 0;
     for (const auto &haig : dfas) {
-        per_dfa_adj.push_back(curr_adj);
+        per_dfa_adj.emplace_back(curr_adj);
         curr_adj += total_slots_used(*haig);
         if (curr_adj < per_dfa_adj.back()) {
             /* overflowed our som slot count */
@@ -751,7 +751,7 @@ unique_ptr<raw_som_dfa> attemptToMergeHaig(const vector<const raw_som_dfa *> &df
 
     rdfa->state_som.reserve(rdfa->states.size());
     for (u32 i = 0; i < rdfa->states.size(); i++) {
-        rdfa->state_som.push_back(dstate_som());
+        rdfa->state_som.emplace_back(dstate_som());
         const vector<dstate_id_t> &source_nfa_states = nfa_state_map[i];
         DEBUG_PRINTF("finishing state %u\n", i);
 

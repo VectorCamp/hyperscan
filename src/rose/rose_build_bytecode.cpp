@@ -750,7 +750,7 @@ static
 vector<CharReach> as_cr_seq(const rose_literal_id &lit) {
     vector<CharReach> rv = as_cr_seq(lit.s);
     for (u32 i = 0; i < lit.delay; i++) {
-        rv.push_back(CharReach::dot());
+        rv.emplace_back(CharReach::dot());
     }
 
     /* TODO: take into account cmp/msk */
@@ -776,7 +776,7 @@ void findTriggerSequences(const RoseBuildImpl &tbi,
 
         for (u32 id : lit_ids) {
             const rose_literal_id &lit = tbi.literals.at(id);
-            (*trigger_lits)[top].push_back(as_cr_seq(lit));
+            (*trigger_lits)[top].emplace_back(as_cr_seq(lit));
         }
     }
 }
@@ -914,7 +914,7 @@ void appendTailToHolder(NGHolder &h, const vector<CharReach> &tail) {
 
     map<flat_set<ReportID>, vector<NFAVertex> > reporters;
     for (auto v : inv_adjacent_vertices_range(h.accept, h)) {
-        reporters[h[v].reports].push_back(v);
+        reporters[h[v].reports].emplace_back(v);
     }
 
     for (const auto &e : reporters) {
@@ -1425,10 +1425,10 @@ void buildExclusiveInfixes(RoseBuildImpl &build, build_context &bc,
             ExclusiveSubengine engine;
             engine.nfa = move(n);
             engine.vertices = verts;
-            info.subengines.push_back(move(engine));
+            info.subengines.emplace_back(move(engine));
         }
         info.queue = qif.get_queue();
-        exclusive_info.push_back(move(info));
+        exclusive_info.emplace_back(move(info));
     }
     updateExclusiveInfixProperties(build, exclusive_info, bc.leftfix_info,
                                    no_retrigger_queues);
@@ -1462,7 +1462,7 @@ void findExclusiveInfixes(RoseBuildImpl &build, build_context &bc,
             // NFA already built.
             u32 id = leftfixes[leftfix];
             if (contains(vertex_map, id)) {
-                vertex_map[id].push_back(v);
+                vertex_map[id].emplace_back(v);
             }
             DEBUG_PRINTF("sharing leftfix, id=%u\n", id);
             continue;
@@ -1474,7 +1474,7 @@ void findExclusiveInfixes(RoseBuildImpl &build, build_context &bc,
 
         if (leftfix.graph() || leftfix.castle()) {
             leftfixes.emplace(leftfix, role_id);
-            vertex_map[role_id].push_back(v);
+            vertex_map[role_id].emplace_back(v);
 
             map<u32, vector<vector<CharReach>>> triggers;
             findTriggerSequences(build, infixTriggers.at(leftfix), &triggers);
@@ -1545,7 +1545,7 @@ bool buildLeftfixes(RoseBuildImpl &tbi, build_context &bc,
             }
         }
 
-        succs[leftfix].push_back(v);
+        succs[leftfix].emplace_back(v);
     }
 
     rose_group initial_groups = tbi.getInitialGroups();
@@ -1867,13 +1867,13 @@ void buildExclusiveSuffixes(RoseBuildImpl &build, build_context &bc,
             ExclusiveSubengine engine;
             engine.nfa = move(n);
             engine.vertices = verts;
-            info.subengines.push_back(move(engine));
+            info.subengines.emplace_back(move(engine));
 
             const auto &reports = all_reports(s);
             info.reports.insert(reports.begin(), reports.end());
         }
         info.queue = qif.get_queue();
-        exclusive_info.push_back(move(info));
+        exclusive_info.emplace_back(move(info));
     }
     updateExclusiveSuffixProperties(build, exclusive_info,
                                     no_retrigger_queues);
@@ -1904,7 +1904,7 @@ void findExclusiveSuffixes(RoseBuildImpl &tbi, build_context &bc,
         if (contains(suffixes, s)) {
             u32 id = suffixes[s];
             if (!tbi.isInETable(v)) {
-                vertex_map[id].push_back(v);
+                vertex_map[id].emplace_back(v);
             }
             continue;
         }
@@ -1918,7 +1918,7 @@ void findExclusiveSuffixes(RoseBuildImpl &tbi, build_context &bc,
             DEBUG_PRINTF("assigning %p to id %u\n", s.graph(), role_id);
             suffixes.emplace(s, role_id);
 
-            vertex_map[role_id].push_back(v);
+            vertex_map[role_id].emplace_back(v);
             const set<PredTopPair> &s_triggers = suffixTriggers.at(s);
             map<u32, vector<vector<CharReach>>> triggers;
             findTriggerSequences(tbi, s_triggers, &triggers);
@@ -2191,7 +2191,7 @@ u32 buildLastByteIter(const RoseGraph &g, build_context &bc) {
         // Eager EOD reporters won't have state indices.
         auto it = bc.roleStateIndices.find(v);
         if (it != end(bc.roleStateIndices)) {
-            lb_roles.push_back(it->second);
+            lb_roles.emplace_back(it->second);
             DEBUG_PRINTF("last byte %u\n", it->second);
         }
     }
@@ -2264,7 +2264,7 @@ vector<u32> buildSuffixEkeyLists(const RoseBuildImpl &build, build_context &bc,
         u32 qi = e.first;
         auto &ekeys = e.second;
         assert(!ekeys.empty());
-        ekeys.push_back(INVALID_EKEY); /* terminator */
+        ekeys.emplace_back(INVALID_EKEY); /* terminator */
         out[qi] = bc.engine_blob.add_range(ekeys);
     }
 
@@ -2279,7 +2279,7 @@ u32 buildEodNfaIterator(build_context &bc, const u32 activeQueueCount) {
         const auto &eng_info = bc.engine_info_by_queue.at(qi);
         if (eng_info.accepts_eod) {
             DEBUG_PRINTF("nfa qi=%u accepts eod\n", qi);
-            keys.push_back(qi);
+            keys.emplace_back(qi);
         }
     }
 
@@ -2354,7 +2354,7 @@ void addSomRevNfas(build_context &bc, RoseEngine &proto,
         u32 offset = bc.engine_blob.add(*nfa, nfa->length);
         DEBUG_PRINTF("wrote SOM rev NFA %zu (len %u) to offset %u\n",
                      nfa_offsets.size(), nfa->length, offset);
-        nfa_offsets.push_back(offset);
+        nfa_offsets.emplace_back(offset);
         /* note: som rev nfas don't need a queue assigned as only run in block
          * mode reverse */
     }
@@ -2428,7 +2428,7 @@ u32 writeActiveLeftIter(RoseEngineBlob &engine_blob,
     for (size_t i = 0; i < leftInfoTable.size(); i++) {
         if (!leftInfoTable[i].transient) {
             DEBUG_PRINTF("leftfix %zu is active\n", i);
-            keys.push_back(verify_u32(i));
+            keys.emplace_back(verify_u32(i));
         }
     }
 
@@ -2753,7 +2753,7 @@ RoseProgram makeFragmentProgram(const RoseBuildImpl &build, build_context &bc,
     for (const auto &lit_id : lit_ids) {
         auto prog = makeLiteralProgram(build, bc, prog_build, lit_id,
                                        lit_edge_map, false);
-        blocks.push_back(move(prog));
+        blocks.emplace_back(move(prog));
     }
 
     return assembleProgramBlocks(move(blocks));
@@ -2857,7 +2857,7 @@ vector<LitFragment> groupByFragment(const RoseBuildImpl &build) {
         DEBUG_PRINTF("fragment candidate: lit_id=%u %s\n", lit_id,
                      dumpString(lit.s).c_str());
         auto &fi = frag_info[getFragment(lit)];
-        fi.lit_ids.push_back(lit_id);
+        fi.lit_ids.emplace_back(lit_id);
         fi.groups |= groups;
     }
 
@@ -2919,7 +2919,7 @@ void findInclusionGroups(vector<LitFragment> &fragments,
         u32 id = j;
         if (contains(includedIdMap, id) ||
             contains(includedDelayIdMap, id)) {
-            candidates.push_back(j);
+            candidates.emplace_back(j);
             DEBUG_PRINTF("find candidate\n");
         }
     }
@@ -3101,7 +3101,7 @@ pair<u32, u32> writeDelayPrograms(const RoseBuildImpl &build,
                                  delay_id, offset);
                 } else {
                     delay_id = verify_u32(programs.size());
-                    programs.push_back(offset);
+                    programs.emplace_back(offset);
                     cache.emplace(offset, delay_id);
                     DEBUG_PRINTF("assigned new delay_id %u for offset %u\n",
                                  delay_id, offset);
@@ -3162,7 +3162,7 @@ pair<u32, u32> writeAnchoredPrograms(const RoseBuildImpl &build,
                              offset);
             } else {
                 anch_id = verify_u32(programs.size());
-                programs.push_back(offset);
+                programs.emplace_back(offset);
                 cache.emplace(offset, anch_id);
                 DEBUG_PRINTF("assigned new anch_id %u for offset %u\n", anch_id,
                              offset);
@@ -3212,7 +3212,7 @@ pair<u32, u32> buildReportPrograms(const RoseBuildImpl &build,
     for (ReportID id : reports) {
         auto program = makeReportProgram(build, bc.needs_mpv_catchup, id);
         u32 offset = writeProgram(bc, move(program));
-        programs.push_back(offset);
+        programs.emplace_back(offset);
         build.rm.setProgramOffset(id, offset);
         DEBUG_PRINTF("program for report %u @ %u (%zu instructions)\n", id,
                      programs.back(), program.size());
@@ -3278,7 +3278,7 @@ void addEodAnchorProgram(const RoseBuildImpl &build, const build_context &bc,
                              g[u].index);
                 continue;
             }
-            edge_list.push_back(e);
+            edge_list.emplace_back(e);
         }
 
         const bool multiple_preds = edge_list.size() > 1;
@@ -3311,7 +3311,7 @@ void addEodEventProgram(const RoseBuildImpl &build, build_context &bc,
     vector<RoseEdge> edge_list;
     for (const auto &v : lit_info.vertices) {
         for (const auto &e : in_edges_range(v, g)) {
-            edge_list.push_back(e);
+            edge_list.emplace_back(e);
         }
     }
 
@@ -3478,7 +3478,7 @@ u32 writeEagerQueueIter(const set<u32> &eager, u32 leftfixBeginQueue,
     vector<u32> vec;
     for (u32 q : eager) {
         assert(q >= leftfixBeginQueue);
-        vec.push_back(q - leftfixBeginQueue);
+        vec.emplace_back(q - leftfixBeginQueue);
     }
 
     auto iter = mmbBuildSparseIterator(vec, queue_count - leftfixBeginQueue);

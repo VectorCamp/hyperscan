@@ -846,7 +846,7 @@ void pruneUnusedTops(NGHolder &h, const RoseGraph &g,
         h[e].tops = std::move(pruned_tops);
         if (h[e].tops.empty()) {
             DEBUG_PRINTF("edge (start,%zu) has only unused tops\n", h[v].index);
-            dead.push_back(e);
+            dead.emplace_back(e);
         }
     }
 
@@ -1457,7 +1457,7 @@ void splitAndFilterBuckets(vector<vector<RoseVertex>> &buckets,
                 out.emplace_back();
             }
             auto out_bucket = p.first->second;
-            out[out_bucket].push_back(v);
+            out[out_bucket].emplace_back(v);
         }
     }
 
@@ -1511,7 +1511,7 @@ void splitByNeighbour(const RoseGraph &g, vector<vector<RoseVertex>> &buckets,
             for (RoseVertex v : adjacent_vertices_range(u, g)) {
                 auto it = inv.find(v);
                 if (it != end(inv)) {
-                    neighbours_by_bucket[it->second].push_back(v);
+                    neighbours_by_bucket[it->second].emplace_back(v);
                 }
             }
         } else {
@@ -1519,7 +1519,7 @@ void splitByNeighbour(const RoseGraph &g, vector<vector<RoseVertex>> &buckets,
             for (RoseVertex v : inv_adjacent_vertices_range(u, g)) {
                 auto it = inv.find(v);
                 if (it != end(inv)) {
-                    neighbours_by_bucket[it->second].push_back(v);
+                    neighbours_by_bucket[it->second].emplace_back(v);
                 }
             }
         }
@@ -1540,14 +1540,14 @@ void splitByNeighbour(const RoseGraph &g, vector<vector<RoseVertex>> &buckets,
                 if (contains(picked, v)) {
                     inv[v] = new_key;
                 } else {
-                    leftovers.push_back(v);
+                    leftovers.emplace_back(v);
                 }
             }
 
             assert(!leftovers.empty());
             assert(e.second.size() + leftovers.size()
                    == buckets[old_key].size());
-            extras.push_back(e.second);
+            extras.emplace_back(e.second);
             buckets[old_key].swap(leftovers);
         }
         insert(&buckets, buckets.end(), extras);
@@ -1650,7 +1650,7 @@ void diamondMergePass(CandidateSet &candidates, RoseBuildImpl &build,
                 }
 
                 mergeVerticesDiamond(a, b, build, rai);
-                dead->push_back(a);
+                dead->emplace_back(a);
                 candidates.erase(a);
                 break; // next a
             }
@@ -1758,7 +1758,7 @@ void leftMergePass(CandidateSet &candidates, RoseBuildImpl &build,
             RoseVertex b = *jt;
             if (attemptRoseMerge(build, true, a, b, false, rai)) {
                 mergeVerticesLeft(a, b, build, rai);
-                dead->push_back(a);
+                dead->emplace_back(a);
                 candidates.erase(ait);
                 break; // consider next a
             }
@@ -1918,7 +1918,7 @@ void rightMergePass(CandidateSet &candidates, RoseBuildImpl &build,
                 RoseVertex b = *jt;
                 if (attemptRoseMerge(build, false, a, b, !mergeRoses, rai)) {
                     mergeVerticesRight(a, b, build, rai);
-                    dead->push_back(a);
+                    dead->emplace_back(a);
                     candidates.erase(a);
                     break; // consider next a
                 }
@@ -1978,7 +1978,7 @@ void filterDiamondCandidates(RoseGraph &g, CandidateSet &candidates) {
     vector<RoseVertex> dead;
     for (const auto &v : candidates) {
         if (hasNoDiamondSiblings(g, v)) {
-            dead.push_back(v);
+            dead.emplace_back(v);
         }
     }
 
@@ -2145,13 +2145,13 @@ void mergeDupeLeaves(RoseBuildImpl &build) {
                 if (g[et].minBound <= g[e].minBound
                     && g[et].maxBound >= g[e].maxBound) {
                     DEBUG_PRINTF("remove more constrained edge\n");
-                    deadEdges.push_back(e);
+                    deadEdges.emplace_back(e);
                 }
             } else {
                 DEBUG_PRINTF("rehome edge: add %zu->%zu\n", g[u].index,
                              g[t].index);
                 add_edge(u, t, g[e], g);
-                deadEdges.push_back(e);
+                deadEdges.emplace_back(e);
             }
         }
 
@@ -2159,7 +2159,7 @@ void mergeDupeLeaves(RoseBuildImpl &build) {
             for (auto &e : deadEdges) {
                 remove_edge(e, g);
             }
-            changed.push_back(v);
+            changed.emplace_back(v);
             g[t].min_offset = min(g[t].min_offset, g[v].min_offset);
             g[t].max_offset = max(g[t].max_offset, g[v].max_offset);
         }
@@ -2212,7 +2212,7 @@ void mergeCluster(RoseGraph &g, const ReportManager &rm,
             NGHolder *h = g[v].suffix.graph.get();
             assert(!g[v].suffix.haig); /* should not be here if haig */
             rev[h] = v;
-            cluster.push_back(h);
+            cluster.emplace_back(h);
         }
         it = it2;
 
@@ -2230,7 +2230,7 @@ void mergeCluster(RoseGraph &g, const ReportManager &rm,
             ENSURE_AT_LEAST(&g[winner].max_offset, g[victim].max_offset);
             insert(&g[winner].reports, g[victim].reports);
 
-            dead.push_back(victim);
+            dead.emplace_back(victim);
         }
     }
 }
@@ -2263,7 +2263,7 @@ void findUncalcLeavesCandidates(RoseBuildImpl &build,
                 continue;
             }
 
-            suffix_vertices.push_back(v);
+            suffix_vertices.emplace_back(v);
         }
     }
 
@@ -2289,9 +2289,9 @@ void findUncalcLeavesCandidates(RoseBuildImpl &build,
         vector<RoseVertex> &vec = clusters[key];
         if (vec.empty()) {
 
-            ordered.push_back(key);
+            ordered.emplace_back(key);
         }
-        vec.push_back(v);
+        vec.emplace_back(v);
     }
 
     DEBUG_PRINTF("find loop done\n");

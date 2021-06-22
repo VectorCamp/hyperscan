@@ -163,7 +163,7 @@ public:
     std::pair<iterator, bool> insert(const Key &key, const Element &element) {
         const auto idx = data.size();
         if (map.emplace(key, idx).second) {
-            data.push_back(element);
+            data.emplace_back(element);
             return {begin() + idx, true};
         }
         return {end(), false};

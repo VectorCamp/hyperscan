@@ -178,7 +178,7 @@ void findSeeds(const NGHolder &h, const bool som, vector<NFAVertex> *seeds) {
         }
 
         DEBUG_PRINTF("%zu is a seed\n", h[v].index);
-        seeds->push_back(v);
+        seeds->emplace_back(v);
         already_seeds.insert(v);
     }
 }

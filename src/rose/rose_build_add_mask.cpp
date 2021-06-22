@@ -185,7 +185,7 @@ bool expandFmlCandidates(const CharReach &cr, vector<ue2_literal> &curr,
                 return false;
             }
 
-            curr.push_back(lit);
+            curr.emplace_back(lit);
             curr.back().push_back(c, nocase);
         }
     }
@@ -335,8 +335,8 @@ void buildLiteralMask(const vector<CharReach> &mask, vector<u8> &msk,
     auto it = ite - min(size_t{HWLM_MASKLEN}, mask.size() - delay);
 
     for (; it != ite; ++it) {
-        msk.push_back(0);
-        cmp.push_back(0);
+        msk.emplace_back(0);
+        cmp.emplace_back(0);
         make_and_cmp_mask(*it, &msk.back(), &cmp.back());
     }
 

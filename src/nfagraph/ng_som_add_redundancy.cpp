@@ -102,7 +102,7 @@ bool forkVertex(NFAVertex v, NGHolder &g, vector<DepthMinMax> &depths,
     for (const auto &e : in_edges_range(v, g)) {
         const DepthMinMax &d = getDepth(source(e, g), g, depths);
         assert(d.min == d.max);
-        predGroups[d.min].push_back(e);
+        predGroups[d.min].emplace_back(e);
     }
 
     DEBUG_PRINTF("forking vertex with %zu pred groups\n", predGroups.size());
@@ -121,7 +121,7 @@ bool forkVertex(NFAVertex v, NGHolder &g, vector<DepthMinMax> &depths,
         NFAVertex clone = add_vertex(g[v], g);
         depth clone_depth = predDepth + 1;
         g[clone].index = clone_idx;
-        depths.push_back(DepthMinMax(clone_depth, clone_depth));
+        depths.emplace_back(DepthMinMax(clone_depth, clone_depth));
         DEBUG_PRINTF("cloned vertex %u with depth %s\n", clone_idx,
                      clone_depth.str().c_str());
 

@@ -177,7 +177,7 @@ static
 vector<CharReach> makePath(const rose_literal_id &lit) {
     vector<CharReach> path(begin(lit.s), end(lit.s));
     for (u32 i = 0; i < lit.delay; i++) {
-        path.push_back(CharReach::dot());
+        path.emplace_back(CharReach::dot());
     }
     return path;
 }

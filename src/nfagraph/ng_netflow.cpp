@@ -193,14 +193,14 @@ vector<NFAEdge> findMinCut(NGHolder &h, const vector<u64a> &scores) {
             DEBUG_PRINTF("found white cut edge %zu->%zu cap %llu\n",
                      h[from].index, h[to].index, ec);
             observed_white_flow += ec;
-            picked_white.push_back(e);
+            picked_white.emplace_back(e);
         }
         if (fromColor == small_color::black && toColor != small_color::black) {
             assert(ec <= INVALID_EDGE_CAP);
             DEBUG_PRINTF("found black cut edge %zu->%zu cap %llu\n",
                      h[from].index, h[to].index, ec);
             observed_black_flow += ec;
-            picked_black.push_back(e);
+            picked_black.emplace_back(e);
         }
     }
 

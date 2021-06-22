@@ -390,15 +390,15 @@ bool allocateImplId16(dfa_info &info, dstate_id_t sheng_end,
             continue; /* sheng impl ids have already been allocated */
         } if (info.is_sherman(i)) {
             if (info.is_sheng_succ(i)) {
-                sherm_sheng_succ.push_back(i);
+                sherm_sheng_succ.emplace_back(i);
             } else {
-                sherm.push_back(i);
+                sherm.emplace_back(i);
             }
         } else {
             if (info.is_sheng_succ(i)) {
-                norm_sheng_succ.push_back(i);
+                norm_sheng_succ.emplace_back(i);
             } else {
-                norm.push_back(i);
+                norm.emplace_back(i);
             }
         }
     }
@@ -589,7 +589,7 @@ dstate_id_t find_sheng_states(dfa_info &info,
         sheng_states.insert(v);
         for (const auto &t : adjacent_vertices_range(v, g)) {
             if (!contains(considered, g[t].index)) {
-                to_consider.push_back(t);
+                to_consider.emplace_back(t);
             }
             if (t == base_cyclic) {
                 seen_back_edge = true;
@@ -1279,11 +1279,11 @@ void allocateImplId8(dfa_info &info, dstate_id_t sheng_end,
         if (info.is_sheng(i)) {
             continue; /* already allocated */
         } else if (!info.states[i].reports.empty()) {
-            accept.push_back(i);
+            accept.emplace_back(i);
         } else if (contains(accel_escape_info, i)) {
-            accel.push_back(i);
+            accel.emplace_back(i);
         } else {
-            norm.push_back(i);
+            norm.emplace_back(i);
         }
     }
 

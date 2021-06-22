@@ -152,7 +152,7 @@ HopcroftInfo::HopcroftInfo(const raw_dfa &rdfa)
     for (size_t i = 0; i < states.size(); i++) { // i is the previous state
         for (size_t sym = 0; sym < alpha_size; sym++) {
             dstate_id_t present_state = rdfa.states[i].next[sym];
-            states[present_state].prev[sym].push_back(i);
+            states[present_state].prev[sym].emplace_back(i);
         }
     }
 }
@@ -263,7 +263,7 @@ void mapping_new_states(const HopcroftInfo &info,
     new_states.reserve(num_partitions);
 
     for (const auto &m : ordering) {
-        new_states.push_back(rdfa.states[m.first]);
+        new_states.emplace_back(rdfa.states[m.first]);
     }
     rdfa.states = std::move(new_states);
 }

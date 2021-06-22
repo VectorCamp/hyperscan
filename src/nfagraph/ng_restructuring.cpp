@@ -56,7 +56,7 @@ void wireStartToTops(NGHolder &g, const flat_set<NFAVertex> &tops,
         assert(!isLeafNode(v, g));
 
         const NFAEdge &e = add_edge(g.start, v, g);
-        tempEdges.push_back(e);
+        tempEdges.emplace_back(e);
     }
 }
 
@@ -109,10 +109,10 @@ void getStateOrdering(NGHolder &g, const flat_set<NFAVertex> &tops,
     temp.erase(remove(temp.begin(), temp.end(), g.startDs));
     temp.erase(remove(temp.begin(), temp.end(), g.start));
     if (proper_out_degree(g.startDs, g)) {
-        temp.push_back(g.startDs);
+        temp.emplace_back(g.startDs);
     }
     if (!startIsRedundant(g)) {
-        temp.push_back(g.start);
+        temp.emplace_back(g.start);
     }
 
     // Walk ordering, remove vertices that shouldn't be participating in state
@@ -122,7 +122,7 @@ void getStateOrdering(NGHolder &g, const flat_set<NFAVertex> &tops,
             continue; // accepts don't need states
         }
 
-        ordering.push_back(v);
+        ordering.emplace_back(v);
     }
 
     // Output of topo order was in reverse.
@@ -167,7 +167,7 @@ void optimiseTightLoops(const NGHolder &g, vector<NFAVertex> &ordering) {
                 continue;
             }
             if (edge(t, v, g).second && find(start, it, t) != ite) {
-                candidates.push_back(make_pair(v, t));
+                candidates.emplace_back(make_pair(v, t));
             }
         }
     }

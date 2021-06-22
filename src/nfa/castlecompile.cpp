@@ -157,7 +157,7 @@ void getNeighborInfo(const CliqueGraph &g, vector<u32> &neighbor,
     // find neighbors for cv
     for (const auto &v : adjacent_vertices_range(cv, g)) {
         if (g[v].stateId != id && contains(group, g[v].stateId)) {
-            neighbor.push_back(g[v].stateId);
+            neighbor.emplace_back(g[v].stateId);
             DEBUG_PRINTF("Neighbor:%u\n", g[v].stateId);
         }
     }
@@ -172,7 +172,7 @@ void findCliqueGroup(CliqueGraph &cg, vector<u32> &clique) {
     vector<u32> init;
     for (const auto &v : vertices_range(cg)) {
         vertexMap[cg[v].stateId] = v;
-        init.push_back(cg[v].stateId);
+        init.emplace_back(cg[v].stateId);
     }
     gStack.push(init);
 
@@ -186,7 +186,7 @@ void findCliqueGroup(CliqueGraph &cg, vector<u32> &clique) {
         // Choose a vertex from the graph
         u32 id = g[0];
         const CliqueVertex &n = vertexMap.at(id);
-        clique.push_back(id);
+        clique.emplace_back(id);
         // Corresponding vertex in the original graph
         vector<u32> neighbor;
         set<u32> subgraphId(g.begin(), g.end());
@@ -215,7 +215,7 @@ vector<u32> removeClique(CliqueGraph &cg) {
         vector<CliqueVertex> dead;
         for (const auto &v : vertices_range(cg)) {
             if (find(c.begin(), c.end(), cg[v].stateId) != c.end()) {
-                dead.push_back(v);
+                dead.emplace_back(v);
             }
         }
         for (const auto &v : dead) {
@@ -227,7 +227,7 @@ vector<u32> removeClique(CliqueGraph &cg) {
         }
         vector<u32> clique;
         findCliqueGroup(cg, clique);
-        cliquesVec.push_back(clique);
+        cliquesVec.emplace_back(clique);
     }
 
     // get the independent set with max size
@@ -288,11 +288,11 @@ vector<vector<u32>> checkExclusion(u32 &streamStateSize,
         // get min reset distance for each repeat
         for (size_t i = lower; i < upper; i++) {
             CliqueVertex v = add_vertex(CliqueVertexProps(i), *cg);
-            vertices.push_back(v);
+            vertices.emplace_back(v);
 
             const vector<size_t> &tmp_dist =
                 minResetDistToEnd(triggers[i], cr);
-            min_reset_dist.push_back(tmp_dist);
+            min_reset_dist.emplace_back(tmp_dist);
         }
 
         // find exclusive pair for each repeat
@@ -311,7 +311,7 @@ vector<vector<u32>> checkExclusion(u32 &streamStateSize,
         auto clique = removeClique(*cg);
         size_t cliqueSize = clique.size();
         if (cliqueSize > 1) {
-            groups.push_back(clique);
+            groups.emplace_back(clique);
             exclusive = EXCLUSIVE;
             total += cliqueSize;
         }
@@ -387,7 +387,7 @@ void buildSubcastles(const CastleProto &proto, vector<SubCastle> &subs,
         }
 
         if (pr.bounds.max.is_finite()) {
-            may_stale.push_back(i);
+            may_stale.emplace_back(i);
         }
 
         info.type = verify_u8(rtype);
@@ -411,7 +411,7 @@ void buildSubcastles(const CastleProto &proto, vector<SubCastle> &subs,
 
         if (rtype == REPEAT_SPARSE_OPTIMAL_P) {
             for (u32 j = 0; j < rsi.patchSize; j++) {
-                tables.push_back(rsi.table[j]);
+                tables.emplace_back(rsi.table[j]);
             }
             sparseRepeats++;
             patchSize[i] = rsi.patchSize;
@@ -509,10 +509,10 @@ buildCastle(const CastleProto &proto,
             is_reset = true;
         }
 
-        repeatInfoPair.push_back(make_pair(min_period, is_reset));
+        repeatInfoPair.emplace_back(make_pair(min_period, is_reset));
 
-        candidateTriggers.push_back(triggers.at(top));
-        candidateRepeats.push_back(i);
+        candidateTriggers.emplace_back(triggers.at(top));
+        candidateRepeats.emplace_back(i);
     }
 
     // Case 1: exclusive repeats

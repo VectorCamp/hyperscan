@@ -139,9 +139,9 @@ public:
             }
 
             if (*sp_it > member) {
-                split_temp_diff.push_back(member);
+                split_temp_diff.emplace_back(member);
             } else {
-                split_temp_inter.push_back(member);
+                split_temp_inter.emplace_back(member);
             }
         }
 
@@ -177,7 +177,7 @@ public:
 
         /* smaller subset is placed in the new subset  */
         size_t new_index = subsets.size();
-        subsets.push_back(subset());
+        subsets.emplace_back(subset());
         insert(&subsets.back().members, subsets.back().members.end(), *small);
 
         for (const auto &e : *small) {
@@ -203,7 +203,7 @@ public:
 
         for (size_t i = seen.find_first(); i != seen.npos;
              i = seen.find_next(i)) {
-            containing->push_back(i);
+            containing->emplace_back(i);
         }
     }
 
@@ -240,7 +240,7 @@ public:
             assert(sub < subsets.size());
 
             member_to_subset[i] = sub;
-            subsets[sub].members.push_back(i);
+            subsets[sub].members.emplace_back(i);
         }
 
         /* none of the subsets should be empty */

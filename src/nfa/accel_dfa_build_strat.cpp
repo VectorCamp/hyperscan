@@ -105,7 +105,7 @@ static
 path append(const path &orig, const CharReach &cr, u32 new_dest) {
     path p(new_dest);
     p.reach = orig.reach;
-    p.reach.push_back(cr);
+    p.reach.emplace_back(cr);
 
     return p;
 }
@@ -117,25 +117,25 @@ void extend(const raw_dfa &rdfa, const vector<CharReach> &rev_map,
     const dstate &s = rdfa.states[p.dest];
 
     if (!p.reach.empty() && p.reach.back().none()) {
-        out.push_back(p);
+        out.emplace_back(p);
         return;
     }
 
     if (!s.reports.empty()) {
         if (generates_callbacks(rdfa.kind)) {
-            out.push_back(p);
+            out.emplace_back(p);
             return;
         } else {
             path pp = append(p, CharReach(), p.dest);
-            all[p.dest].push_back(pp);
-            out.push_back(move(pp));
+            all[p.dest].emplace_back(pp);
+            out.emplace_back(move(pp));
         }
     }
 
     if (!s.reports_eod.empty()) {
         path pp = append(p, CharReach(), p.dest);
-        all[p.dest].push_back(pp);
-        out.push_back(move(pp));
+        all[p.dest].emplace_back(pp);
+        out.emplace_back(move(pp));
     }
 
     flat_map<u32, CharReach> dest;
@@ -154,8 +154,8 @@ void extend(const raw_dfa &rdfa, const vector<CharReach> &rev_map,
 
         DEBUG_PRINTF("----good: [%s] -> %u\n",
                      describeClasses(pp.reach).c_str(), pp.dest);
-        all[e.first].push_back(pp);
-        out.push_back(move(pp));
+        all[e.first].emplace_back(pp);
+        out.emplace_back(move(pp));
     }
 }
 
@@ -165,7 +165,7 @@ vector<vector<CharReach>> generate_paths(const raw_dfa &rdfa,
     const vector<CharReach> rev_map = reverse_alpha_remapping(rdfa);
     vector<path> paths{path(base)};
     unordered_map<u32, vector<path>> all;
-    all[base].push_back(path(base));
+    all[base].emplace_back(path(base));
     for (u32 i = 0; i < len && paths.size() < PATHS_LIMIT; i++) {
         vector<path> next_gen;
         for (const auto &p : paths) {
@@ -180,7 +180,7 @@ vector<vector<CharReach>> generate_paths(const raw_dfa &rdfa,
     vector<vector<CharReach>> rv;
     rv.reserve(paths.size());
     for (auto &p : paths) {
-        rv.push_back(vector<CharReach>(std::make_move_iterator(p.reach.begin()),
+        rv.emplace_back(vector<CharReach>(std::make_move_iterator(p.reach.begin()),
                                        std::make_move_iterator(p.reach.end())));
     }
     return rv;
@@ -318,7 +318,7 @@ set<dstate_id_t> find_region(const raw_dfa &rdfa, dstate_id_t base,
 
             DEBUG_PRINTF("    %hu is in region\n", t);
             region.insert(t);
-            pending.push_back(t);
+            pending.emplace_back(t);
         }
     }
 

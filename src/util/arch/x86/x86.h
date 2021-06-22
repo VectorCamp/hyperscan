@@ -58,13 +58,24 @@
 #define HAVE_SIMD_256_BITS
 #endif
 
-#if defined(__AVX512BW__)
+#if defined(__AVX512BW__) && defined(BUILD_AVX512)
 #define HAVE_AVX512
 #define HAVE_SIMD_512_BITS
 #endif
 
-#if defined(__AVX512VBMI__)
+#if defined(__AVX512VBMI__) && defined(BUILD_AVX512)
 #define HAVE_AVX512VBMI
+#endif
+
+#if defined(HAVE_SIMD_512_BITS)
+#define CHUNKSIZE 512
+#define VECTORSIZE 64
+#elif defined(HAVE_SIMD_256_BITS)
+#define CHUNKSIZE 256
+#define VECTORSIZE 32
+#elif defined(HAVE_SIMD_128_BITS)
+#define CHUNKSIZE 128
+#define VECTORSIZE 16
 #endif
 
 /*

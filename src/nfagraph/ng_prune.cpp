@@ -64,7 +64,7 @@ void pruneUnreachable(NGHolder &g) {
         // accept->acceptEod), so all non-specials are unreachable.
         for (auto v : vertices_range(g)) {
             if (!is_special(v, g)) {
-                dead.push_back(v);
+                dead.emplace_back(v);
             }
         }
     } else {
@@ -88,7 +88,7 @@ void pruneUnreachable(NGHolder &g) {
                 continue;
             }
             if (!contains(colours, v)) {
-                dead.push_back(v);
+                dead.emplace_back(v);
             }
         }
     }
@@ -120,7 +120,7 @@ bool pruneForwardUseless(NGHolder &h, const nfag_t &g,
         if (!is_special(v, g) && get(colors, v) == small_color::white) {
             DEBUG_PRINTF("vertex %zu is unreachable from %zu\n",
                          g[v].index, g[s].index);
-            dead.push_back(NFAVertex(v));
+            dead.emplace_back(NFAVertex(v));
         }
     }
 
@@ -169,7 +169,7 @@ void pruneEmptyVertices(NGHolder &g) {
         const CharReach &cr = g[v].char_reach;
         if (cr.none()) {
             DEBUG_PRINTF("empty: %zu\n", g[v].index);
-            dead.push_back(v);
+            dead.emplace_back(v);
         }
     }
 
@@ -207,7 +207,7 @@ void pruneHighlanderAccepts(NGHolder &g, const ReportManager &rm) {
         // We can prune any out-edges that aren't accepts
         for (const auto &e : out_edges_range(u, g)) {
             if (!is_any_accept(target(e, g), g)) {
-                dead.push_back(e);
+                dead.emplace_back(e);
             }
         }
     }
@@ -272,7 +272,7 @@ void pruneHighlanderDominated(NGHolder &g, const ReportManager &rm) {
         for (const auto &report_id : g[v].reports) {
             const Report &r = rm.getReport(report_id);
             if (isSimpleExhaustible(r)) {
-                reporters.push_back(v);
+                reporters.emplace_back(v);
                 break;
             }
         }
@@ -281,7 +281,7 @@ void pruneHighlanderDominated(NGHolder &g, const ReportManager &rm) {
         for (const auto &report_id : g[v].reports) {
             const Report &r = rm.getReport(report_id);
             if (isSimpleExhaustible(r)) {
-                reporters.push_back(v);
+                reporters.emplace_back(v);
                 break;
             }
         }

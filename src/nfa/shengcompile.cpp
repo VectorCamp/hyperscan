@@ -179,7 +179,7 @@ size_t raw_report_info_impl::size() const {
 void raw_report_info_impl::fillReportLists(NFA *n, size_t base_offset,
                                            vector<u32> &ro) const {
     for (const auto &reps : rl) {
-        ro.push_back(base_offset);
+        ro.emplace_back(base_offset);
 
         report_list *p = (report_list *)((char *)n + base_offset);
 
@@ -208,39 +208,39 @@ unique_ptr<raw_report_info> sheng_build_strat::gatherReports(
 
     for (const dstate &s : rdfa.states) {
         if (s.reports.empty()) {
-            reports.push_back(MO_INVALID_IDX);
+            reports.emplace_back(MO_INVALID_IDX);
             continue;
         }
 
         raw_report_list rrl(s.reports, rm, remap_reports);
         DEBUG_PRINTF("non empty r\n");
         if (rev.find(rrl) != rev.end()) {
-            reports.push_back(rev[rrl]);
+            reports.emplace_back(rev[rrl]);
         } else {
             DEBUG_PRINTF("adding to rl %zu\n", ri->size());
             rev[rrl] = ri->size();
-            reports.push_back(ri->size());
-            ri->rl.push_back(rrl);
+            reports.emplace_back(ri->size());
+            ri->rl.emplace_back(rrl);
         }
     }
 
     for (const dstate &s : rdfa.states) {
         if (s.reports_eod.empty()) {
-            reports_eod.push_back(MO_INVALID_IDX);
+            reports_eod.emplace_back(MO_INVALID_IDX);
             continue;
         }
 
         DEBUG_PRINTF("non empty r eod\n");
         raw_report_list rrl(s.reports_eod, rm, remap_reports);
         if (rev.find(rrl) != rev.end()) {
-            reports_eod.push_back(rev[rrl]);
+            reports_eod.emplace_back(rev[rrl]);
             continue;
         }
 
         DEBUG_PRINTF("adding to rl eod %zu\n", s.reports_eod.size());
         rev[rrl] = ri->size();
-        reports_eod.push_back(ri->size());
-        ri->rl.push_back(rrl);
+        reports_eod.emplace_back(ri->size());
+        ri->rl.emplace_back(rrl);
     }
 
     assert(!ri->rl.empty()); /* all components should be able to generate

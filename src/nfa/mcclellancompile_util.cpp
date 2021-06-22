@@ -150,7 +150,7 @@ u32 calc_min_dist_from_bob(raw_dfa &raw, vector<u32> *dist_in) {
                 continue;
             }
             if (dist[t] == ~0U) {
-                to_visit.push_back(t);
+                to_visit.emplace_back(t);
                 dist[t] = d + 1;
             } else {
                 assert(dist[t] <= d + 1);

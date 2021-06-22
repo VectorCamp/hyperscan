@@ -331,7 +331,7 @@ void buildReachMapping(const build_info &args, vector<NFAStateSet> &reach,
     verts.reserve(args.num_states);
     for (auto v : vertices_range(h)) {
         if (state_ids.at(v) != NO_STATE) {
-            verts.push_back(v);
+            verts.emplace_back(v);
         }
     }
 
@@ -362,7 +362,7 @@ void buildReachMapping(const build_info &args, vector<NFAStateSet> &reach,
     u8 num = 0;
     for (auto mi = mapping.begin(), me = mapping.end(); mi != me; ++mi, ++num) {
         // Reach entry.
-        reach.push_back(mi->first);
+        reach.emplace_back(mi->first);
 
         // Character mapping.
         const CharReach &cr = mi->second;
@@ -427,7 +427,7 @@ void gatherAccelStates(const build_info &bi, vector<AccelBuild> &accelStates) {
         DEBUG_PRINTF("state %u is accelerable\n", bi.state_ids.at(v));
         AccelBuild a;
         findStopLiterals(bi, v, a);
-        accelStates.push_back(a);
+        accelStates.emplace_back(a);
     }
 
     // AccelStates should be sorted by state number, so that we build our accel
@@ -548,7 +548,7 @@ void filterAccelStates(NGHolder &g, const map<u32, set<NFAVertex>> &tops,
     for (const auto &vv : tops | map_values) {
         for (NFAVertex v : vv) {
             if (!edge(g.start, v, g).second) {
-                tempEdges.push_back(add_edge(g.start, v, g).first);
+                tempEdges.emplace_back(add_edge(g.start, v, g).first);
             }
         }
     }
@@ -556,7 +556,7 @@ void filterAccelStates(NGHolder &g, const map<u32, set<NFAVertex>> &tops,
     // Similarly, connect (start, startDs) if necessary.
     if (!edge(g.start, g.startDs, g).second) {
         NFAEdge e = add_edge(g.start, g.startDs, g);
-        tempEdges.push_back(e); // Remove edge later.
+        tempEdges.emplace_back(e); // Remove edge later.
     }
 
     unordered_map<NFAVertex, AccelScheme> out;
@@ -623,7 +623,7 @@ void fillAccelInfo(build_info &bi) {
 
     vector<NFAVertex> astates;
     for (const auto &m : accel_map) {
-        astates.push_back(m.first);
+        astates.emplace_back(m.first);
     }
 
     NFAStateSet useful(num_states);
@@ -644,7 +644,7 @@ void fillAccelInfo(build_info &bi) {
         for (u32 j = 0, j_end = astates.size(); j < j_end; j++) {
             if (i & (1U << j)) {
                 NFAVertex v = astates[j];
-                states.push_back(v);
+                states.emplace_back(v);
                 state_set.set(state_ids.at(v));
             }
         }
@@ -886,12 +886,12 @@ void buildAccel(const build_info &args, NFAStateSet &accelMask,
     // bits in accelStates.
     vector<AccelBuild> accelOuts(accelCount);
     vector<u32> effective_accel_set;
-    effective_accel_set.push_back(0); /* empty is effectively empty */
+    effective_accel_set.emplace_back(0); /* empty is effectively empty */
 
     for (u32 i = 1; i < accelCount; i++) {
         u32 effective_i = getEffectiveAccelStates(args, dom_map, i,
                                                   accelStates);
-        effective_accel_set.push_back(effective_i);
+        effective_accel_set.emplace_back(effective_i);
 
         if (effective_i == IMPOSSIBLE_ACCEL_MASK) {
             DEBUG_PRINTF("this combination of accel states is not possible\n");
@@ -913,7 +913,7 @@ void buildAccel(const build_info &args, NFAStateSet &accelMask,
     // an index.
 
     // Start with the NONE case.
-    auxvec.push_back(AccelAux());
+    auxvec.emplace_back(AccelAux());
     memset(&auxvec[0], 0, sizeof(AccelAux));
     auxvec[0].accel_type = ACCEL_NONE; // no states on.
 
@@ -949,7 +949,7 @@ void buildAccel(const build_info &args, NFAStateSet &accelMask,
         auto it = find_if(auxvec.begin(), auxvec.end(), AccelAuxCmp(aux));
         if (it == auxvec.end()) {
             accelTable[i] = verify_u8(auxvec.size());
-            auxvec.push_back(aux);
+            auxvec.emplace_back(aux);
         } else {
             accelTable[i] = verify_u8(it - auxvec.begin());
         }
@@ -995,7 +995,7 @@ u32 addSquashMask(const build_info &args, const NFAVertex &v,
         return verify_u32(std::distance(squash.begin(), it));
     }
     u32 idx = verify_u32(squash.size());
-    squash.push_back(sit->second);
+    squash.emplace_back(sit->second);
     return idx;
 }
 
@@ -1007,7 +1007,7 @@ u32 addReports(const flat_set<ReportID> &r, vector<ReportID> &reports,
     assert(!r.empty());
 
     vector<ReportID> my_reports(begin(r), end(r));
-    my_reports.push_back(MO_INVALID_IDX); // sentinel
+    my_reports.emplace_back(MO_INVALID_IDX); // sentinel
 
     auto cache_it = reports_cache.find(my_reports);
     if (cache_it != end(reports_cache)) {
@@ -1064,7 +1064,7 @@ void buildAcceptsList(const build_info &args, ReportListCache &reports_cache,
             a.reports = addReports(h[v].reports, reports, reports_cache);
         }
         a.squash = addSquashMask(args, v, squash);
-        accepts.push_back(move(a));
+        accepts.emplace_back(move(a));
     }
 }
 
@@ -1089,11 +1089,11 @@ void buildAccepts(const build_info &args, ReportListCache &reports_cache,
 
         if (edge(v, h.accept, h).second) {
             acceptMask.set(state_id);
-            verts_accept.push_back(v);
+            verts_accept.emplace_back(v);
         } else {
             assert(edge(v, h.acceptEod, h).second);
             acceptEodMask.set(state_id);
-            verts_accept_eod.push_back(v);
+            verts_accept_eod.emplace_back(v);
         }
     }
 
@@ -1510,7 +1510,7 @@ u32 buildExceptionMap(const build_info &args, ReportListCache &reports_cache,
             // of states.
             assert(e.succ_states.size() == num_states);
             assert(e.squash_states.size() == num_states);
-            exceptionMap[e].push_back(i);
+            exceptionMap[e].emplace_back(i);
             exceptionCount++;
         }
     }
@@ -2513,7 +2513,7 @@ bool isFast(const build_info &args) {
     unordered_set<NFAVertex> visited;
     for (const auto &m : args.tops) {
         for (NFAVertex v : m.second) {
-            cur.push_back(v);
+            cur.emplace_back(v);
             visited.insert(v);
         }
     }
@@ -2537,7 +2537,7 @@ bool isFast(const build_info &args) {
                     continue;
                 }
                 if (!contains(visited, w)) {
-                    next.push_back(w);
+                    next.emplace_back(w);
                     visited.insert(w);
                 }
             }

@@ -147,7 +147,7 @@ void translateRawReports(UNUSED GoughGraph &cfg, UNUSED const raw_som_dfa &raw,
         } else {
             var = joins_at_s.at(sr.slot);
         }
-        reports_out->push_back(make_pair(sr.report, var));
+        reports_out->emplace_back(make_pair(sr.report, var));
     }
 }
 
@@ -190,7 +190,7 @@ void makeCFG_top_edge(GoughGraph &cfg, const vector<GoughVertex> &vertices,
         shared_ptr<GoughSSAVarNew> vnew;
         if (slot_id == trigger_slot) {
             vnew = make_shared<GoughSSAVarNew>(0U);
-            cfg[e].vars.push_back(vnew);
+            cfg[e].vars.emplace_back(vnew);
         } else {
             assert(contains(src_slots, slot_id));
         }
@@ -207,7 +207,7 @@ void makeCFG_top_edge(GoughGraph &cfg, const vector<GoughVertex> &vertices,
             assert(contains(src_slots, slot_id));
 
             shared_ptr<GoughSSAVarMin> vmin = make_shared<GoughSSAVarMin>();
-            cfg[e].vars.push_back(vmin);
+            cfg[e].vars.emplace_back(vmin);
             final_var = vmin.get();
 
             DEBUG_PRINTF("slot %u gets a new value\n", slot_id);
@@ -280,7 +280,7 @@ void makeCFG_edge(GoughGraph &cfg, const map<u32, u32> &som_creators,
                     vnew = vnew_by_adj[adjust];
                 } else {
                     vnew = make_shared<GoughSSAVarNew>(adjust);
-                    cfg[e].vars.push_back(vnew);
+                    cfg[e].vars.emplace_back(vnew);
                     vnew_by_adj[adjust] = vnew;
                 }
                 assert(vnew);
@@ -318,7 +318,7 @@ void makeCFG_edge(GoughGraph &cfg, const map<u32, u32> &som_creators,
             DEBUG_PRINTF("bypassing min on join %u\n", slot_id);
         } else {
             shared_ptr<GoughSSAVarMin> vmin = make_shared<GoughSSAVarMin>();
-            cfg[e].vars.push_back(vmin);
+            cfg[e].vars.emplace_back(vmin);
             final_var = vmin.get();
 
             if (vnew) {
@@ -352,13 +352,13 @@ unique_ptr<GoughGraph> makeCFG(const raw_som_dfa &raw) {
     u32 min_state = !is_triggered(raw.kind);
 
     if (min_state) {
-        vertices.push_back(GoughGraph::null_vertex()); /* skip dead state */
+        vertices.emplace_back(GoughGraph::null_vertex()); /* skip dead state */
     }
 
     vector<flat_map<u32, GoughSSAVarJoin *> > joins(raw.states.size());
     for (u32 i = min_state; i < raw.states.size(); ++i) {
         GoughVertex v = add_vertex(GoughVertexProps(i), *cfg);
-        vertices.push_back(v);
+        vertices.emplace_back(v);
 
         /* create JOIN variables */
         for (som_tran_info::const_iterator it = raw.state_som[i].preds.begin();
@@ -366,7 +366,7 @@ unique_ptr<GoughGraph> makeCFG(const raw_som_dfa &raw) {
             u32 slot_id = it->first;
             if (!contains(raw.new_som_nfa_states, slot_id)
                 || raw.new_som_nfa_states.at(slot_id)) {
-                (*cfg)[v].vars.push_back(make_shared<GoughSSAVarJoin>());
+                (*cfg)[v].vars.emplace_back(make_shared<GoughSSAVarJoin>());
                 joins[get(vertex_index, *cfg, v)][slot_id]
                     = (*cfg)[v].vars.back().get();
                 DEBUG_PRINTF("dfa %u:: slot %u\n", i, slot_id);
@@ -525,7 +525,7 @@ void mark_live_reports(const vector<pair<ReportID, GoughSSAVar *> > &reps,
             continue;
         }
         var->seen = true;
-        queue->push_back(var);
+        queue->emplace_back(var);
     }
 }
 
@@ -546,7 +546,7 @@ void remove_dead(GoughGraph &g) {
                 continue;
             }
             var->seen = true;
-            queue.push_back(var);
+            queue.emplace_back(var);
         }
     }
 
@@ -589,7 +589,7 @@ gough_ins make_gough_ins(u8 op, u32 dest = INVALID_SLOT,
 
 void GoughSSAVarNew::generate(vector<gough_ins> *out) const {
     assert(slot != INVALID_SLOT);
-    out->push_back(make_gough_ins(GOUGH_INS_NEW, slot, adjust));
+    out->emplace_back(make_gough_ins(GOUGH_INS_NEW, slot, adjust));
 }
 
 #ifndef NDEBUG
@@ -616,7 +616,7 @@ void GoughSSAVarMin::generate(vector<gough_ins> *out) const {
             /* if the destination is one of the sources, no need to move it */
             first = false;
         } else {
-            input_slots.push_back(var->slot);
+            input_slots.emplace_back(var->slot);
         }
     }
 
@@ -624,10 +624,10 @@ void GoughSSAVarMin::generate(vector<gough_ins> *out) const {
 
     for (const u32 &input_slot : input_slots) {
         if (first) {
-            out->push_back(make_gough_ins(GOUGH_INS_MOV, slot, input_slot));
+            out->emplace_back(make_gough_ins(GOUGH_INS_MOV, slot, input_slot));
             first = false;
         } else {
-            out->push_back(make_gough_ins(GOUGH_INS_MIN, slot, input_slot));
+            out->emplace_back(make_gough_ins(GOUGH_INS_MIN, slot, input_slot));
         }
     }
 }
@@ -842,7 +842,7 @@ void add_simple_joins(edge_join_info &eji, vector<gough_ins> *out) {
             /* value of destination slot is not used by any remaining joins;
              * we can output this join immediately */
             DEBUG_PRINTF("out %u<-%u\n", dest, src);
-            out->push_back(make_gough_ins(GOUGH_INS_MOV, dest, src));
+            out->emplace_back(make_gough_ins(GOUGH_INS_MOV, dest, src));
 
             eji.erase(src, dest);
 
@@ -877,14 +877,14 @@ void add_joins_to_block(edge_join_info &eji, vector<gough_ins> *out,
         /* stash the initial value of the split register in a temp register */
         u32 temp = base_temp_slot++;
         DEBUG_PRINTF("out %u<-%u\n", temp, split);
-        out->push_back(make_gough_ins(GOUGH_INS_MOV, temp, split));
+        out->emplace_back(make_gough_ins(GOUGH_INS_MOV, temp, split));
         eji.remap_src(split, temp); /* update maps */
 
         /* split can now be safely written out to as all the uses of it as an
          * input now refer to temp instead */
 
         DEBUG_PRINTF("out %u<-%u\n", split, input_for_split);
-        out->push_back(make_gough_ins(GOUGH_INS_MOV, split, input_for_split));
+        out->emplace_back(make_gough_ins(GOUGH_INS_MOV, split, input_for_split));
         eji.erase(input_for_split, split);
 
         /* handle any uncovered simple cases */
@@ -931,7 +931,7 @@ void build_blocks(const GoughGraph &g,
 
     for (vector<gough_ins> &ins_list : *blocks | map_values) {
         assert(!ins_list.empty());
-        ins_list.push_back(make_gough_ins(GOUGH_INS_END));
+        ins_list.emplace_back(make_gough_ins(GOUGH_INS_END));
     }
 }
 
@@ -1252,39 +1252,39 @@ unique_ptr<raw_report_info> gough_build_strat::gatherReports(
 
         DEBUG_PRINTF("i = %zu [%zu]\n", reports.size(), gg[v].reports.size());
         if (v == GoughGraph::null_vertex() || gg[v].reports.empty()) {
-            reports.push_back(MO_INVALID_IDX);
+            reports.emplace_back(MO_INVALID_IDX);
             continue;
         }
 
         raw_gough_report_list rrl(gg[v].reports, rm, remap_reports);
         DEBUG_PRINTF("non empty r %zu\n", reports.size());
         if (rev.find(rrl) != rev.end()) {
-            reports.push_back(rev[rrl]);
+            reports.emplace_back(rev[rrl]);
         } else {
             DEBUG_PRINTF("adding to rl\n");
             rev[rrl] = ri->size();
-            reports.push_back(ri->size());
-            ri->rl.push_back(rrl);
+            reports.emplace_back(ri->size());
+            ri->rl.emplace_back(rrl);
         }
     }
 
     for (auto v : verts) {
         if (v == GoughGraph::null_vertex() || gg[v].reports_eod.empty()) {
-            reports_eod.push_back(MO_INVALID_IDX);
+            reports_eod.emplace_back(MO_INVALID_IDX);
             continue;
         }
 
         DEBUG_PRINTF("non empty r eod\n");
         raw_gough_report_list rrl(gg[v].reports_eod, rm, remap_reports);
         if (rev.find(rrl) != rev.end()) {
-            reports_eod.push_back(rev[rrl]);
+            reports_eod.emplace_back(rev[rrl]);
             continue;
         }
 
         DEBUG_PRINTF("adding to rl eod %zu\n", gg[v].reports_eod.size());
         rev[rrl] = ri->size();
-        reports_eod.push_back(ri->size());
-        ri->rl.push_back(rrl);
+        reports_eod.emplace_back(ri->size());
+        ri->rl.emplace_back(rrl);
     }
 
     /* TODO: support single report in gough */
@@ -1313,7 +1313,7 @@ size_t raw_gough_report_info_impl::size() const {
 void raw_gough_report_info_impl::fillReportLists(NFA *n, size_t base_offset,
                                                  vector<u32> &ro) const {
     for (const raw_gough_report_list &r : rl) {
-        ro.push_back(base_offset);
+        ro.emplace_back(base_offset);
 
         gough_report_list *p = (gough_report_list *)((char *)n + base_offset);
         u32 i = 0;

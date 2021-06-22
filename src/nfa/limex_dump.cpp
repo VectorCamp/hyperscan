@@ -354,7 +354,7 @@ static
 void setupReach(const u8 *reachMap, const u8 *reachBase, u32 size,
                 u32 state_count, vector<CharReach> *perStateReach) {
     for (u32 i = 0; i < state_count; i++) {
-        perStateReach->push_back(CharReach());
+        perStateReach->emplace_back(CharReach());
         for (u32 j = 0; j < N_CHARS; j++) {
             u8 k = reachMap[j];
             const u8 *r = reachBase + k * (size/8);

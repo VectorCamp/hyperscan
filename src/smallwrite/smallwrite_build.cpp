@@ -170,7 +170,7 @@ bool pruneOverlongReports(NFAVertex v, NGHolder &g, const depth &max_depth,
     for (ReportID id : g[v].reports) {
         const auto &report = rm.getReport(id);
         if (report.minOffset > max_depth) {
-            bad_reports.push_back(id);
+            bad_reports.emplace_back(id);
         }
     }
 
@@ -242,7 +242,7 @@ bool mergeDfas(vector<unique_ptr<raw_dfa>> &dfas, const ReportManager &rm,
     vector<const raw_dfa *> dfa_ptrs;
     dfa_ptrs.reserve(dfas.size());
     for (auto &d : dfas) {
-        dfa_ptrs.push_back(d.get());
+        dfa_ptrs.emplace_back(d.get());
     }
 
     auto merged = mergeAllDfas(dfa_ptrs, DFA_MERGE_MAX_STATES, &rm, cc.grey);
@@ -254,7 +254,7 @@ bool mergeDfas(vector<unique_ptr<raw_dfa>> &dfas, const ReportManager &rm,
     DEBUG_PRINTF("merge succeeded, result has %zu states\n",
                   merged->states.size());
     dfas.clear();
-    dfas.push_back(std::move(merged));
+    dfas.emplace_back(std::move(merged));
     return true;
 }
 
@@ -315,7 +315,7 @@ void SmallWriteBuildImpl::add(const NGHolder &g, const ExpressionInfo &expr) {
         minimize_hopcroft(*r, cc.grey);
     }
 
-    dfas.push_back(std::move(r));
+    dfas.emplace_back(std::move(r));
 
     if (dfas.size() >= cc.grey.smallWriteMergeBatchSize) {
         if (!mergeDfas(dfas, rm, cc)) {
@@ -426,7 +426,7 @@ struct ACVisitor : public boost::default_bfs_visitor {
         auto v = target(e, trie);
         DEBUG_PRINTF("bfs (%zu, %zu) on '%c'\n", trie[u].index, trie[v].index,
                      trie[v].c);
-        ordering.push_back(v);
+        ordering.emplace_back(v);
 
         auto f = find_failure_target(u, v, trie);
 
@@ -524,7 +524,7 @@ vector<u32> findDistToAccept(const LitTrie &trie) {
     deque<LitTrieVertex> q;
     for (auto v : vertices_range(trie)) {
         if (!trie[v].reports.empty()) {
-            q.push_back(v);
+            q.emplace_back(v);
             dist[trie[v].index] = 0;
         }
     }
@@ -538,7 +538,7 @@ vector<u32> findDistToAccept(const LitTrie &trie) {
         for (auto u : inv_adjacent_vertices_range(v, trie)) {
             auto &u_dist = dist[trie[u].index];
             if (u_dist == UINT32_MAX) {
-                q.push_back(u);
+                q.emplace_back(u);
                 u_dist = d + 1;
             }
         }
@@ -573,7 +573,7 @@ void pruneTrie(LitTrie &trie, u32 max_depth) {
             DEBUG_PRINTF("pruning vertex %zu (min path len %u)\n",
                          trie[v].index, min_path_len);
             clear_vertex(v, trie);
-            dead.push_back(v);
+            dead.emplace_back(v);
         }
     }
 
@@ -615,7 +615,7 @@ vector<CharReach> getAlphabet(const LitTrie &trie, bool nocase) {
             CharReach t = cr & esets[i];
             if (t.any() && t != esets[i]) {
                 esets[i] &= ~t;
-                esets.push_back(t);
+                esets.emplace_back(t);
             }
         }
     }
@@ -892,12 +892,12 @@ bytecode_ptr<SmallWriteEngine> SmallWriteBuildImpl::build(u32 roseQuality) {
     }
 
     if (!is_empty(lit_trie)) {
-        dfas.push_back(buildDfa(lit_trie, false));
+        dfas.emplace_back(buildDfa(lit_trie, false));
         DEBUG_PRINTF("caseful literal dfa with %zu states\n",
                      dfas.back()->states.size());
     }
     if (!is_empty(lit_trie_nocase)) {
-        dfas.push_back(buildDfa(lit_trie_nocase, true));
+        dfas.emplace_back(buildDfa(lit_trie_nocase, true));
         DEBUG_PRINTF("nocase literal dfa with %zu states\n",
                      dfas.back()->states.size());
     }

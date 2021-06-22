@@ -183,7 +183,7 @@ map<u32, RegionInfo> findRegionInfo(const NGHolder &h,
         }
         u32 id = region_map.at(v);
         RegionInfo &ri = regions.emplace(id, RegionInfo(id)).first->second;
-        ri.vertices.push_back(v);
+        ri.vertices.emplace_back(v);
         ri.reach |= h[v].char_reach;
     }
 
@@ -283,7 +283,7 @@ void replaceRegion(NGHolder &g, const RegionInfo &ri,
         if (i > 0) {
             add_edge(verts.back(), v, g);
         }
-        verts.push_back(v);
+        verts.emplace_back(v);
     }
 
     if (maxWidth.is_infinite()) {

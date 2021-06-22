@@ -131,8 +131,8 @@ void RoseInstrCheckLookaround::write(void *dest, RoseEngineBlob &blob,
     vector<s8> look_offsets;
     vector<CharReach> reaches;
     for (const auto &le : look) {
-        look_offsets.push_back(le.offset);
-        reaches.push_back(le.reach);
+        look_offsets.emplace_back(le.offset);
+        reaches.emplace_back(le.reach);
     }
     inst->look_index = blob.lookaround_cache.get_offset_of(look_offsets, blob);
     inst->reach_index = blob.lookaround_cache.get_offset_of(reaches, blob);
@@ -486,9 +486,9 @@ void RoseInstrSparseIterBegin::write(void *dest, RoseEngineBlob &blob,
     vector<u32> keys;
     vector<u32> jump_offsets;
     for (const auto &jump : jump_table) {
-        keys.push_back(jump.first);
+        keys.emplace_back(jump.first);
         assert(contains(offset_map, jump.second));
-        jump_offsets.push_back(offset_map.at(jump.second));
+        jump_offsets.emplace_back(offset_map.at(jump.second));
     }
 
     auto iter = mmbBuildSparseIterator(keys, num_keys);
@@ -589,11 +589,11 @@ void RoseInstrMultipathLookaround::write(void *dest, RoseEngineBlob &blob,
         bool done_offset = false;
 
         for (const auto &le : vle) {
-            reaches.back().push_back(le.reach);
+            reaches.back().emplace_back(le.reach);
 
             /* empty reaches don't have valid offsets */
             if (!done_offset && le.reach.any()) {
-                look_offsets.push_back(le.offset);
+                look_offsets.emplace_back(le.offset);
                 done_offset = true;
             }
         }

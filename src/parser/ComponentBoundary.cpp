@@ -94,11 +94,11 @@ void ComponentBoundary::notePositions(GlushkovBuildState & bs) {
     {
         PositionInfo epsilon(GlushkovBuildState::POS_EPSILON);
         epsilon.flags = POS_FLAG_NOFLOAT;
-        m_first.push_back(epsilon);
+        m_first.emplace_back(epsilon);
 
         // We have the start vertex in firsts so that we can discourage
         // the mid-pattern use of boundaries.
-        m_first.push_back(startState);
+        m_first.emplace_back(startState);
 
         break;
     }
@@ -106,11 +106,11 @@ void ComponentBoundary::notePositions(GlushkovBuildState & bs) {
     {
         PositionInfo epsilon(GlushkovBuildState::POS_EPSILON);
         epsilon.flags = POS_FLAG_NOFLOAT;
-        m_first.push_back(epsilon);
+        m_first.emplace_back(epsilon);
 
         // We have the start vertex in firsts so that we can discourage
         // the mid-pattern use of boundaries.
-        m_first.push_back(startState);
+        m_first.emplace_back(startState);
 
         // Newline
         m_newline = makeNewline(bs);
@@ -118,8 +118,8 @@ void ComponentBoundary::notePositions(GlushkovBuildState & bs) {
         builder.setAssertFlag(m_newline, POS_FLAG_VIRTUAL_START);
         PositionInfo nl(m_newline);
         nl.flags = POS_FLAG_MUST_FLOAT | POS_FLAG_FIDDLE_ACCEPT;
-        m_first.push_back(nl);
-        m_last.push_back(nl);
+        m_first.emplace_back(nl);
+        m_last.emplace_back(nl);
         recordPosBounds(m_newline, m_newline + 1);
         break;
     }
@@ -128,7 +128,7 @@ void ComponentBoundary::notePositions(GlushkovBuildState & bs) {
         PositionInfo epsilon(GlushkovBuildState::POS_EPSILON);
         epsilon.flags = POS_FLAG_WIRE_EOD | POS_FLAG_NO_NL_EOD |
                         POS_FLAG_NO_NL_ACCEPT | POS_FLAG_ONLY_ENDS;
-        m_first.push_back(epsilon);
+        m_first.emplace_back(epsilon);
         break;
     }
     case END_STRING_OPTIONAL_LF: // end of data with optional LF ('$')
@@ -136,7 +136,7 @@ void ComponentBoundary::notePositions(GlushkovBuildState & bs) {
         PositionInfo epsilon(GlushkovBuildState::POS_EPSILON);
         epsilon.flags = POS_FLAG_WIRE_EOD | POS_FLAG_WIRE_NL_EOD |
                         POS_FLAG_NO_NL_ACCEPT | POS_FLAG_ONLY_ENDS;
-        m_first.push_back(epsilon);
+        m_first.emplace_back(epsilon);
         break;
     }
     case END_LINE: // multiline anchor: end of data or a newline
@@ -144,7 +144,7 @@ void ComponentBoundary::notePositions(GlushkovBuildState & bs) {
         PositionInfo epsilon(GlushkovBuildState::POS_EPSILON);
         epsilon.flags = POS_FLAG_WIRE_EOD | POS_FLAG_WIRE_NL_EOD |
                         POS_FLAG_WIRE_NL_ACCEPT | POS_FLAG_ONLY_ENDS;
-        m_first.push_back(epsilon);
+        m_first.emplace_back(epsilon);
         break;
     }
     default:

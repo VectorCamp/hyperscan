@@ -177,7 +177,7 @@ void ComponentRepeat::notePositions(GlushkovBuildState &bs) {
 
     // Each optional repeat has an epsilon at the end of its firsts list.
     for (u32 i = m_min; i < m_firsts.size(); i++) {
-        m_firsts[i].push_back(GlushkovBuildState::POS_EPSILON);
+        m_firsts[i].emplace_back(GlushkovBuildState::POS_EPSILON);
     }
 
 }

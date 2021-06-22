@@ -326,7 +326,7 @@ void assignGroupsToLiterals(RoseBuildImpl &build) {
         /* long literals will either be stuck in a mega group or spread around
          * depending on availability */
         if (superStrong(lit)) {
-            long_lits.push_back(id);
+            long_lits.emplace_back(id);
             continue;
         }
 

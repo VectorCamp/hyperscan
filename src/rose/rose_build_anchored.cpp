@@ -145,9 +145,9 @@ void mergeAnchoredDfas(vector<unique_ptr<raw_dfa>> &dfas,
     for (auto &rdfa : dfas) {
         u32 start_size = mcclellanStartReachSize(rdfa.get());
         if (start_size <= MAX_SMALL_START_REACH) {
-            small_starts.push_back(move(rdfa));
+            small_starts.emplace_back(move(rdfa));
         } else {
-            big_starts.push_back(move(rdfa));
+            big_starts.emplace_back(move(rdfa));
         }
     }
     dfas.clear();
@@ -159,10 +159,10 @@ void mergeAnchoredDfas(vector<unique_ptr<raw_dfa>> &dfas,
 
     // Rehome our groups into one vector.
     for (auto &rdfa : small_starts) {
-        dfas.push_back(move(rdfa));
+        dfas.emplace_back(move(rdfa));
     }
     for (auto &rdfa : big_starts) {
-        dfas.push_back(move(rdfa));
+        dfas.emplace_back(move(rdfa));
     }
 
     // Final test: if we've built two DFAs here that are small enough, we can
@@ -300,7 +300,7 @@ public:
     explicit Automaton_Holder(const NGHolder &g_in) : g(g_in) {
         for (auto v : vertices_range(g)) {
             vertexToIndex[v] = indexToVertex.size();
-            indexToVertex.push_back(v);
+            indexToVertex.emplace_back(v);
         }
 
         assert(indexToVertex.size() <= ANCHORED_NFA_STATE_LIMIT);
@@ -331,7 +331,7 @@ private:
 
                 if (t.any() && t != esets[i]) {
                     esets[i] &= ~t;
-                    esets.push_back(t);
+                    esets.emplace_back(t);
                 }
             }
         }
@@ -511,7 +511,7 @@ NFAVertex extractLiteral(const NGHolder &h, ue2_literal *lit) {
         if (cr.count() > 1 && !cr.isCaselessChar()) {
             break;
         }
-        lit_verts.push_back(v);
+        lit_verts.emplace_back(v);
     }
 
     if (lit_verts.empty()) {
@@ -686,7 +686,7 @@ int finalise_out(RoseBuildImpl &build, const NGHolder &h,
     if (check_dupe(*out_dfa, build.anchored_nfas[hash], remap)) {
         return ANCHORED_REMAP;
     }
-    build.anchored_nfas[hash].push_back(move(out_dfa));
+    build.anchored_nfas[hash].emplace_back(move(out_dfa));
     return ANCHORED_SUCCESS;
 }
 
@@ -768,7 +768,7 @@ void buildSimpleDfas(const RoseBuildImpl &build, const vector<u32> &frag_map,
         rdfa->start_floating = DEAD_STATE;
         rdfa->alpha_size = autom.alphasize;
         rdfa->alpha_remap = autom.alpha;
-        anchored_dfas->push_back(move(rdfa));
+        anchored_dfas->emplace_back(move(rdfa));
     }
 }
 
@@ -785,7 +785,7 @@ vector<unique_ptr<raw_dfa>> getAnchoredDfas(RoseBuildImpl &build,
     // DFAs that already exist as raw_dfas.
     for (auto &anch_dfas : build.anchored_nfas) {
         for (auto &rdfa : anch_dfas.second) {
-            dfas.push_back(move(rdfa));
+            dfas.emplace_back(move(rdfa));
         }
     }
     build.anchored_nfas.clear();
@@ -823,7 +823,7 @@ size_t buildNfas(vector<raw_dfa> &anchored_dfas,
 
     for (auto &rdfa : anchored_dfas) {
         u32 removed_dots = remove_leading_dots(rdfa);
-        start_offset->push_back(removed_dots);
+        start_offset->emplace_back(removed_dots);
 
         minimize_hopcroft(rdfa, cc.grey);
 
@@ -835,7 +835,7 @@ size_t buildNfas(vector<raw_dfa> &anchored_dfas,
 
         assert(nfa->length);
         total_size += ROUNDUP_CL(sizeof(anchored_matcher_info) + nfa->length);
-        nfas->push_back(move(nfa));
+        nfas->emplace_back(move(nfa));
     }
 
     // We no longer need to keep the raw_dfa structures around.
@@ -862,7 +862,7 @@ vector<raw_dfa> buildAnchoredDfas(RoseBuildImpl &build,
     dfas.reserve(anch_dfas.size());
     for (auto &rdfa : anch_dfas) {
         assert(rdfa);
-        dfas.push_back(move(*rdfa));
+        dfas.emplace_back(move(*rdfa));
     }
     return dfas;
 }

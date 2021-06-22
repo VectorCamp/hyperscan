@@ -116,7 +116,7 @@ void calculateAlphabet(const NGHolder &g, array<u16, ALPHABET_SIZE> &alpha,
             CharReach t = cr & esets[i];
             if (t.any() && t != esets[i]) {
                 esets[i] &= ~t;
-                esets.push_back(t);
+                esets.emplace_back(t);
             }
         }
     }
@@ -401,7 +401,7 @@ public:
     const vector<StateSet> initial() {
         vector<StateSet> rv = {init};
         if (start_floating != DEAD_STATE && start_floating != start_anchored) {
-            rv.push_back(initDS);
+            rv.emplace_back(initDS);
         }
         return rv;
     }

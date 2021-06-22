@@ -54,7 +54,7 @@ void remapTops(const TamaInfo &tamaInfo,
     u32 cur = 0;
     for (const auto &sub : tamaInfo.subengines) {
         u32 base = cur;
-        top_base.push_back(base + MQE_TOP_FIRST);
+        top_base.emplace_back(base + MQE_TOP_FIRST);
         DEBUG_PRINTF("subengine:%u\n", i);
         for (const auto &t : tamaInfo.tops[i++]) {
             cur = base + t;
@@ -163,8 +163,8 @@ set<ReportID> all_reports(const TamaProto &proto) {
 
 void TamaInfo::add(NFA *sub, const set<u32> &top) {
     assert(subengines.size() < max_occupancy);
-    subengines.push_back(sub);
-    tops.push_back(top);
+    subengines.emplace_back(sub);
+    tops.emplace_back(top);
 }
 
 void TamaProto::add(const NFA *n, const u32 id, const u32 top,

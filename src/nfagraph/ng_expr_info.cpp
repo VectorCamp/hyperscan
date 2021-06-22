@@ -68,7 +68,7 @@ void removeLeadingVirtualVerticesFromRoot(NGHolder &g, NFAVertex root) {
     for (auto v : adjacent_vertices_range(root, g)) {
         if (g[v].assert_flags & POS_FLAG_VIRTUAL_START) {
             DEBUG_PRINTF("(?m)^ vertex or leading \\[bB] vertex\n");
-            victims.push_back(v);
+            victims.emplace_back(v);
         }
     }
 

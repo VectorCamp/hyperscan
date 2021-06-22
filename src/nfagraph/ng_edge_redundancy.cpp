@@ -493,7 +493,7 @@ bool removeSiblingsOfStartDotStar(NGHolder &g) {
                 continue;
             }
             DEBUG_PRINTF("removing %zu->%zu\n", g[u].index, g[v].index);
-            dead.push_back(e);
+            dead.emplace_back(e);
         }
     }
 
@@ -520,7 +520,7 @@ bool optimiseVirtualStarts(NGHolder &g) {
 
         for (const auto &e : in_edges_range(v, g)) {
             if (!is_any_start(source(e, g), g)) {
-                dead.push_back(e);
+                dead.emplace_back(e);
             }
         }
     }

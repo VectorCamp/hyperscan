@@ -281,7 +281,7 @@ void findDerivedSquashers(const NGHolder &g, const vector<NFAVertex> &vByIndex,
                           smgb_cache &cache) {
     deque<NFAVertex> remaining;
     for (const auto &m : *squash) {
-        remaining.push_back(m.first);
+        remaining.emplace_back(m.first);
     }
 
     while (!remaining.empty()) {
@@ -313,7 +313,7 @@ void findDerivedSquashers(const NGHolder &g, const vector<NFAVertex> &vByIndex,
                 DEBUG_PRINTF("%zu is an upstream squasher of %zu\n", u_index,
                              g[v].index);
                 (*squash)[u] = u_squash;
-                remaining.push_back(u);
+                remaining.emplace_back(u);
             }
         }
     }
@@ -639,7 +639,7 @@ vector<NFAVertex> findUnreachable(const NGHolder &g) {
     vector<NFAVertex> unreach;
     for (auto v : vertices_range(revg)) {
         if (!contains(colours, v)) {
-            unreach.push_back(NFAVertex(v));
+            unreach.emplace_back(NFAVertex(v));
         }
     }
     return unreach;

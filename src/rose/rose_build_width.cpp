@@ -67,7 +67,7 @@ u32 findMinWidth(const RoseBuildImpl &tbi, enum rose_literal_table table) {
 
     for (auto v : vertices_range(g)) {
         if (tbi.hasLiteralInTable(v, table)) {
-            table_verts.push_back(v);
+            table_verts.emplace_back(v);
         }
     }
 
@@ -193,7 +193,7 @@ u32 findMaxBAWidth(const RoseBuildImpl &tbi, enum rose_literal_table table) {
     for (auto v : vertices_range(g)) {
         if ((table == ROSE_FLOATING && tbi.isFloating(v))
             || (table == ROSE_ANCHORED && tbi.isAnchored(v))) {
-            table_verts.push_back(v);
+            table_verts.emplace_back(v);
         }
     }
 

@@ -140,12 +140,12 @@ void populateClusters(const vector<raw_puff> &puffs_in,
 
     u32 e = MQE_TOP_FIRST;
     for (const auto &puff : triggered_puffs) {
-        puff_clusters[ClusterKey(e, puff)].push_back(puff);
+        puff_clusters[ClusterKey(e, puff)].emplace_back(puff);
         e++;
     }
 
     for (const auto &puff : puffs_in) {
-        puff_clusters[ClusterKey(puff)].push_back(puff);
+        puff_clusters[ClusterKey(puff)].emplace_back(puff);
     }
 
 
@@ -264,7 +264,7 @@ void fillCounterInfos(vector<mpv_counter_info> *out, u32 *curr_decomp_offset,
         assert(it->first.trigger_event
                == MQE_TOP_FIRST + distance(kilopuffs.begin(), it));
 
-        out->push_back(mpv_counter_info());
+        out->emplace_back(mpv_counter_info());
         map<ClusterKey, vector<raw_puff>>::const_iterator it_o = it;
         ++it;
         fillCounterInfo(&out->back(), curr_decomp_offset, curr_comp_offset,
@@ -282,14 +282,14 @@ void fillCounterInfos(vector<mpv_counter_info> *out, u32 *curr_decomp_offset,
         ++it;
     }
     if (it != trig_ite) {
-        out->push_back(mpv_counter_info());
+        out->emplace_back(mpv_counter_info());
         fillCounterInfo(&out->back(), curr_decomp_offset, curr_comp_offset,
                         kilopuffs, kilopuffs.begin(), it);
     }
     while (it != kilopuffs.end() && it->first.auto_restart) {
         assert(it->first.trigger_event == MQE_INVALID);
 
-        out->push_back(mpv_counter_info());
+        out->emplace_back(mpv_counter_info());
         map<ClusterKey, vector<raw_puff>>::const_iterator it_o = it;
         ++it;
         fillCounterInfo(&out->back(), curr_decomp_offset, curr_comp_offset,

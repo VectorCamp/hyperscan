@@ -343,7 +343,7 @@ public:
             return {it->second, false};
         }
         u32 id = verify_u32(lits.size());
-        lits.push_back(lit);
+        lits.emplace_back(lit);
         lits_index.emplace(lit, id);
         return {id, true};
     }

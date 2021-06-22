@@ -148,7 +148,7 @@ void findPaths(const NGHolder &g, NFAVertex v,
     if (v == g.accept || v == g.acceptEod) {
         paths->push_back({});
         if (!generates_callbacks(g) || v == g.acceptEod) {
-            paths->back().push_back(CharReach()); /* red tape options */
+            paths->back().emplace_back(CharReach()); /* red tape options */
         }
         return;
     }
@@ -181,8 +181,8 @@ void findPaths(const NGHolder &g, NFAVertex v,
         } while (new_depth-- && curr.size() >= MAGIC_TOO_WIDE_NUMBER);
 
         for (auto &c : curr) {
-            c.push_back(cr);
-            paths->push_back(std::move(c));
+            c.emplace_back(cr);
+            paths->emplace_back(std::move(c));
         }
     }
 }
@@ -254,7 +254,7 @@ void findBestInternal(vector<vector<CharReach>>::const_iterator pb,
             DEBUG_PRINTF("worse\n");
             continue;
         }
-        priority_path.push_back(move(as));
+        priority_path.emplace_back(move(as));
     }
 
     sort(priority_path.begin(), priority_path.end());
@@ -422,7 +422,7 @@ void findDoubleBest(vector<vector<CharReach> >::const_iterator pb,
             DEBUG_PRINTF("worse\n");
             continue;
         }
-        priority_path.push_back(move(as));
+        priority_path.emplace_back(move(as));
     }
 
     sort(priority_path.begin(), priority_path.end());

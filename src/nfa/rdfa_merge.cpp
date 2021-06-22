@@ -132,7 +132,7 @@ public:
 
                 if (t.any() && t != esets[i]) {
                     esets[i] &= ~t;
-                    esets.push_back(t);
+                    esets.emplace_back(t);
                 }
             }
         }
@@ -204,7 +204,7 @@ public:
     const vector<StateSet> initial() {
         vector<StateSet> rv = {as};
         if (start_floating != DEAD_STATE && start_floating != start_anchored) {
-            rv.push_back(fs);
+            rv.emplace_back(fs);
         }
         return rv;
     }
@@ -342,17 +342,17 @@ void mergeDfas(vector<unique_ptr<raw_dfa>> &dfas, size_t max_states,
             // Put the larger of the two DFAs on the output list, retain the
             // smaller one on the queue for further merge attempts.
             if (d2->states.size() > d1->states.size()) {
-                dfas.push_back(move(d2));
+                dfas.emplace_back(move(d2));
                 q.push(move(d1));
             } else {
-                dfas.push_back(move(d1));
+                dfas.emplace_back(move(d1));
                 q.push(move(d2));
             }
         }
     }
 
     while (!q.empty()) {
-        dfas.push_back(move(q.front()));
+        dfas.emplace_back(move(q.front()));
         q.pop();
     }
 

@@ -94,7 +94,7 @@ vector<NFAEdge> getAsserts(const NGHolder &g) {
     vector<NFAEdge> out;
     for (const auto &e : edges_range(g)) {
         if (g[e].assert_flags) {
-            out.push_back(e);
+            out.emplace_back(e);
         }
     }
     return out;

@@ -88,7 +88,7 @@ bool findMask(const NGHolder &g, vector<CharReach> *mask, bool *anchored,
             return true;
         }
 
-        mask->push_back(g[v].char_reach);
+        mask->emplace_back(g[v].char_reach);
 
         if (out_degree(v, g) != 1) {
             DEBUG_PRINTF("out_degree != 1\n");

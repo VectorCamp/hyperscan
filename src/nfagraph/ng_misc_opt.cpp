@@ -112,7 +112,7 @@ void findCandidates(NGHolder &g, const vector<NFAVertex> &ordering,
             }
         }
         DEBUG_PRINTF("vertex %zu is a candidate\n", g[v].index);
-        cand->push_back(v);
+        cand->emplace_back(v);
     next_cand:;
     }
 }
@@ -143,7 +143,7 @@ void findCandidates_rev(NGHolder &g, const vector<NFAVertex> &ordering,
             }
         }
         DEBUG_PRINTF("vertex %zu is a candidate\n", g[v].index);
-        cand->push_back(v);
+        cand->emplace_back(v);
     next_cand:;
     }
 }
@@ -525,7 +525,7 @@ bool mergeCyclicDotStars(NGHolder &g) {
                 add_edge_if_not_present(g.startDs, t, g);
 
                 // mark this edge for removal
-                deadEdges.push_back(e);
+                deadEdges.emplace_back(e);
             }
             // if the number of edges to be removed equals out degree, vertex
             // needs to be removed; else, only remove the edges
@@ -641,7 +641,7 @@ bool pruneUsingSuccessors(NGHolder &g, PrunePathsInfo &info, NFAVertex u,
              * existing in progress matches. */
             continue;
         }
-        u_succs.push_back(v);
+        u_succs.emplace_back(v);
     }
 
     stable_sort(u_succs.begin(), u_succs.end(),

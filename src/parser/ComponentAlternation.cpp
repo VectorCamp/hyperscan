@@ -57,7 +57,7 @@ ComponentAlternation::ComponentAlternation(const ComponentAlternation &other)
     : Component(other) {
     for (const auto &c : other.children) {
         assert(c);
-        children.push_back(unique_ptr<Component>(c->clone()));
+        children.emplace_back(unique_ptr<Component>(c->clone()));
     }
 }
 
@@ -103,7 +103,7 @@ void ComponentAlternation::accept(ConstComponentVisitor &v) const {
 }
 
 void ComponentAlternation::append(unique_ptr<Component> component) {
-    children.push_back(move(component));
+    children.emplace_back(move(component));
 }
 
 vector<PositionInfo> ComponentAlternation::first() const {

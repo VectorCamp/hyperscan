@@ -494,11 +494,11 @@ map<BucketIndex, vector<LiteralIndex>> assignStringsToBuckets(
         u32 cnt = last_id - first_id;
         // long literals first for included literals checking
         for (u32 k = 0; k < cnt; k++) {
-            litIds.push_back(last_id - k - 1);
+            litIds.emplace_back(last_id - k - 1);
         }
 
         i = j;
-        buckets.push_back(litIds);
+        buckets.emplace_back(litIds);
     }
 
     // reverse bucket id, longer literals come first

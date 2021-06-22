@@ -72,15 +72,15 @@ vector<RoleChunk<role_id>> divideIntoChunks(const RoseBuildImpl &build,
     for (const auto &roleInfo : roleInfoSet) {
         if (cnt == chunkSize) {
             cnt -= chunkSize;
-            chunks.push_back(roleChunk);
+            chunks.emplace_back(roleChunk);
             roleChunk.roles.clear();
         }
-        roleChunk.roles.push_back(roleInfo);
+        roleChunk.roles.emplace_back(roleInfo);
         cnt++;
     }
 
     if (cnt > 1) {
-        chunks.push_back(roleChunk);
+        chunks.emplace_back(roleChunk);
     }
 
     return chunks;
@@ -106,14 +106,14 @@ bool addPrefixLiterals(NGHolder &h, unordered_set<u32> &tailId,
             NFAVertex u = add_vertex(h);
             h[u].char_reach = c;
             if (!i++) {
-                heads.push_back(u);
+                heads.emplace_back(u);
                 last = u;
                 continue;
             }
             add_edge(last, u, h);
             last = u;
         }
-        tails.push_back(last);
+        tails.emplace_back(last);
         tailId.insert(h[last].index);
     }
 
@@ -309,7 +309,7 @@ void findCliques(const map<u32, set<u32>> &exclusiveGroups,
     for (const auto &i : clique) {
         DEBUG_PRINTF("cliq:%zu\n", i.size());
         if (i.size() > 1) {
-            exclusive_roles.push_back(i);
+            exclusive_roles.emplace_back(i);
         }
     }
     DEBUG_PRINTF("Clique graph size:%zu\n", exclusive_roles.size());
@@ -359,7 +359,7 @@ bool setTriggerLiterals(RoleInfo<role_id> &roleInfo,
             for (const auto &c : lit) {
                 roleInfo.prefix_cr |= c;
             }
-            roleInfo.literals.push_back(lit);
+            roleInfo.literals.emplace_back(lit);
         }
     }
 

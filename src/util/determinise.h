@@ -88,7 +88,7 @@ bool determinise(Auto &n, std::vector<ds> &dstates, size_t state_limit,
     dstates.reserve(state_limit);
 
     dstate_ids.emplace(n.dead, DEAD_STATE);
-    dstates.push_back(ds(alphabet_size));
+    dstates.emplace_back(ds(alphabet_size));
     std::fill_n(dstates[0].next.begin(), alphabet_size, DEAD_STATE);
 
     std::queue<std::pair<StateSet, dstate_id_t>> q;
@@ -99,7 +99,7 @@ bool determinise(Auto &n, std::vector<ds> &dstates, size_t state_limit,
         q.emplace(init[i], dstates.size());
         assert(!contains(dstate_ids, init[i]));
         dstate_ids.emplace(init[i], dstates.size());
-        dstates.push_back(ds(alphabet_size));
+        dstates.emplace_back(ds(alphabet_size));
     }
 
     std::vector<StateSet> succs(alphabet_size, n.dead);
@@ -149,7 +149,7 @@ bool determinise(Auto &n, std::vector<ds> &dstates, size_t state_limit,
                 } else {
                     succ_id = dstate_ids.size();
                     dstate_ids.emplace(succs[s], succ_id);
-                    dstates.push_back(ds(alphabet_size));
+                    dstates.emplace_back(ds(alphabet_size));
                     dstates.back().daddy = n.unalpha[s] < N_CHARS ? curr_id : 0;
                     q.emplace(succs[s], succ_id);
                 }

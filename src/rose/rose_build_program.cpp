@@ -95,7 +95,7 @@ OffsetMap makeOffsetMap(const RoseProgram &program, u32 *total_len) {
 }
 
 RoseProgram::RoseProgram() {
-    prog.push_back(make_unique<RoseInstrEnd>());
+    prog.emplace_back(make_unique<RoseInstrEnd>());
 }
 
 RoseProgram::~RoseProgram() = default;
@@ -1142,7 +1142,7 @@ void getAllBuckets(const vector<LookEntry> &look,
         }
         for (const auto &it : lo2hi) {
             u32 hi_lo = (it.second << 16) | it.first;
-            buckets[hi_lo].push_back(entry.offset);
+            buckets[hi_lo].emplace_back(entry.offset);
         }
     }
 }
@@ -2195,7 +2195,7 @@ RoseProgram assembleProgramBlocks(vector<RoseProgram> &&blocks_in) {
             continue;
         }
 
-        blocks.push_back(move(block));
+        blocks.emplace_back(move(block));
         seen.emplace(blocks.back());
     }
 
@@ -2322,7 +2322,7 @@ RoseProgram makeDelayRebuildProgram(const RoseBuildImpl &build,
         makePushDelayedInstructions(build.literals, prog_build,
                                     build.literal_info.at(lit_id).delayed_ids,
                                     prog);
-        blocks.push_back(move(prog));
+        blocks.emplace_back(move(prog));
     }
 
     return assembleProgramBlocks(move(blocks));
@@ -2424,7 +2424,7 @@ void addPredBlocksAny(map<u32, RoseProgram> &pred_blocks, u32 num_states,
 
     vector<u32> keys;
     for (const u32 &key : pred_blocks | map_keys) {
-        keys.push_back(key);
+        keys.emplace_back(key);
     }
 
     const RoseInstruction *end_inst = sparse_program.end_instruction();

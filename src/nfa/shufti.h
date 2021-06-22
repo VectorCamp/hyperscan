@@ -36,7 +36,7 @@
 #define SHUFTI_H
 
 #include "ue2common.h"
-#include "util/simd_utils.h"
+#include "util/simd_types.h"
 
 #ifdef __cplusplus
 extern "C"

@@ -279,13 +279,13 @@ void findForwardReach(const RoseGraph &g, const RoseVertex v,
             DEBUG_PRINTF("successor %zu has no leftfix\n", g[t].index);
             return;
         }
-        rose_look.push_back(map<s32, CharReach>());
+        rose_look.emplace_back(map<s32, CharReach>());
         getRoseForwardReach(g[t].left, g[e].rose_top, rose_look.back());
     }
 
     if (g[v].suffix) {
         DEBUG_PRINTF("suffix engine\n");
-        rose_look.push_back(map<s32, CharReach>());
+        rose_look.emplace_back(map<s32, CharReach>());
         getSuffixForwardReach(g[v].suffix, g[v].suffix.top, rose_look.back());
     }
 
@@ -319,7 +319,7 @@ void normalise(map<s32, CharReach> &look) {
     vector<s32> dead;
     for (const auto &m : look) {
         if (m.second.all()) {
-            dead.push_back(m.first);
+            dead.emplace_back(m.first);
         }
     }
     erase_all(&look, dead);
@@ -569,7 +569,7 @@ void normaliseLeftfix(map<s32, CharReach> &look) {
     vector<s32> dead;
     for (const auto &m : look) {
         if (m.second.all() && m.first != earliest) {
-            dead.push_back(m.first);
+            dead.emplace_back(m.first);
         }
     }
     erase_all(&look, dead);
@@ -617,7 +617,7 @@ void transToLookaround(const vector<map<s32, CharReach>> &looks,
             s8 offset = verify_s8(m.first);
             lookaround.emplace_back(offset, m.second);
         }
-        lookarounds.push_back(lookaround);
+        lookarounds.emplace_back(lookaround);
     }
 }
 
@@ -711,7 +711,7 @@ bool getTransientPrefixReach(const NGHolder &g, ReportID report, u32 lag,
             return true;
         }
         if (contains(g[v].reports, report)) {
-            curr.push_back(v);
+            curr.emplace_back(v);
         }
     }
 
@@ -765,8 +765,8 @@ bool getTransientPrefixReach(const NGHolder &g, ReportID report, u32 lag,
                     looks[idx][0 - i] = g[u].char_reach;
                     total_len++;
                 } else {
-                    curr.push_back(u);
-                    looks.push_back(looks[idx]);
+                    curr.emplace_back(u);
+                    looks.emplace_back(looks[idx]);
                     (looks.back())[0 - i] = g[u].char_reach;
                     total_len += looks.back().size();
                 }

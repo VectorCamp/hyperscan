@@ -1145,20 +1145,20 @@ void UTF8ComponentClass::buildFollowSet(GlushkovBuildState &,
 vector<PositionInfo> UTF8ComponentClass::first(void) const {
     vector<PositionInfo> rv;
     if (single_pos != GlushkovBuildState::POS_UNINITIALIZED) {
-        rv.push_back(single_pos);
+        rv.emplace_back(single_pos);
     }
     if (two_char_dot_head != GlushkovBuildState::POS_UNINITIALIZED) {
-        rv.push_back(two_char_dot_head);
+        rv.emplace_back(two_char_dot_head);
     }
     if (three_char_dot_head != GlushkovBuildState::POS_UNINITIALIZED) {
-        rv.push_back(three_char_dot_head);
+        rv.emplace_back(three_char_dot_head);
     }
     if (four_char_dot_head != GlushkovBuildState::POS_UNINITIALIZED) {
-        rv.push_back(four_char_dot_head);
+        rv.emplace_back(four_char_dot_head);
     }
 
     for (auto it = heads.begin(); it != heads.end(); ++it) {
-        rv.push_back(it->second);
+        rv.emplace_back(it->second);
     }
     return rv;
 }

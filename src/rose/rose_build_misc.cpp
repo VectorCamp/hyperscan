@@ -375,7 +375,7 @@ u32 RoseBuildImpl::getLiteralId(const ue2_literal &s, u32 delay,
     bool inserted = m.second;
 
     if (inserted) {
-        literal_info.push_back(rose_literal_info());
+        literal_info.emplace_back(rose_literal_info());
         assert(literal_info.size() == id + 1);
 
         if (delay) {
@@ -465,7 +465,7 @@ u32 RoseBuildImpl::getLiteralId(const ue2_literal &s, const vector<u8> &msk,
     bool inserted = m.second;
 
     if (inserted) {
-        literal_info.push_back(rose_literal_info());
+        literal_info.emplace_back(rose_literal_info());
         assert(literal_info.size() == id + 1);
 
         if (delay) {
@@ -488,7 +488,7 @@ u32 RoseBuildImpl::getNewLiteralId() {
     assert(m.second);
     u32 id = m.first;
 
-    literal_info.push_back(rose_literal_info());
+    literal_info.emplace_back(rose_literal_info());
     assert(literal_info.size() == id + 1);
 
     literal_info[id].undelayed_id = id;

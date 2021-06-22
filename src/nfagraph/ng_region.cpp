@@ -100,7 +100,7 @@ void checkAndAddExitCandidate(const AcyclicGraph &g,
 
     if (!open.empty()) {
         DEBUG_PRINTF("exit %zu\n", g[v].index);
-        exits.push_back(move(v_exit));
+        exits.emplace_back(move(v_exit));
     }
 }
 

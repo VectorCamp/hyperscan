@@ -256,7 +256,7 @@ void removeRegionRedundancy(NGHolder &g, som_type som) {
         }
         u32 region = region_map.at(v);
         if (contains(deadRegions, region)) {
-            dead.push_back(v);
+            dead.emplace_back(v);
         }
     }
 

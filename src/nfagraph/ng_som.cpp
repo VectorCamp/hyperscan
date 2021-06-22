@@ -166,12 +166,12 @@ void buildRegionMapping(const NGHolder &g,
         }
 
         if (isRegionEntry(g, v, regions)) {
-            info[region].enters.push_back(v);
+            info[region].enters.emplace_back(v);
         }
         if (isRegionExit(g, v, regions)) {
-            info[region].exits.push_back(v);
+            info[region].exits.emplace_back(v);
         }
-        info[region].full.push_back(v);
+        info[region].full.emplace_back(v);
     }
 
     for (auto &m : info) {
@@ -410,7 +410,7 @@ makePrefix(const NGHolder &g, const unordered_map<NFAVertex, u32> &regions,
         if (p_v == prefix.accept || regions.at(v) < dead_region) {
             continue;
         }
-        to_clear.push_back(p_v);
+        to_clear.emplace_back(p_v);
     }
 
     for (auto v : to_clear) {
@@ -1045,7 +1045,7 @@ void addReporterVertices(const region_info &r, const NGHolder &g,
     for (auto v : r.exits) {
         if (edge(v, g.accept, g).second || edge(v, g.acceptEod, g).second) {
             DEBUG_PRINTF("add reporter %zu\n", g[v].index);
-            reporters.push_back(v);
+            reporters.emplace_back(v);
         }
     }
 }
@@ -1060,7 +1060,7 @@ void addMappedReporterVertices(const region_info &r, const NGHolder &g,
             DEBUG_PRINTF("adding v=%zu\n", g[v].index);
             auto it = mapping.find(v);
             assert(it != mapping.end());
-            reporters.push_back(it->second);
+            reporters.emplace_back(it->second);
         }
     }
 }
@@ -1109,7 +1109,7 @@ void expandGraph(NGHolder &g, unordered_map<NFAVertex, u32> &regions,
         if (is_special(v, g) || regions.at(v) < split_region) {
             continue;
         }
-        tail_vertices.push_back(v);
+        tail_vertices.emplace_back(v);
     }
 
     for (auto enter : enters) {
@@ -1166,7 +1166,7 @@ void expandGraph(NGHolder &g, unordered_map<NFAVertex, u32> &regions,
                               }, g);
         }
 
-        new_enters.push_back(orig_to_copy[enter]);
+        new_enters.emplace_back(orig_to_copy[enter]);
     }
 
     // Remove the original set of tail vertices.
@@ -1659,7 +1659,7 @@ void anchorStarts(NGHolder &g) {
             continue;
         }
         add_edge_if_not_present(g.start, v, g[e], g);
-        dead.push_back(e);
+        dead.emplace_back(e);
     }
     remove_edges(dead, g);
 }
@@ -1720,7 +1720,7 @@ void clearProperInEdges(NGHolder &g, const NFAVertex sink) {
         if (source(e, g) == g.accept) {
             continue;
         }
-        dead.push_back(e);
+        dead.emplace_back(e);
     }
 
     if (dead.empty()) {
@@ -2214,7 +2214,7 @@ bool leadingLiterals(const NGHolder &g, set<ue2_literal> *lits,
     sds_succ.erase(g.startDs);
 
     map<NFAVertex, vector<ue2_literal> > curr;
-    curr[g.startDs].push_back(ue2_literal());
+    curr[g.startDs].emplace_back(ue2_literal());
 
     map<NFAVertex, set<NFAVertex> > seen;
     map<NFAVertex, vector<ue2_literal> > next;
@@ -2273,7 +2273,7 @@ bool leadingLiterals(const NGHolder &g, set<ue2_literal> *lits,
                             goto exit;
                         }
                         did_expansion = true;
-                        out.push_back(lit);
+                        out.emplace_back(lit);
                         out.back().push_back(c, nocase);
                         count++;
                         if (out.back().length() > MAX_MASK2_WIDTH
@@ -2469,7 +2469,7 @@ bool doLitHaigSom(NG &ng, NGHolder &g, som_type som) {
     dumpHolder(*rhs, 91, "lithaig_rhs", ng.cc.grey);
 
     vector<vector<CharReach> > triggers;
-    triggers.push_back(as_cr_seq(lit));
+    triggers.emplace_back(as_cr_seq(lit));
 
     assert(rhs->kind == NFA_SUFFIX);
     shared_ptr<raw_som_dfa> haig
@@ -2579,7 +2579,7 @@ bool doHaigLitHaigSom(NG &ng, NGHolder &g,
         assert(rhs->kind == NFA_SUFFIX);
 
         vector<vector<CharReach> > triggers;
-        triggers.push_back(as_cr_seq(lit));
+        triggers.emplace_back(as_cr_seq(lit));
 
         ue2_literal lit2;
         if (getTrailingLiteral(g, &lit2)
@@ -2677,7 +2677,7 @@ bool doMultiLitHaigSom(NG &ng, NGHolder &g, som_type som) {
         }
 
         assert(lit.length() <= MAX_MASK2_WIDTH || !mixed_sensitivity(lit));
-        triggers.push_back(as_cr_seq(lit));
+        triggers.emplace_back(as_cr_seq(lit));
     }
 
     bool unordered_som_triggers = true; /* TODO: check overlaps to ensure that
@@ -2791,7 +2791,7 @@ map<u32, region_info>::const_iterator tryForLaterRevNfaCut(const NGHolder &g,
             continue;
         }
 
-        cands.push_back(it);
+        cands.emplace_back(it);
     }
 
     while (!cands.empty()) {
@@ -3023,7 +3023,7 @@ sombe_rv doSom(NG &ng, NGHolder &g, const ExpressionInfo &expr, u32 comp_id,
     vector<som_plan> plan;
  retry:
     // Note: no-one should ever pay attention to the root plan's parent.
-    plan.push_back(som_plan(prefix, escapes, false, 0));
+    plan.emplace_back(som_plan(prefix, escapes, false, 0));
     dumpHolder(*plan.back().prefix, 12, "som_prefix", cc.grey);
     if (!prefix_by_rev) {
         if (!doSomPlanning(g, stuck, regions, info, picked, plan, cc.grey)) {
