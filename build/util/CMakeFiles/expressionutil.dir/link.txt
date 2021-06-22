@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libexpressionutil.a  CMakeFiles/expressionutil.dir/expressions.cpp.o CMakeFiles/expressionutil.dir/ExpressionParser.cpp.o
+/usr/bin/ranlib ../lib/libexpressionutil.a
