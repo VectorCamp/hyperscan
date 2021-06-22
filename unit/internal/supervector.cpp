@@ -449,5 +449,4 @@ TEST(SuperVectorUtilsTest,Alignr512){
     ALIGNR512(15);
     ALIGNR512(16);
 }
-
 #endif
