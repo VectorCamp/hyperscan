@@ -108,7 +108,7 @@ hwlm_error_t scanDoubleUnaligned(const struct noodTable *n, const u8 *buf,
                                  SuperVector<S> caseMask, SuperVector<S> mask1, SuperVector<S> mask2, typename SuperVector<S>::movemask_type *lastz1,
                                  const struct cb_info *cbi, size_t len, size_t start, size_t end) {
     const u8 *d = buf + start;
-    DEBUG_PRINTF("start %zu end %zu", start, end);
+    DEBUG_PRINTF("start %zu end %zu\n", start, end);
     const size_t l = end - start;
     assert(l <= S);
     if (!l) {

@@ -245,7 +245,7 @@ hwlm_error_t scanDouble(const struct noodTable *n, const u8 *buf, size_t len,
     // Check first position in scalar so as to remove underflow possibilities.
     size_t matchPos = d - buf;
     DEBUG_PRINTF("Test match pos %zu\n", matchPos);
-    RETURN_IF_TERMINATED(final(n, d, len, true, cbi, matchPos));
+    RETURN_IF_TERMINATED(final(n, buf, len, true, cbi, matchPos));
     d += 2;
     if (d >= e) {
         return HWLM_SUCCESS;
