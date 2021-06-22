@@ -115,7 +115,7 @@ set(unit_internal_SOURCES
     internal/rose_mask_32.cpp
     internal/rvermicelli.cpp
     internal/simd_utils.cpp
-    #internal/supervector.cpp
+    internal/supervector.cpp
     internal/shuffle.cpp
     internal/shufti.cpp
     internal/state_compress.cpp
