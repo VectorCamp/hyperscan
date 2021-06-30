@@ -242,17 +242,12 @@ hwlm_error_t scanDouble(const struct noodTable *n, const u8 *buf, size_t len,
     assert(d < e);
     assert(d >= buf);
 
-    // Check first position in scalar so as to remove underflow possibilities.
-    size_t matchPos = d - buf;
-    DEBUG_PRINTF("Test match pos %zu\n", matchPos);
-    RETURN_IF_TERMINATED(final(n, buf, len, true, cbi, matchPos));
-    d += 2;
-    if (d >= e) {
+    if (e - d < 2) {
         return HWLM_SUCCESS;
     }
+    ++d;
 
     svuint16_t chars = getCharMaskDouble(n, noCase);
-
     // peel off first part to align to the vector size
     const u8 *d1 = ROUNDUP_PTR(d, svcntb_pat(SV_POW2));
     if (d != d1) {
