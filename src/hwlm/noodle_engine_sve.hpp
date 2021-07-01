@@ -122,16 +122,16 @@ hwlm_error_t scanSingle(const struct noodTable *n, const u8 *buf, size_t len,
 
     svuint8_t chars = getCharMaskSingle(n, noCase);
 
+    size_t scan_len = e - d;
+    if (scan_len <= svcntb()) {
+        return scanSingleOnce(n, buf, len, cbi, chars, d, e);
+    }
     // peel off first part to align to the vector size
     const u8 *d1 = ROUNDUP_PTR(d, svcntb_pat(SV_POW2));
     if (d != d1) {
-        if (d1 >= e) {
-            return scanSingleOnce(n, buf, len, cbi, chars, d, e);
-        } else {
-            DEBUG_PRINTF("until aligned %p \n", d1);
-            hwlmcb_rv_t rv = scanSingleOnce(n, buf, len, cbi, chars, d, d1);
-            RETURN_IF_TERMINATED(rv);
-        }
+        DEBUG_PRINTF("until aligned %p \n", d1);
+        hwlmcb_rv_t rv = scanSingleOnce(n, buf, len, cbi, chars, d, d1);
+        RETURN_IF_TERMINATED(rv);
     }
     return scanSingleLoop(n, buf, len, cbi, chars, d1, e);
 }
@@ -242,23 +242,24 @@ hwlm_error_t scanDouble(const struct noodTable *n, const u8 *buf, size_t len,
     assert(d < e);
     assert(d >= buf);
 
-    if (e - d < 2) {
+    size_t scan_len = e - d;
+    if (scan_len < 2) {
         return HWLM_SUCCESS;
     }
     ++d;
 
     svuint16_t chars = getCharMaskDouble(n, noCase);
+
+    if (scan_len <= svcntb()) {
+        return scanDoubleOnce(n, buf, len, cbi, chars, d, e);
+    }
     // peel off first part to align to the vector size
     const u8 *d1 = ROUNDUP_PTR(d, svcntb_pat(SV_POW2));
     if (d != d1) {
-        if (d1 >= e) {
-            return scanDoubleOnce(n, buf, len, cbi, chars, d, e);
-        } else {
-            DEBUG_PRINTF("until aligned %p \n", d1);
-            hwlmcb_rv_t rv = scanDoubleOnce(n, buf, len, cbi, chars,
-                                            d, d1);
-            RETURN_IF_TERMINATED(rv);
-        }
+        DEBUG_PRINTF("until aligned %p \n", d1);
+        hwlmcb_rv_t rv = scanDoubleOnce(n, buf, len, cbi, chars,
+                                        d, d1);
+        RETURN_IF_TERMINATED(rv);
     }
     return scanDoubleLoop(n, buf, len, cbi, chars, d1, e);
 }
