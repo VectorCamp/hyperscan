@@ -117,6 +117,43 @@ TEST(SuperVectorUtilsTest,OR128c){
     }
 }
 
+TEST(SuperVectorUtilsTest,XOR128c){
+    srand (time(NULL));
+    u8 vec[16];
+    for (int i=0; i<16; i++) {
+        vec[i] = rand() % 100 + 1;
+    }
+    u8 vec2[16];
+    for (int i=0; i<16; i++) {
+        vec2[i] = rand() % 100 + 1;
+    }
+    auto SP1 = SuperVector<16>::loadu(vec);
+    auto SP2 = SuperVector<16>::loadu(vec2);
+    auto SPResult = SP1 ^ SP2;
+    for (int i=0; i<16; i++) {
+        ASSERT_EQ(SPResult.u.u8[i],vec[i] ^ vec2[i]);
+    }
+}
+
+
+TEST(SuperVectorUtilsTest,OPXOR128c){
+    srand (time(NULL));
+    u8 vec[16];
+    for (int i=0; i<16; i++) {
+        vec[i] = rand() % 100 + 1;
+    }
+    u8 vec2[16];
+    for (int i=0; i<16; i++) {
+        vec2[i] = rand() % 100 + 1;
+    }
+    auto SP1 = SuperVector<16>::loadu(vec);
+    auto SP2 = SuperVector<16>::loadu(vec2);
+    auto SPResult = SP1.opxor(SP2);
+    for (int i=0; i<16; i++) {
+        ASSERT_EQ(SPResult.u.u8[i],vec[i] ^ vec2[i]);
+    }
+}
+
 TEST(SuperVectorUtilsTest,OPANDNOT128c){
     auto SP1 = SuperVector<16>::Zeroes(); 
     auto SP2 = SuperVector<16>::Ones();

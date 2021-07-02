@@ -165,9 +165,21 @@ really_inline SuperVector<16> SuperVector<16>::operator|(SuperVector<16> const b
 }
 
 template <>
+really_inline SuperVector<16> SuperVector<16>::operator^(SuperVector<16> const b) const
+{
+    return {_mm_xor_si128(u.v128[0], b.u.v128[0])};
+}
+
+template <>
 really_inline SuperVector<16> SuperVector<16>::opand(SuperVector<16> const b) const
 {
     return *this & b;
+}
+
+template <>
+really_inline SuperVector<16> SuperVector<16>::opxor(SuperVector<16> const b) const
+{
+    return *this ^ b;
 }
 
 template <>
@@ -175,6 +187,7 @@ really_inline SuperVector<16> SuperVector<16>::opandnot(SuperVector<16> const b)
 {
     return {_mm_andnot_si128(u.v128[0], b.u.v128[0])};
 }
+
 
 template <>
 really_inline SuperVector<16> SuperVector<16>::eq(SuperVector<16> const b) const

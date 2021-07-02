@@ -175,10 +175,14 @@ public:
 
   SuperVector operator&(SuperVector const b) const;
   SuperVector operator|(SuperVector const b) const;
+  SuperVector operator^(SuperVector const b) const;
 
+  
   SuperVector opand(SuperVector const b) const;
   SuperVector opor(SuperVector const b) const;
   SuperVector opandnot(SuperVector const b) const;
+  SuperVector opxor(SuperVector const b) const;
+
 
   SuperVector eq(SuperVector const b) const;
   SuperVector operator<<(uint8_t const N) const;
