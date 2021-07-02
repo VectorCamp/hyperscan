@@ -109,7 +109,7 @@ m128 compress128_impl(m128 x, m128 m) {
         m128 mm = sub_2x64(zeroes128(), m);
         m128 xm = and128(x, m);
         xm = and128(xm, mm);
- 
+
         m128 mask = not128(eq64_m128(xm, zeroes128()));
         res = or128(res, and128(bb, mask));
         m = and128(m, sub_2x64(m, one));
@@ -120,12 +120,20 @@ m128 compress128_impl(m128 x, m128 m) {
 
 static really_inline
 u32 expand32_impl(u32 x, u32 m) {
+#if defined(HAVE_SVE2_BITPERM)
+    return svlasta(svpfalse(), svbdep(svdup_u32(x), m));
+#else
     return expand32_impl_c(x, m);
+#endif
 }
 
 static really_inline
 u64a expand64_impl(u64a x, u64a m) {
+#if defined(HAVE_SVE2_BITPERM)
+    return svlasta(svpfalse(), svbdep(svdup_u64(x), m));
+#else
     return expand64_impl_c(x, m);
+#endif
 }
 
 static really_inline
@@ -192,11 +200,6 @@ u32 pext32_impl(u32 x, u32 mask) {
 static really_inline
 u64a pext64_impl(u64a x, u64a mask) {
     return pext64_impl_c(x, mask);
-}
-
-static really_inline
-u64a pdep64(u64a x, u64a mask) {
-    return pdep64_impl_c(x, mask);
 }
 
 /* compilers don't reliably synthesize the 32-bit ANDN instruction here,

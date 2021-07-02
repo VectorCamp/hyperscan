@@ -72,10 +72,26 @@ void storecompressed64(void *ptr, const u64a *x, const u64a *m, u32 bytes) {
 
 void loadcompressed64(u64a *x, const void *ptr, const u64a *m, u32 bytes) {
     assert(popcount64(*m) <= bytes * 8);
-
+#ifdef HAVE_SVE2_BITPERM
+    svbool_t pg = svwhilelt_b8(0U, bytes);
+    svuint64_t expanded = svbdep(svreinterpret_u64(svld1_u8(pg, ptr)), *m);
+    svst1(svptrue_pat_b64(SV_VL1), (uint64_t *)x, expanded);
+#else
     u64a v = partial_load_u64a(ptr, bytes);
     *x = expand64(v, *m);
+#endif
 }
+
+#if defined(HAVE_SVE2_BITPERM)
+
+static really_inline
+void bdep64x2(u64a *d, const u64a *x, const m128 *m) {
+    svbool_t pg = svptrue_pat_b64(SV_VL2);
+    svst1(pg, (uint64_t *)d, svbdep(svld1_u64(pg, (const uint64_t *)x),
+                                    svld1_u64(pg, (const uint64_t *)m)));
+}
+
+#endif // HAVE_SVE2_BITPERM
 
 /*
  * 128-bit store/load.
@@ -168,10 +184,14 @@ m128 loadcompressed128_64bit(const void *ptr, m128 mvec) {
 
     u64a ALIGN_ATTR(16) v[2];
     unpack_bits_64(v, (const u8 *)ptr, bits, 2);
-    m128 xvec = load128(v);
 
-    // Expand vector
-    return expand128(xvec, mvec);
+#ifdef HAVE_SVE2_BITPERM
+    u64a ALIGN_ATTR(16) xvec[2];
+    bdep64x2(xvec, v, &mvec);
+    return load128(xvec);
+#else
+    return expand128(load128(v), mvec);
+#endif
 }
 #endif
 
@@ -291,8 +311,14 @@ m256 loadcompressed256_64bit(const void *ptr, m256 mvec) {
 
     unpack_bits_64(v, (const u8 *)ptr, bits, 4);
 
+#ifdef HAVE_SVE2_BITPERM
+    u64a ALIGN_ATTR(16) x[4];
+    bdep64x2(x, v, &mvec.lo);
+    bdep64x2(&x[2], &v[2], &mvec.hi);
+#else
     u64a x[4] = { expand64(v[0], m[0]), expand64(v[1], m[1]),
                   expand64(v[2], m[2]), expand64(v[3], m[3]) };
+#endif
 
 #if !defined(HAVE_AVX2)
     m256 xvec = { .lo = set2x64(x[1], x[0]),
@@ -427,9 +453,16 @@ m384 loadcompressed384_64bit(const void *ptr, m384 mvec) {
 
     unpack_bits_64(v, (const u8 *)ptr, bits, 6);
 
+#ifdef HAVE_SVE2_BITPERM
+    u64a ALIGN_ATTR(16) x[6];
+    bdep64x2(x, v, &mvec.lo);
+    bdep64x2(&x[2], &v[2], &mvec.mid);
+    bdep64x2(&x[4], &v[4], &mvec.hi);
+#else
     u64a x[6] = { expand64(v[0], m[0]), expand64(v[1], m[1]),
                   expand64(v[2], m[2]), expand64(v[3], m[3]),
                   expand64(v[4], m[4]), expand64(v[5], m[5]) };
+#endif
 
     m384 xvec = { .lo = set2x64(x[1], x[0]),
                   .mid = set2x64(x[3], x[2]),
@@ -586,10 +619,18 @@ m512 loadcompressed512_64bit(const void *ptr, m512 mvec) {
 
     unpack_bits_64(v, (const u8 *)ptr, bits, 8);
 
+#ifdef HAVE_SVE2_BITPERM
+    u64a ALIGN_ATTR(16) x[8];
+    bdep64x2(x, v, &mvec.lo.lo);
+    bdep64x2(&x[2], &v[2], &mvec.lo.hi);
+    bdep64x2(&x[4], &v[4], &mvec.hi.lo);
+    bdep64x2(&x[6], &v[6], &mvec.hi.hi);
+#else
     u64a x[8] = { expand64(v[0], m[0]), expand64(v[1], m[1]),
                   expand64(v[2], m[2]), expand64(v[3], m[3]),
                   expand64(v[4], m[4]), expand64(v[5], m[5]),
                   expand64(v[6], m[6]), expand64(v[7], m[7]) };
+#endif
 
 #if defined(HAVE_AVX512)
     m512 xvec = set8x64(x[7], x[6], x[5], x[4],
