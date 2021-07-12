@@ -182,7 +182,7 @@ else()
         string(REGEX REPLACE "-O[^ ]*" "" CMAKE_CXX_FLAGS_${CONFIG} "${CMAKE_CXX_FLAGS_${CONFIG}}")
     endforeach ()
 
-    if (CMAKE_COMPILER_IS_GNUCC)
+    if (CMAKE_COMPILER_IS_GNUCC AND NOT CROSS_COMPILE_AARCH64)
         message(STATUS "gcc version ${CMAKE_C_COMPILER_VERSION}")
         # If gcc doesn't recognise the host cpu, then mtune=native becomes
         # generic, which isn't very good in some cases. march=native looks at

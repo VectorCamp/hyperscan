@@ -37,7 +37,6 @@
 #include "util/arch.h"
 #include "util/bitutils.h"
 
-#if !defined(HAVE_SVE)
 #include "truffle_simd.hpp"
 
 const u8 *truffleExec(m128 mask_lo, m128 mask_hi, const u8 *buf,
@@ -49,5 +48,3 @@ const u8 *rtruffleExec(m128 mask_lo, m128 mask_hi, const u8 *buf,
                        const u8 *buf_end) {
     return rtruffleExecReal<VECTORSIZE>(mask_lo, mask_hi, buf, buf_end);
 }
-
-#endif
