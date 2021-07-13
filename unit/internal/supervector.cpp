@@ -67,7 +67,7 @@ TEST(SuperVectorUtilsTest, Load128c) {
     u8 ALIGN_ATTR(16) vec[32];
     for(int i=0; i<32;i++) { vec[i]=i; }
     for(int i=0;i<=16;i+=16) {
-        auto SP = SuperVector<16>::loadu(vec+i);
+        auto SP = SuperVector<16>::load(vec+i);
         for(int j=0; j<16; j++){
             ASSERT_EQ(SP.u.u8[j],vec[j+i]);
         }
@@ -164,15 +164,17 @@ TEST(SuperVectorUtilsTest,OPANDNOT128c){
 TEST(SuperVectorUtilsTest,Movemask128c){
     u8 vec[16] = { 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff };
     /*according to the array above the movemask outcome must be the following:
-      10000100000000110 or 0x8406*/
+      1000110000000110 or 0x8c06*/
     auto SP = SuperVector<16>::loadu(vec);
     int mask = SP.movemask();
     ASSERT_EQ(mask, 0x8c06);
 }
 
 TEST(SuperVectorUtilsTest,Eqmask128c){
-    u8 vec[16]  = {  0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15 };
-    u8 vec2[16] = { 16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 };
+    u8 vec[16];
+    for (int i = 0; i<16; i++ ){ vec[i] = i; }
+    u8 vec2[16];
+    for (int i = 0; i<16; i++ ){ vec2[i] = i+16; }
     u8 vec3[16] = { 16,17, 3, 4, 5, 6, 7, 8, 1, 2,11,12,13,14,15,16 };
     auto SP = SuperVector<16>::loadu(vec);
     auto SP1 = SuperVector<16>::loadu(vec2);
@@ -201,7 +203,8 @@ TEST(SuperVectorUtilsTest,Eqmask128c){
                                        }
 
 TEST(SuperVectorUtilsTest,LShift128c){
-    u8 vec[16] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 };
+    u8 vec[16];
+    for (int i = 0; i<16; i++ ){ vec[i] = i+1; }
     auto SP = SuperVector<16>::loadu(vec);
     u8 buf[16];
     TEST_LSHIFT128(buf, vec, SP, 0);
@@ -260,7 +263,8 @@ TEST(SuperVectorUtilsTest,RShift64_128c){
                                        }
 
 TEST(SuperVectorUtilsTest,RShift128c){
-    u8 vec[16] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 };
+    u8 vec[16];
+    for (int i = 0; i<16; i++ ){ vec[i] = i+1; }
     auto SP = SuperVector<16>::loadu(vec);
     u8 buf[16];
     TEST_RSHIFT128(buf, vec, SP, 0);
@@ -282,7 +286,7 @@ TEST(SuperVectorUtilsTest,RShift128c){
     TEST_RSHIFT128(buf, vec, SP, 16);
 }
 
-TEST(SuperVectorUtilsTest,pshufbc) {
+TEST(SuperVectorUtilsTest,pshufb128c) {
     srand (time(NULL));
     u8 vec[16];
     for (int i=0; i<16; i++) {
@@ -333,3 +337,622 @@ TEST(SuperVectorUtilsTest,Alignr128c){
     TEST_ALIGNR128(SP1, SP2, vec, 15);
     TEST_ALIGNR128(SP1, SP2, vec, 16);
 }
+
+
+
+#if defined(HAVE_AVX2)
+TEST(SuperVectorUtilsTest, Zero256c) {
+    auto zeroes = SuperVector<32>::Zeroes();
+    u8 buf[32]{0};
+    for(int i=0; i<32; i++) {
+        ASSERT_EQ(zeroes.u.u8[i],buf[i]);
+    }
+}
+
+TEST(SuperVectorUtilsTest, Ones256c) {
+    auto ones = SuperVector<32>::Ones();
+    u8 buf[32];
+    for (int i=0; i<32; i++) { buf[i]=0xff; }
+    for(int i=0; i<32; i++) {
+        ASSERT_EQ(ones.u.u8[i],buf[i]);
+    }
+}
+
+TEST(SuperVectorUtilsTest, Loadu256c) {
+    u8 vec[64];
+    for(int i=0; i<64;i++) { vec[i]=i; }
+    for(int i=0; i<=32;i++) {
+        auto SP = SuperVector<32>::loadu(vec+i);
+        for(int j=0; j<32; j++) {
+            ASSERT_EQ(SP.u.u8[j],vec[j+i]);
+        }
+    }
+}
+
+TEST(SuperVectorUtilsTest, Load256c) {
+    u8 ALIGN_ATTR(32) vec[64];
+    for(int i=0; i<64;i++) { vec[i]=i; }
+    for(int i=0;i<=32;i+=32) {
+        auto SP = SuperVector<32>::load(vec+i);
+        for(int j=0; j<32; j++){
+            ASSERT_EQ(SP.u.u8[j],vec[j+i]);
+        }
+    }    
+}
+
+TEST(SuperVectorUtilsTest,Equal256c){
+    u8 vec[64];
+     for (int i=0; i<64; i++) {vec[i]=i;};
+    auto SP1 = SuperVector<32>::loadu(vec);
+    auto SP2 = SuperVector<32>::loadu(vec+32);
+    u8 buf[32]={0};
+    /*check for equality byte by byte*/
+    for (int s=0; s<32; s++){
+        if(vec[s]==vec[s+32]){
+            buf[s]=1;
+        }
+    }
+    auto SPResult = SP1.eq(SP2);
+    for (int i=0; i<32; i++) {
+        ASSERT_EQ(SPResult.u.s8[i],buf[i]);
+    }
+}
+
+TEST(SuperVectorUtilsTest,And256c){
+    auto SPResult = SuperVector<32>::Zeroes() & SuperVector<32>::Ones();
+    for (int i=0; i<32; i++) {
+        ASSERT_EQ(SPResult.u.u8[i],0);
+    }
+}
+
+TEST(SuperVectorUtilsTest,OPAnd256c){
+    auto SP1 = SuperVector<32>::Zeroes(); 
+    auto SP2 = SuperVector<32>::Ones();
+    SP2 = SP2.opand(SP1);
+    for (int i=0; i<32; i++) {
+        ASSERT_EQ(SP2.u.u8[i],0);
+    }
+}
+
+TEST(SuperVectorUtilsTest,OR256c){
+    auto SPResult = SuperVector<32>::Zeroes() | SuperVector<32>::Ones();
+    for (int i=0; i<32; i++) {
+        ASSERT_EQ(SPResult.u.u8[i],0xff);
+    }
+}
+
+TEST(SuperVectorUtilsTest,XOR256c){
+    srand (time(NULL));
+    u8 vec[32];
+    for (int i=0; i<32; i++) {
+        vec[i] = rand() % 100 + 1;
+    }
+    u8 vec2[32];
+    for (int i=0; i<32; i++) {
+        vec2[i] = rand() % 100 + 1;
+    }
+    auto SP1 = SuperVector<32>::loadu(vec);
+    auto SP2 = SuperVector<32>::loadu(vec2);
+    auto SPResult = SP1 ^ SP2;
+    for (int i=0; i<32; i++) {
+        ASSERT_EQ(SPResult.u.u8[i],vec[i] ^ vec2[i]);
+    }
+}
+
+
+TEST(SuperVectorUtilsTest,OPXOR256c){
+    srand (time(NULL));
+    u8 vec[32];
+    for (int i=0; i<32; i++) {
+        vec[i] = rand() % 100 + 1;
+    }
+    u8 vec2[32];
+    for (int i=0; i<32; i++) {
+        vec2[i] = rand() % 100 + 1;
+    }
+    auto SP1 = SuperVector<32>::loadu(vec);
+    auto SP2 = SuperVector<32>::loadu(vec2);
+    auto SPResult = SP1.opxor(SP2);
+    for (int i=0; i<32; i++) {
+        ASSERT_EQ(SPResult.u.u8[i],vec[i] ^ vec2[i]);
+    }
+}
+
+TEST(SuperVectorUtilsTest,OPANDNOT256c){
+    auto SP1 = SuperVector<32>::Zeroes(); 
+    auto SP2 = SuperVector<32>::Ones();
+    SP2 = SP2.opandnot(SP1);
+    for (int i=0; i<32; i++) {
+        ASSERT_EQ(SP2.u.s8[i],0);
+    }
+}
+
+TEST(SuperVectorUtilsTest,Movemask256c){
+    u8 vec[32] = { 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff, 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff};
+    auto SP = SuperVector<32>::loadu(vec);
+    /*according to the array above the movemask outcome must be the following:
+      10001100000001101000110000000110 or 0x8C068C06*/
+    u32 mask = SP.movemask();
+    ASSERT_EQ(mask, 0x8C068C06);
+}
+
+
+TEST(SuperVectorUtilsTest,Eqmask256c){
+    u8 vec[32];
+    for (int i = 0; i<32; i++) { vec[i]= i;}
+    u8 vec2[32];
+    for (int i = 0; i<32; i++) { vec2[i]= i + 32;}
+    u8 vec3[32] = { 32, 33, 3, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3};
+    auto SP = SuperVector<32>::loadu(vec);
+    auto SP1 = SuperVector<32>::loadu(vec2);
+    auto SP2 = SuperVector<32>::loadu(vec3);
+    u32 mask = SP.eqmask(SP);
+    ASSERT_EQ(mask,0xffffffff);
+    mask = SP.eqmask(SP2);
+    ASSERT_EQ(mask,0);
+    mask = SP1.eqmask(SP2);
+    ASSERT_EQ(mask,3);
+}
+
+TEST(SuperVectorUtilsTest,pshufb256c) {
+    srand (time(NULL));
+    u8 vec[32];
+    for (int i=0; i<32; i++) {
+        vec[i] = rand() % 100 + 1;
+    }
+    u8 vec2[32];
+    for (int i=0; i<32; i++) {
+        vec2[i]=i;
+    }
+    auto SP1 = SuperVector<32>::loadu(vec);
+    auto SP2 = SuperVector<32>::loadu(vec2);
+    auto SResult = SP1.pshufb(SP2);
+    for (int i=0; i<32; i++) {
+        ASSERT_EQ(vec[vec2[i]],SResult.u.u8[i]);
+    }
+}
+
+
+/*Define LSHIFT256 macro*/
+#define TEST_LSHIFT256(buf, vec, v, l) {                                                  \
+                                           auto v_shifted = v << (l);                     \
+                                           for (int i=31; i>= l; --i) {                   \
+                                               buf[i] = vec[i-l];                         \
+                                           }                                              \
+                                           for (int i=0; i<l; i++) {                      \
+                                               buf[i] = 0;                                \
+                                           }                                              \
+                                           for(int i=0; i<32; i++) {                      \
+                                               ASSERT_EQ(v_shifted.u.u8[i], buf[i]);      \
+                                           }                                              \
+                                       }
+
+TEST(SuperVectorUtilsTest,LShift256c){
+    u8 vec[32];
+    for (int i = 0; i<32; i++) { vec[i]= i+1;}
+    auto SP = SuperVector<32>::loadu(vec);
+    u8 buf[32];
+    TEST_LSHIFT256(buf, vec, SP, 0);
+    TEST_LSHIFT256(buf, vec, SP, 1);
+    TEST_LSHIFT256(buf, vec, SP, 2);
+    TEST_LSHIFT256(buf, vec, SP, 3);
+    TEST_LSHIFT256(buf, vec, SP, 4);
+    TEST_LSHIFT256(buf, vec, SP, 5);
+    TEST_LSHIFT256(buf, vec, SP, 6);
+    TEST_LSHIFT256(buf, vec, SP, 7);
+    TEST_LSHIFT256(buf, vec, SP, 8);
+    TEST_LSHIFT256(buf, vec, SP, 9);
+    TEST_LSHIFT256(buf, vec, SP, 10);
+    TEST_LSHIFT256(buf, vec, SP, 11);
+    TEST_LSHIFT256(buf, vec, SP, 12);
+    TEST_LSHIFT256(buf, vec, SP, 13);
+    TEST_LSHIFT256(buf, vec, SP, 14);
+    TEST_LSHIFT256(buf, vec, SP, 15);
+    TEST_LSHIFT256(buf, vec, SP, 16);
+}
+
+TEST(SuperVectorUtilsTest,LShift64_256c){
+    u64a vec[4] = {128, 512, 256, 1024};
+    auto SP = SuperVector<32>::loadu(vec);
+    for(int s = 0; s<32; s++) {
+        auto SP_after_shift = SP.lshift64(s);
+        for (int i=0; i<4; i++) {
+            ASSERT_EQ(SP_after_shift.u.u64[i], vec[i] << s);
+        }
+    }   
+}
+
+TEST(SuperVectorUtilsTest,RShift64_256c){
+    u64a vec[4] = {128, 512, 256, 1024};
+    auto SP = SuperVector<32>::loadu(vec);
+    for(int s = 0; s<32; s++) {
+        auto SP_after_shift = SP.rshift64(s);
+        for (int i=0; i<4; i++) {
+            ASSERT_EQ(SP_after_shift.u.u64[i], vec[i] >> s);
+        }
+    }   
+}
+
+/*Define RSHIFT256 macro*/
+#define TEST_RSHIFT256(buf, vec, v, l) {                                                  \
+                                           auto v_shifted = v >> (l);                     \
+                                           for (int i=0; i<32-l; i++) {                   \
+                                               buf[i] = vec[i+l];                         \
+                                           }                                              \
+                                           for (int i=32-l; i<32; i++) {                  \
+                                               buf[i] = 0;                                \
+                                           }                                              \
+                                           for(int i=0; i<32; i++) {                      \
+                                               ASSERT_EQ(v_shifted.u.u8[i], buf[i]);      \
+                                           }                                              \
+                                       }
+
+TEST(SuperVectorUtilsTest,RShift256c){
+    u8 vec[32];
+    for (int i = 0; i<32; i++) { vec[i]= i+1;}
+    auto SP = SuperVector<32>::loadu(vec);
+    u8 buf[32];
+    TEST_RSHIFT256(buf, vec, SP, 0);
+    TEST_RSHIFT256(buf, vec, SP, 1);
+    TEST_RSHIFT256(buf, vec, SP, 2);
+    TEST_RSHIFT256(buf, vec, SP, 3);
+    TEST_RSHIFT256(buf, vec, SP, 4);
+    TEST_RSHIFT256(buf, vec, SP, 5);
+    TEST_RSHIFT256(buf, vec, SP, 6);
+    TEST_RSHIFT256(buf, vec, SP, 7);
+    TEST_RSHIFT256(buf, vec, SP, 8);
+    TEST_RSHIFT256(buf, vec, SP, 9);
+    TEST_RSHIFT256(buf, vec, SP, 10);
+    TEST_RSHIFT256(buf, vec, SP, 11);
+    TEST_RSHIFT256(buf, vec, SP, 12);
+    TEST_RSHIFT256(buf, vec, SP, 13);
+    TEST_RSHIFT256(buf, vec, SP, 14);
+    TEST_RSHIFT256(buf, vec, SP, 15);
+    TEST_RSHIFT256(buf, vec, SP, 16);
+}
+
+
+/*Define ALIGNR256 macro*/
+#define TEST_ALIGNR256(v1, v2, buf, l) {                                                 \
+                                           auto v_aligned = v2.alignr(v1, l);            \
+                                           for (size_t i=0; i<32; i++) {                 \
+                                               ASSERT_EQ(v_aligned.u.u8[i], vec[i + l]); \
+                                           }                                             \
+                                       }
+
+TEST(SuperVectorUtilsTest,Alignr256c){
+    u8 vec[64];
+    for (int i=0; i<64; i++) {
+        vec[i]=i;
+    }
+    auto SP1 = SuperVector<32>::loadu(vec);
+    auto SP2 = SuperVector<32>::loadu(vec+32);
+    TEST_ALIGNR256(SP1, SP2, vec, 0);
+    TEST_ALIGNR256(SP1, SP2, vec, 1);
+    TEST_ALIGNR256(SP1, SP2, vec, 2);
+    TEST_ALIGNR256(SP1, SP2, vec, 3);
+    TEST_ALIGNR256(SP1, SP2, vec, 4);
+    TEST_ALIGNR256(SP1, SP2, vec, 5);
+    TEST_ALIGNR256(SP1, SP2, vec, 6);
+    TEST_ALIGNR256(SP1, SP2, vec, 7);
+    TEST_ALIGNR256(SP1, SP2, vec, 8);
+    TEST_ALIGNR256(SP1, SP2, vec, 9);
+    TEST_ALIGNR256(SP1, SP2, vec, 10);
+    TEST_ALIGNR256(SP1, SP2, vec, 11);
+    TEST_ALIGNR256(SP1, SP2, vec, 12);
+    TEST_ALIGNR256(SP1, SP2, vec, 13);
+    TEST_ALIGNR256(SP1, SP2, vec, 14);
+    TEST_ALIGNR256(SP1, SP2, vec, 15);
+    TEST_ALIGNR256(SP1, SP2, vec, 16);
+}
+
+#endif // HAVE_AVX2
+
+
+#if defined(HAVE_AVX512)
+
+TEST(SuperVectorUtilsTest, Zero512c) {
+    auto zeroes = SuperVector<64>::Zeroes();
+    u8 buf[64]{0};
+    for(int i=0; i<64; i++) {
+        ASSERT_EQ(zeroes.u.u8[i],buf[i]);
+    }
+}
+
+TEST(SuperVectorUtilsTest, Ones512c) {
+    auto ones = SuperVector<64>::Ones();
+    u8 buf[64];
+    for (int i=0; i<64; i++) { buf[i]=0xff; }
+    for(int i=0; i<64; i++) {
+        ASSERT_EQ(ones.u.u8[i],buf[i]);
+    }
+}
+
+TEST(SuperVectorUtilsTest, Loadu512c) {
+    u8 vec[128];
+    for(int i=0; i<128;i++) { vec[i]=i; }
+    for(int i=0; i<=64;i++) {
+        auto SP = SuperVector<64>::loadu(vec+i);
+        for(int j=0; j<64; j++) {
+            ASSERT_EQ(SP.u.u8[j],vec[j+i]);
+        }
+    }
+}
+
+TEST(SuperVectorUtilsTest, Load512c) {
+    u8 ALIGN_ATTR(64) vec[128];
+    for(int i=0; i<128;i++) { vec[i]=i; }
+    for(int i=0;i<=64;i+=64) {
+        auto SP = SuperVector<64>::load(vec+i);
+        for(int j=0; j<64; j++){
+            ASSERT_EQ(SP.u.u8[j],vec[j+i]);
+        }
+    }    
+}
+
+TEST(SuperVectorUtilsTest,Equal512c){
+    u8 vec[128];
+     for (int i=0; i<128; i++) {vec[i]=i;};
+    auto SP1 = SuperVector<64>::loadu(vec);
+    auto SP2 = SuperVector<64>::loadu(vec+64);
+    u8 buf[64]={0};
+    /*check for equality byte by byte*/
+    for (int s=0; s<64; s++){
+        if(vec[s]==vec[s+64]){
+            buf[s]=1;
+        }
+    }
+    auto SPResult = SP1.eq(SP2);
+    for (int i=0; i<64; i++) {
+        ASSERT_EQ(SPResult.u.s8[i],buf[i]);
+    }
+}
+
+TEST(SuperVectorUtilsTest,And512c){
+    auto SPResult = SuperVector<64>::Zeroes() & SuperVector<64>::Ones();
+    for (int i=0; i<32; i++) {
+        ASSERT_EQ(SPResult.u.u8[i],0);
+    }
+}
+
+TEST(SuperVectorUtilsTest,OPAnd512c){
+    auto SP1 = SuperVector<64>::Zeroes(); 
+    auto SP2 = SuperVector<64>::Ones();
+    SP2 = SP2.opand(SP1);
+    for (int i=0; i<64; i++) {
+        ASSERT_EQ(SP2.u.u8[i],0);
+    }
+}
+
+TEST(SuperVectorUtilsTest,OR512c){
+    auto SPResult = SuperVector<64>::Zeroes() | SuperVector<64>::Ones();
+    for (int i=0; i<64; i++) {
+        ASSERT_EQ(SPResult.u.u8[i],0xff);
+    }
+}
+
+TEST(SuperVectorUtilsTest,XOR512c){
+    srand (time(NULL));
+    u8 vec[64];
+    for (int i=0; i<64; i++) {
+        vec[i] = rand() % 100 + 1;
+    }
+    u8 vec2[64];
+    for (int i=0; i<64; i++) {
+        vec2[i] = rand() % 100 + 1;
+    }
+    auto SP1 = SuperVector<64>::loadu(vec);
+    auto SP2 = SuperVector<64>::loadu(vec2);
+    auto SPResult = SP1 ^ SP2;
+    for (int i=0; i<64; i++) {
+        ASSERT_EQ(SPResult.u.u8[i],vec[i] ^ vec2[i]);
+    }
+}
+
+
+TEST(SuperVectorUtilsTest,OPXOR512c){
+    srand (time(NULL));
+    u8 vec[64];
+    for (int i=0; i<64; i++) {
+        vec[i] = rand() % 100 + 1;
+    }
+    u8 vec2[64];
+    for (int i=0; i<64; i++) {
+        vec2[i] = rand() % 100 + 1;
+    }
+    auto SP1 = SuperVector<64>::loadu(vec);
+    auto SP2 = SuperVector<64>::loadu(vec2);
+    auto SPResult = SP1.opxor(SP2);
+    for (int i=0; i<64; i++) {
+        ASSERT_EQ(SPResult.u.u8[i],vec[i] ^ vec2[i]);
+    }
+}
+
+TEST(SuperVectorUtilsTest,OPANDNOT512c){
+    auto SP1 = SuperVector<64>::Zeroes(); 
+    auto SP2 = SuperVector<64>::Ones();
+    SP2 = SP2.opandnot(SP1);
+    for (int i=0; i<64; i++) {
+        ASSERT_EQ(SP2.u.s8[i],0);
+    }
+}
+
+TEST(SuperVectorUtilsTest,Movemask512c){
+    u8 vec[32] = { 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff, 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff, 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff, 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff };
+    auto SP = SuperVector<64>::loadu(vec);
+    /*according to the array above the movemask outcome must be the following:
+      1000110000000110100011000000011010001100000001101000110000000110 or 0x8C068C068C068C06*/
+    u64 mask = SP.movemask();
+    ASSERT_EQ(mask, 0x8C068C068C068C06);
+}
+
+
+TEST(SuperVectorUtilsTest,Eqmask512c){
+    u8 vec[64];
+    for (int i = 0; i<64; i++) { vec[i]= i;}
+    u8 vec2[64];
+    for (int i = 0; i<64; i++) { vec2[i]= i + 64;}
+    u8 vec3[64] = { 64, 65, 3, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 32, 33, 3, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3};
+    auto SP = SuperVector<64>::loadu(vec);
+    auto SP1 = SuperVector<64>::loadu(vec2);
+    auto SP2 = SuperVector<64>::loadu(vec3);
+    u64 mask = SP.eqmask(SP);
+    ASSERT_EQ(mask,0xffffffff);
+    mask = SP.eqmask(SP2);
+    ASSERT_EQ(mask,0);
+    mask = SP1.eqmask(SP2);
+    ASSERT_EQ(mask,3);
+}
+
+TEST(SuperVectorUtilsTest,pshufb512c) {
+    srand (time(NULL));
+    u8 vec[64];
+    for (int i=0; i<64; i++) {
+        vec[i] = rand() % 100 + 1;
+    }
+    u8 vec2[64];
+    for (int i=0; i<64; i++) {
+        vec2[i]=i;
+    }
+    auto SP1 = SuperVector<64>::loadu(vec);
+    auto SP2 = SuperVector<64>::loadu(vec2);
+    auto SResult = SP1.pshufb(SP2);
+    for (int i=0; i<64; i++) {
+        ASSERT_EQ(vec[vec2[i]],SResult.u.u8[i]);
+    }
+}
+
+
+/*Define LSHIFT512 macro*/
+#define TEST_LSHIFT512(buf, vec, v, l) {                                                  \
+                                           auto v_shifted = v << (l);                     \
+                                           for (int i=63; i>= l; --i) {                   \
+                                               buf[i] = vec[i-l];                         \
+                                           }                                              \
+                                           for (int i=0; i<l; i++) {                      \
+                                               buf[i] = 0;                                \
+                                           }                                              \
+                                           for(int i=0; i<64; i++) {                      \
+                                               ASSERT_EQ(v_shifted.u.u8[i], buf[i]);      \
+                                           }                                              \
+                                       }
+
+TEST(SuperVectorUtilsTest,LShift256c){
+    u8 vec[64];
+    for (int i=0; i<64; i++) { vec[i] = i+1;}
+    auto SP = SuperVector<64>::loadu(vec);
+    u8 buf[64];
+    TEST_LSHIFT512(buf, vec, SP, 0);
+    TEST_LSHIFT512(buf, vec, SP, 1);
+    TEST_LSHIFT512(buf, vec, SP, 2);
+    TEST_LSHIFT512(buf, vec, SP, 3);
+    TEST_LSHIFT512(buf, vec, SP, 4);
+    TEST_LSHIFT512(buf, vec, SP, 5);
+    TEST_LSHIFT512(buf, vec, SP, 6);
+    TEST_LSHIFT512(buf, vec, SP, 7);
+    TEST_LSHIFT512(buf, vec, SP, 8);
+    TEST_LSHIFT512(buf, vec, SP, 9);
+    TEST_LSHIFT512(buf, vec, SP, 10);
+    TEST_LSHIFT512(buf, vec, SP, 11);
+    TEST_LSHIFT512(buf, vec, SP, 12);
+    TEST_LSHIFT512(buf, vec, SP, 13);
+    TEST_LSHIFT512(buf, vec, SP, 14);
+    TEST_LSHIFT512(buf, vec, SP, 15);
+    TEST_LSHIFT512(buf, vec, SP, 16);
+}
+
+TEST(SuperVectorUtilsTest,LShift64_512c){
+    u64a vec[8] = {32, 64, 128, 256, 512, 512, 256, 1024};
+    auto SP = SuperVector<64>::loadu(vec);
+    for(int s = 0; s<64; s++) {
+        auto SP_after_shift = SP.lshift64(s);
+        for (int i=0; i<8; i++) {
+            ASSERT_EQ(SP_after_shift.u.u64[i], vec[i] << s);
+        }
+    }   
+}
+
+TEST(SuperVectorUtilsTest,RShift64_512c){
+    u64a vec[8] = {32, 64, 128, 256, 512, 512, 256, 1024};
+    auto SP = SuperVector<64>::loadu(vec);
+    for(int s = 0; s<64; s++) {
+        auto SP_after_shift = SP.rshift64(s);
+        for (int i=0; i<8; i++) {
+            ASSERT_EQ(SP_after_shift.u.u64[i], vec[i] >> s);
+        }
+    }   
+}
+
+/*Define RSHIFT512 macro*/
+#define TEST_RSHIFT512(buf, vec, v, l) {                                                  \
+                                           auto v_shifted = v >> (l);                     \
+                                           for (int i=0; i<64-l; i++) {                   \
+                                               buf[i] = vec[i+l];                         \
+                                           }                                              \
+                                           for (int i=64-l; i<64; i++) {                  \
+                                               buf[i] = 0;                                \
+                                           }                                              \
+                                           for(int i=0; i<64; i++) {                      \
+                                               ASSERT_EQ(v_shifted.u.u8[i], buf[i]);      \
+                                           }                                              \
+                                       }
+
+TEST(SuperVectorUtilsTest,RShift512c){
+    u8 vec[64];
+    for (int i=0; i<64; i++) { vec[i] = i+1;}
+    auto SP = SuperVector<32>::loadu(vec);
+    u8 buf[64];
+    TEST_RSHIFT512(buf, vec, SP, 0);
+    TEST_RSHIFT512(buf, vec, SP, 1);
+    TEST_RSHIFT512(buf, vec, SP, 2);
+    TEST_RSHIFT512(buf, vec, SP, 3);
+    TEST_RSHIFT512(buf, vec, SP, 4);
+    TEST_RSHIFT512(buf, vec, SP, 5);
+    TEST_RSHIFT512(buf, vec, SP, 6);
+    TEST_RSHIFT512(buf, vec, SP, 7);
+    TEST_RSHIFT512(buf, vec, SP, 8);
+    TEST_RSHIFT512(buf, vec, SP, 9);
+    TEST_RSHIFT512(buf, vec, SP, 10);
+    TEST_RSHIFT512(buf, vec, SP, 11);
+    TEST_RSHIFT512(buf, vec, SP, 12);
+    TEST_RSHIFT512(buf, vec, SP, 13);
+    TEST_RSHIFT512(buf, vec, SP, 14);
+    TEST_RSHIFT512(buf, vec, SP, 15);
+    TEST_RSHIFT512(buf, vec, SP, 16);
+}
+
+
+/*Define ALIGNR512 macro*/
+#define TEST_ALIGNR512(v1, v2, buf, l) {                                                 \
+                                           auto v_aligned = v2.alignr(v1, l);            \
+                                           for (size_t i=0; i<64; i++) {                 \
+                                               ASSERT_EQ(v_aligned.u.u8[i], vec[i + l]); \
+                                           }                                             \
+                                       }
+
+TEST(SuperVectorUtilsTest,Alignr512c){
+    u8 vec[128];
+    for (int i=0; i<128; i++) {
+        vec[i]=i;
+    }
+    auto SP1 = SuperVector<64>::loadu(vec);
+    auto SP2 = SuperVector<64>::loadu(vec+32);
+    TEST_ALIGNR512(SP1, SP2, vec, 0);
+    TEST_ALIGNR512(SP1, SP2, vec, 1);
+    TEST_ALIGNR512(SP1, SP2, vec, 2);
+    TEST_ALIGNR512(SP1, SP2, vec, 3);
+    TEST_ALIGNR512(SP1, SP2, vec, 4);
+    TEST_ALIGNR512(SP1, SP2, vec, 5);
+    TEST_ALIGNR512(SP1, SP2, vec, 6);
+    TEST_ALIGNR512(SP1, SP2, vec, 7);
+    TEST_ALIGNR512(SP1, SP2, vec, 8);
+    TEST_ALIGNR512(SP1, SP2, vec, 9);
+    TEST_ALIGNR512(SP1, SP2, vec, 10);
+    TEST_ALIGNR512(SP1, SP2, vec, 11);
+    TEST_ALIGNR512(SP1, SP2, vec, 12);
+    TEST_ALIGNR512(SP1, SP2, vec, 13);
+    TEST_ALIGNR512(SP1, SP2, vec, 14);
+    TEST_ALIGNR512(SP1, SP2, vec, 15);
+    TEST_ALIGNR512(SP1, SP2, vec, 16);
+}
+#endif // HAVE_AVX512
