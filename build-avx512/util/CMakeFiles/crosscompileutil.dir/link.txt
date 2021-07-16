@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libcrosscompileutil.a  CMakeFiles/crosscompileutil.dir/cross_compile.cpp.o
+/usr/bin/ranlib ../lib/libcrosscompileutil.a
