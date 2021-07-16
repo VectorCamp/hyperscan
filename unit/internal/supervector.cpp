@@ -162,12 +162,25 @@ TEST(SuperVectorUtilsTest,OPANDNOT128c){
 }
 
 TEST(SuperVectorUtilsTest,Movemask128c){
-    u8 vec[16] = { 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff };
-    /*according to the array above the movemask outcome must be the following:
-      1000110000000110 or 0x8c06*/
+    srand (time(NULL));
+    u8 vec[16] = {0};
+    u8 vec2[16] = {0};
+    u32 r = rand() % 100 + 1;
+    for(int i=0; i<16; i++) {
+        if (r & (1 << i)) {
+            vec[i] = 0xff;
+        }
+    }
     auto SP = SuperVector<16>::loadu(vec);
-    int mask = SP.movemask();
-    ASSERT_EQ(mask, 0x8c06);
+    u32 mask = SP.movemask();
+    for(int i=0; i<16; i++) {
+        if (mask & (1 << i)) {
+            vec2[i] = 0xff;
+        }
+    }
+    for (int i=0; i<16; i++) {
+        ASSERT_EQ(vec[i],vec2[i]);
+    }
 }
 
 TEST(SuperVectorUtilsTest,Eqmask128c){
@@ -468,12 +481,25 @@ TEST(SuperVectorUtilsTest,OPANDNOT256c){
 }
 
 TEST(SuperVectorUtilsTest,Movemask256c){
-    u8 vec[32] = { 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff, 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff};
+    srand (time(NULL));
+    u8 vec[32] = {0};
+    u8 vec2[32] = {0};
+    u32 r = rand() % 100 + 1;
+    for(int i=0; i<32; i++) {
+        if (r & (1 << i)) {
+            vec[i] = 0xff;
+        }
+    }
     auto SP = SuperVector<32>::loadu(vec);
-    /*according to the array above the movemask outcome must be the following:
-      10001100000001101000110000000110 or 0x8C068C06*/
     u32 mask = SP.movemask();
-    ASSERT_EQ(mask, 0x8C068C06);
+    for(int i=0; i<32; i++) {
+        if (mask & (1 << i)) {
+            vec2[i] = 0xff;
+        }
+    }
+    for (int i=0; i<32; i++) {
+        ASSERT_EQ(vec[i],vec2[i]);
+    }
 }
 
 
@@ -778,12 +804,22 @@ TEST(SuperVectorUtilsTest,OPANDNOT512c){
 }
 
 TEST(SuperVectorUtilsTest,Movemask512c){
-    u8 vec[32] = { 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff, 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff, 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff, 0, 0xff, 0xff, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0xff };
+    srand (time(NULL));
+    u8 vec[64] = {0};
+    u8 vec2[64] = {0};
+    u64a r = rand() % 100 + 1;
+    for(int i=0; i<64; i++) {
+        if (r & (1 << i)) {
+            vec[i] = 0xff;
+        }
+    }
     auto SP = SuperVector<64>::loadu(vec);
-    /*according to the array above the movemask outcome must be the following:
-      1000110000000110100011000000011010001100000001101000110000000110 or 0x8C068C068C068C06*/
     u64 mask = SP.movemask();
-    ASSERT_EQ(mask, 0x8C068C068C068C06);
+    for(int i=0; i<64; i++) {
+        if (mask & (1 << i)) {
+            vec2[i] = 0xff;
+        }
+    }
 }
 
 
@@ -837,7 +873,7 @@ TEST(SuperVectorUtilsTest,pshufb512c) {
                                            }                                              \
                                        }
 
-TEST(SuperVectorUtilsTest,LShift256c){
+TEST(SuperVectorUtilsTest,LShift512c){
     u8 vec[64];
     for (int i=0; i<64; i++) { vec[i] = i+1;}
     auto SP = SuperVector<64>::loadu(vec);
