@@ -68,7 +68,7 @@ typename SuperVector<S>::movemask_type block(SuperVector<S> shuf_mask_lo_highcle
     t2.print8("t2");
     shuf3.print8("shuf3");
     tmp.print8("tmp");
-    //DEBUG_PRINTF("z %08x \n", tmp.eqmask(SuperVector<S>::Zeroes()));
+    DEBUG_PRINTF("z %08x \n", tmp.eqmask(SuperVector<S>::Zeroes()));
 
     return tmp.eqmask(SuperVector<S>::Zeroes());
 }
@@ -79,13 +79,13 @@ static really_inline const u8 *truffleMini(SuperVector<S> shuf_mask_lo_highclear
     uintptr_t len = buf_end - buf;
     assert(len < S);
 
-    //DEBUG_PRINTF("buf %p buf_end %p \n", buf, buf_end);
+    DEBUG_PRINTF("buf %p buf_end %p \n", buf, buf_end);
     SuperVector<S> chars = SuperVector<S>::loadu_maskz(buf, len);
     chars.print8("chars");
 
     typename SuperVector<S>::movemask_type z = block(shuf_mask_lo_highclear, shuf_mask_lo_highset, chars);
     const u8 *rv = firstMatch<S>(buf, z);
-    //DEBUG_PRINTF("rv %p buf+len %p \n", rv, buf+len);
+    DEBUG_PRINTF("rv %p buf+len %p \n", rv, buf+len);
 
     if (rv && rv < buf+len) {
         return rv;
@@ -98,7 +98,7 @@ static really_inline
 const u8 *fwdBlock(SuperVector<S> shuf_mask_lo_highclear, SuperVector<S> shuf_mask_lo_highset, SuperVector<S> v, 
                     const u8 *buf) {
     typename SuperVector<S>::movemask_type z = block(shuf_mask_lo_highclear, shuf_mask_lo_highset, v);
-    //DEBUG_PRINTF("z %08x\n", z);
+    DEBUG_PRINTF("z %08x\n", z);
     return firstMatch<S>(buf, z);
 }
 
@@ -107,8 +107,8 @@ template <uint16_t S>
 const u8 *truffleExecReal(m128 &shuf_mask_lo_highclear, m128 shuf_mask_lo_highset, const u8 *buf, const u8 *buf_end) {
     assert(buf && buf_end);
     assert(buf < buf_end);
-    //DEBUG_PRINTF("truffle %p len %zu\n", buf, buf_end - buf);
-    //DEBUG_PRINTF("b %s\n", buf);
+    DEBUG_PRINTF("truffle %p len %zu\n", buf, buf_end - buf);
+    DEBUG_PRINTF("b %s\n", buf);
 
     const SuperVector<S> wide_shuf_mask_lo_highclear(shuf_mask_lo_highclear);
     const SuperVector<S> wide_shuf_mask_lo_highset(shuf_mask_lo_highset);
@@ -116,14 +116,14 @@ const u8 *truffleExecReal(m128 &shuf_mask_lo_highclear, m128 shuf_mask_lo_highse
     const u8 *d = buf;
     const u8 *rv;
 
-    //DEBUG_PRINTF("start %p end %p \n", d, buf_end);
+    DEBUG_PRINTF("start %p end %p \n", d, buf_end);
     assert(d < buf_end);
 
     if (d + S <= buf_end) {
         if (!ISALIGNED_N(d, S)) {
             // peel off first part to cacheline boundary
             const u8 *d1 = ROUNDUP_PTR(d, S);
-            //DEBUG_PRINTF("until aligned %p \n", d1);
+            DEBUG_PRINTF("until aligned %p \n", d1);
             if (d1 != d) {
                 rv = truffleMini(wide_shuf_mask_lo_highclear, wide_shuf_mask_lo_highset, d, d1);
                 if (rv != d1) {
@@ -134,10 +134,10 @@ const u8 *truffleExecReal(m128 &shuf_mask_lo_highclear, m128 shuf_mask_lo_highse
         }
 
         size_t loops = (buf_end - d) / S;
-        //DEBUG_PRINTF("loops %ld \n", loops);
+        DEBUG_PRINTF("loops %ld \n", loops);
 
         for (size_t i = 0; i < loops; i++, d+= S) {
-           // DEBUG_PRINTF("d %p \n", d);
+            DEBUG_PRINTF("d %p \n", d);
             const u8 *base = ROUNDUP_PTR(d, S);
             // On large packet buffers, this prefetch appears to get us about 2%.
             __builtin_prefetch(base + 256);
@@ -148,13 +148,13 @@ const u8 *truffleExecReal(m128 &shuf_mask_lo_highclear, m128 shuf_mask_lo_highse
         }
     }
 
-     //DEBUG_PRINTF("d %p e %p \n", d, buf_end);
+     DEBUG_PRINTF("d %p e %p \n", d, buf_end);
     // finish off tail
 
     rv = buf_end;
     if (d != buf_end) {
         rv = truffleMini(wide_shuf_mask_lo_highclear, wide_shuf_mask_lo_highset, d, buf_end);
-        //DEBUG_PRINTF("rv %p \n", rv);
+        DEBUG_PRINTF("rv %p \n", rv);
     }
     
     return rv;
@@ -165,14 +165,14 @@ template <uint16_t S>
 static really_inline const u8 *truffleRevMini(SuperVector<S> shuf_mask_lo_highclear, SuperVector<S> shuf_mask_lo_highset,
             const u8 *buf, const u8 *buf_end){
     uintptr_t len = buf_end - buf;
-    //DEBUG_PRINTF("buf %p len %ld\n", buf, len);
+    DEBUG_PRINTF("buf %p len %ld\n", buf, len);
     assert(len < S);
     
     SuperVector<S> chars = SuperVector<S>::loadu_maskz(buf, len);
 
     typename SuperVector<S>::movemask_type z = block(shuf_mask_lo_highclear, shuf_mask_lo_highset, chars);
     const u8 *rv = lastMatch<S>(buf, z);
-    //DEBUG_PRINTF("rv %p buf+len %p \n", rv, buf+len);
+    DEBUG_PRINTF("rv %p buf+len %p \n", rv, buf+len);
 
     if (rv && rv < buf+len) {
         return rv;
@@ -185,7 +185,7 @@ static really_inline
 const u8 *revBlock(SuperVector<S> shuf_mask_lo_highclear, SuperVector<S> shuf_mask_lo_highset, SuperVector<S> v, 
                     const u8 *buf) {
     typename SuperVector<S>::movemask_type z = block(shuf_mask_lo_highclear, shuf_mask_lo_highset, v);
-    //DEBUG_PRINTF("z %08x\n", z);
+    DEBUG_PRINTF("z %08x\n", z);
     return lastMatch<S>(buf, z);
 }
 
@@ -194,8 +194,8 @@ template <uint16_t S>
 const u8 *rtruffleExecReal(m128 shuf_mask_lo_highclear, m128 shuf_mask_lo_highset, const u8 *buf, const u8 *buf_end){
     assert(buf && buf_end);
     assert(buf < buf_end);
-    //DEBUG_PRINTF("trufle %p len %zu\n", buf, buf_end - buf);
-    //DEBUG_PRINTF("b %s\n", buf);
+    DEBUG_PRINTF("trufle %p len %zu\n", buf, buf_end - buf);
+    DEBUG_PRINTF("b %s\n", buf);
 
     const SuperVector<S> wide_shuf_mask_lo_highclear(shuf_mask_lo_highclear);
     const SuperVector<S> wide_shuf_mask_lo_highset(shuf_mask_lo_highset);
