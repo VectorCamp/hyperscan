@@ -165,14 +165,14 @@ TEST(SuperVectorUtilsTest,Movemask128c){
     srand (time(NULL));
     u8 vec[16] = {0};
     u8 vec2[16] = {0};
-    u32 r = rand() % 100 + 1;
+    u16 r = rand() % 100 + 1;
     for(int i=0; i<16; i++) {
         if (r & (1 << i)) {
             vec[i] = 0xff;
         }
     }
     auto SP = SuperVector<16>::loadu(vec);
-    u32 mask = SP.movemask();
+    u16 mask = SP.movemask();
     for(int i=0; i<16; i++) {
         if (mask & (1 << i)) {
             vec2[i] = 0xff;
@@ -184,20 +184,21 @@ TEST(SuperVectorUtilsTest,Movemask128c){
 }
 
 TEST(SuperVectorUtilsTest,Eqmask128c){
+    srand (time(NULL));
     u8 vec[16];
-    for (int i = 0; i<16; i++ ){ vec[i] = i; }
+    for (int i = 0; i<16; i++) { vec[i] = rand() % 64 + 0;}
     u8 vec2[16];
-    for (int i = 0; i<16; i++ ){ vec2[i] = i+16; }
-    u8 vec3[16] = { 16,17, 3, 4, 5, 6, 7, 8, 1, 2,11,12,13,14,15,16 };
+    for (int i = 0; i<16; i++) { vec2[i]= rand() % 100 + 67;}
     auto SP = SuperVector<16>::loadu(vec);
     auto SP1 = SuperVector<16>::loadu(vec2);
-    auto SP2 = SuperVector<16>::loadu(vec3);
     int mask = SP.eqmask(SP);
-    /*if vectors are equal the mask is 1111111111111111 or 0xffff*/
-    ASSERT_EQ(mask,0xffff);
-    mask = SP.eqmask(SP2);
+    ASSERT_EQ(mask,0xFFFF);
+    mask = SP.eqmask(SP1);
     ASSERT_EQ(mask,0);
-    mask = SP1.eqmask(SP2);
+    vec2[0] = vec[0];
+    vec2[1] = vec[1];
+    auto SP2 = SuperVector<16>::loadu(vec2);
+    mask = SP.eqmask(SP2);
     ASSERT_EQ(mask,3);
 }
 
@@ -504,19 +505,21 @@ TEST(SuperVectorUtilsTest,Movemask256c){
 
 
 TEST(SuperVectorUtilsTest,Eqmask256c){
+    srand (time(NULL));
     u8 vec[32];
-    for (int i = 0; i<32; i++) { vec[i]= i;}
+    for (int i = 0; i<32; i++) { vec[i] = rand() % 64 + 0;}
     u8 vec2[32];
-    for (int i = 0; i<32; i++) { vec2[i]= i + 32;}
-    u8 vec3[32] = { 32, 33, 3, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3};
+    for (int i = 0; i<32; i++) { vec2[i]= rand() % 100 + 67;}
     auto SP = SuperVector<32>::loadu(vec);
     auto SP1 = SuperVector<32>::loadu(vec2);
-    auto SP2 = SuperVector<32>::loadu(vec3);
     u32 mask = SP.eqmask(SP);
-    ASSERT_EQ(mask,0xffffffff);
-    mask = SP.eqmask(SP2);
+    ASSERT_EQ(mask,0xFFFFFFFF);
+    mask = SP.eqmask(SP1);
     ASSERT_EQ(mask,0);
-    mask = SP1.eqmask(SP2);
+    vec2[0] = vec[0];
+    vec2[1] = vec[1];
+    auto SP2 = SuperVector<32>::loadu(vec2);
+    mask = SP.eqmask(SP2);
     ASSERT_EQ(mask,3);
 }
 
@@ -807,6 +810,7 @@ TEST(SuperVectorUtilsTest,OPANDNOT512c){
     }
 }
 
+/*
 TEST(SuperVectorUtilsTest,Movemask512c){
     srand (time(NULL));
     u8 vec[64] = {0};
@@ -829,22 +833,24 @@ TEST(SuperVectorUtilsTest,Movemask512c){
         //ASSERT_EQ(vec[i],vec2[i]);
     }
 }
-
+*/
 
 TEST(SuperVectorUtilsTest,Eqmask512c){
+    srand (time(NULL));
     u8 vec[64];
-    for (int i = 0; i<64; i++) { vec[i]= i;}
+    for (int i = 0; i<64; i++) { vec[i] = rand() % 64 + 0;}
     u8 vec2[64];
-    for (int i = 0; i<64; i++) { vec2[i]= i + 64;}
-    u8 vec3[64] = { 64, 65, 3, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 2, 3, 3, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3};
+    for (int i = 0; i<64; i++) { vec2[i]= rand() % 100 + 67;}
     auto SP = SuperVector<64>::loadu(vec);
     auto SP1 = SuperVector<64>::loadu(vec2);
-    auto SP2 = SuperVector<64>::loadu(vec3);
     u64a mask = SP.eqmask(SP);
     ASSERT_EQ(mask,0xFFFFFFFFFFFFFFFF);
-    mask = SP.eqmask(SP2);
+    mask = SP.eqmask(SP1);
     ASSERT_EQ(mask,0);
-    mask = SP1.eqmask(SP2);
+    vec2[0] = vec[0];
+    vec2[1] = vec[1];
+    auto SP2 = SuperVector<64>::loadu(vec2);
+    mask = SP.eqmask(SP2);
     ASSERT_EQ(mask,3);
 }
 
