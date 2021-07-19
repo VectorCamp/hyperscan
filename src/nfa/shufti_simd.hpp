@@ -70,7 +70,7 @@ static really_inline
 const u8 *fwdBlock(SuperVector<S> mask_lo, SuperVector<S> mask_hi, SuperVector<S> chars, 
                       const SuperVector<S> low4bits, const u8 *buf) {
     typename SuperVector<S>::movemask_type z = block(mask_lo, mask_hi, chars, low4bits);
-    DEBUG_PRINTF("z %08x\n", z);
+    DEBUG_PRINTF(" z: 0x%016llx\n", (u64a)z);
 
     return firstMatch<S>(buf, z);
 }
@@ -90,9 +90,9 @@ const u8 *shortShufti(SuperVector<S> mask_lo, SuperVector<S> mask_hi, const u8 *
     typename SuperVector<S>::movemask_type maske = SINGLE_LOAD_MASK(len - alignment);
     typename SuperVector<S>::movemask_type z = block(mask_lo, mask_hi, chars, low4bits);
     // reuse the load mask to indicate valid bytes
-    DEBUG_PRINTF("z %08x\n", z);
+    DEBUG_PRINTF(" z: 0x%016llx\n", (u64a)z);
     z &= maskb | maske;
-    DEBUG_PRINTF("z %08x\n", z);
+    DEBUG_PRINTF(" z: 0x%016llx\n", (u64a)z);
     
     return firstMatch<S>(buf, z);
 }
@@ -102,8 +102,7 @@ static really_inline
 const u8 *revBlock(SuperVector<S> mask_lo, SuperVector<S> mask_hi, SuperVector<S> chars, 
                    const SuperVector<S> low4bits, const u8 *buf) {
     typename SuperVector<S>::movemask_type z = block(mask_lo, mask_hi, chars, low4bits);
-    DEBUG_PRINTF("z %08x\n", z);
-
+    DEBUG_PRINTF(" z: 0x%016llx\n", (u64a)z);
     return lastMatch<S>(buf, z);
 }
 
@@ -234,7 +233,7 @@ const u8 *fwdBlockDouble(SuperVector<S> mask1_lo, SuperVector<S> mask1_hi, Super
     SuperVector<S> t = t1 | (t2 >> 1);
 
     typename SuperVector<S>::movemask_type z = t.eqmask(SuperVector<S>::Ones());
-    DEBUG_PRINTF("    z: 0x%08x\n", z);
+    DEBUG_PRINTF(" z: 0x%016llx\n", (u64a)z);
     return firstMatch<S>(buf, z);
 }
 

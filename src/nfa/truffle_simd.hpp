@@ -68,7 +68,7 @@ typename SuperVector<S>::movemask_type block(SuperVector<S> shuf_mask_lo_highcle
     t2.print8("t2");
     shuf3.print8("shuf3");
     tmp.print8("tmp");
-    DEBUG_PRINTF("z %08x \n", tmp.eqmask(SuperVector<S>::Zeroes()));
+    DEBUG_PRINTF(" z: 0x%016llx\n", (u64a)tmp.eqmask(SuperVector<S>::Zeroes()));
 
     return tmp.eqmask(SuperVector<S>::Zeroes());
 }
@@ -98,7 +98,7 @@ static really_inline
 const u8 *fwdBlock(SuperVector<S> shuf_mask_lo_highclear, SuperVector<S> shuf_mask_lo_highset, SuperVector<S> v, 
                     const u8 *buf) {
     typename SuperVector<S>::movemask_type z = block(shuf_mask_lo_highclear, shuf_mask_lo_highset, v);
-    DEBUG_PRINTF("z %08x\n", z);
+    DEBUG_PRINTF(" z: 0x%016llx\n", (u64a)z);
     return firstMatch<S>(buf, z);
 }
 
@@ -185,7 +185,7 @@ static really_inline
 const u8 *revBlock(SuperVector<S> shuf_mask_lo_highclear, SuperVector<S> shuf_mask_lo_highset, SuperVector<S> v, 
                     const u8 *buf) {
     typename SuperVector<S>::movemask_type z = block(shuf_mask_lo_highclear, shuf_mask_lo_highset, v);
-    DEBUG_PRINTF("z %08x\n", z);
+    DEBUG_PRINTF(" z: 0x%016llx\n", (u64a)z);
     return lastMatch<S>(buf, z);
 }
 

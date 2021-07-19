@@ -890,7 +890,7 @@ template <>
 really_inline typename SuperVector<64>::movemask_type SuperVector<64>::movemask(void)const
 {   
 	m512_t msb = SuperVector<64>::dup_u8(0x80);
-	m512_t mask = msb | *this;
+	m512_t mask = msb & *this;
 	return _mm512_cmpeq_epi8_mask(mask.u.v512[0],msb.u.v512[0]);
 }
 
