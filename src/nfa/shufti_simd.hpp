@@ -234,7 +234,7 @@ const u8 *fwdBlockDouble(SuperVector<S> mask1_lo, SuperVector<S> mask1_hi, Super
     SuperVector<S> t = t1 | (t2 >> 1);
 
     typename SuperVector<S>::movemask_type z = t.eqmask(SuperVector<S>::Ones());
-    DEBUG_PRINTF("    z: 0x%08x\n", z);
+    DEBUG_PRINTF(" z: 0x%016llx\n", (u64a)z);
     return firstMatch<S>(buf, z);
 }
 
