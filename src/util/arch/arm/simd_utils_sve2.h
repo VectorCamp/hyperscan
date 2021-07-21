@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,49 +27,33 @@
  */
 
 /** \file
- * \brief Wrapper around the compiler supplied intrinsic header
+ * \brief SVE primitive operations.
  */
 
-#ifndef INTRINSICS_H
-#define INTRINSICS_H
+static really_inline
+svuint8_t getCharMaskSingle(const u8 c, bool noCase) {
+    if (noCase) {
+        uint16_t chars_u16 = (c & 0xdf) | ((c | 0x20) << 8);
+        return svreinterpret_u8(svdup_u16(chars_u16));
+    } else {
+        return svdup_u8(c);
+    }
+}
 
-#include "config.h"
-
-#ifdef __cplusplus
-# if defined(HAVE_CXX_X86INTRIN_H)
-#  define USE_X86INTRIN_H
-# endif
-#else // C
-# if defined(HAVE_C_X86INTRIN_H)
-#  define USE_X86INTRIN_H
-# endif
-#endif
-
-#if defined(HAVE_C_ARM_NEON_H)
-#  define USE_ARM_NEON_H
-#endif
-
-#ifdef __cplusplus
-# if defined(HAVE_CXX_INTRIN_H)
-#  define USE_INTRIN_H
-# endif
-#else // C
-# if defined(HAVE_C_INTRIN_H)
-#  define USE_INTRIN_H
-# endif
-#endif
-
-#if defined(USE_X86INTRIN_H)
-#include <x86intrin.h>
-#elif defined(USE_INTRIN_H)
-#include <intrin.h>
-#elif defined(USE_ARM_NEON_H)
-#include <arm_neon.h>
-#  if defined(HAVE_SVE)
-#    include <arm_sve.h>
-#  endif
-#else
-#error no intrinsics file
-#endif
-
-#endif // INTRINSICS_H
+static really_inline
+svuint16_t getCharMaskDouble(const u8 c0, const u8 c1, bool noCase) {
+    if (noCase) {
+        const uint64_t lowerFirst = c0 & 0xdf;
+        const uint64_t upperFirst = c0 | 0x20;
+        const uint64_t lowerSecond = c1 & 0xdf;
+        const uint64_t upperSecond = c1 | 0x20;
+        const uint64_t chars = lowerFirst | (lowerSecond << 8)
+                          | (lowerFirst << 16) | (upperSecond) << 24
+                          | (upperFirst << 32) | (lowerSecond) << 40
+                          | (upperFirst << 48) | (upperSecond) << 56;
+        return svreinterpret_u16(svdup_u64(chars));
+    } else {
+        uint16_t chars_u16 = c0 | (c1 << 8);
+        return svdup_u16(chars_u16);
+    }
+}

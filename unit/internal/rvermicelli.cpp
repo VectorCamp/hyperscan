@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -304,3 +305,262 @@ TEST(RDoubleVermicelli, Exec5) {
         }
     }
 }
+
+#ifdef HAVE_SVE2
+
+#include "nfa/vermicellicompile.h"
+using namespace ue2;
+
+TEST(RVermicelli16, ExecNoMatch1) {
+    char t1[] = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+
+    CharReach chars;
+    chars.set('a');
+    chars.set('B');
+    chars.set('A');
+    m128 matches;
+    bool ret = vermicelli16Build(chars, (u8 *)&matches);
+    ASSERT_TRUE(ret);
+
+    for (size_t i = 0; i < 16; i++) {
+        for (size_t j = 0; j < 16; j++) {
+            const u8 *begin = (const u8 *)t1 + i;
+            const u8 *end = (const u8 *)t1 + strlen(t1) - j;
+
+            const u8 *rv = rvermicelli16Exec(matches, begin, end);
+            ASSERT_EQ(begin - 1, rv);
+        }
+    }
+}
+
+TEST(RVermicelli16, Exec1) {
+    char t1[] = "bbbbbbbbbbbbbbbbbabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbabbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    CharReach chars;
+    chars.set('a');
+    chars.set('A');
+    m128 matches;
+    bool ret = vermicelli16Build(chars, (u8 *)&matches);
+    ASSERT_TRUE(ret);
+
+    for (size_t i = 0; i < 16; i++) {
+        const u8 *rv = rvermicelli16Exec(matches, buf, buf + strlen(t1) - i);
+        ASSERT_EQ(buf + 48, rv);
+    }
+}
+
+TEST(RVermicelli16,  Exec2) {
+    char t1[] = "bbbbbbbbbbbbbbbbbabbbbbbbbaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    CharReach chars;
+    chars.set('a');
+    chars.set('A');
+    m128 matches;
+    bool ret = vermicelli16Build(chars, (u8 *)&matches);
+    ASSERT_TRUE(ret);
+
+    for (size_t i = 0; i < 16; i++) {
+        const u8 *rv = rvermicelli16Exec(matches, buf + i, buf + strlen(t1));
+        ASSERT_EQ(buf + 48, rv);
+    }
+}
+
+TEST(RVermicelli16,  Exec3) {
+    char t1[] = "bbbbbbbbbbbbbbbbbabbbbbbbbaaaaaaaaaaaaaaaaaaaaaaAbbbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    CharReach chars;
+    chars.set('a');
+    m128 matches_a;
+    bool ret = vermicelli16Build(chars, (u8 *)&matches_a);
+    ASSERT_TRUE(ret);
+
+    chars.set('A');
+    m128 matches_A;
+    ret = vermicelli16Build(chars, (u8 *)&matches_A);
+    ASSERT_TRUE(ret);
+
+    for (size_t i = 0; i < 16; i++) {
+        const u8 *rv = rvermicelli16Exec(matches_a, buf, buf + strlen(t1) - i);
+        ASSERT_EQ(buf + 47, rv);
+
+        rv = rvermicelli16Exec(matches_A, buf, buf + strlen(t1) - i);
+        ASSERT_EQ(buf + 48, rv);
+    }
+}
+
+TEST(RVermicelli16, Exec4) {
+    char t1[] = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    CharReach chars;
+    chars.set('a');
+    m128 matches_a;
+    bool ret = vermicelli16Build(chars, (u8 *)&matches_a);
+    ASSERT_TRUE(ret);
+
+    chars.set('A');
+    m128 matches_A;
+    ret = vermicelli16Build(chars, (u8 *)&matches_A);
+    ASSERT_TRUE(ret);
+
+    for (size_t i = 0; i < 31; i++) {
+        t1[16 + i] = 'a';
+        const u8 *rv = rvermicelli16Exec(matches_a, buf, buf + strlen(t1));
+        ASSERT_EQ(buf + 16 + i, rv);
+
+        rv = rvermicelli16Exec(matches_A, buf, buf + strlen(t1));
+        ASSERT_EQ(buf + 16 + i, rv);
+    }
+}
+
+TEST(RVermicelli16, Exec5) {
+    char t1[] = "qqqqqqqqqqqqqqqqqabcdefghijklmnopqqqqqqqqqqqqqqqqqqqqq";
+    const u8 *buf = (const u8 *)t1;
+
+    CharReach chars;
+    m128 matches[16];
+    bool ret;
+
+    for (int i = 0; i < 16; ++i) {
+        chars.set('a' + i);
+        ret = vermicelli16Build(chars, (u8 *)&matches[i]);
+        ASSERT_TRUE(ret);
+    }
+
+    for (int j = 0; j < 16; ++j) {
+        for (size_t i = 0; i < 16; i++) {
+            const u8 *rv = rvermicelli16Exec(matches[j], buf, buf + strlen(t1) - i);
+            ASSERT_EQ(buf + j + 17, rv);
+        }
+    }
+}
+
+TEST(RNVermicelli16, ExecNoMatch1) {
+    char t1[] = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    CharReach chars;
+    chars.set('b');
+    chars.set('B');
+    chars.set('A');
+    m128 matches;
+    bool ret = vermicelli16Build(chars, (u8 *)&matches);
+    ASSERT_TRUE(ret);
+
+    for (size_t i = 0; i < 16; i++) {
+        for (size_t j = 0; j < 16; j++) {
+            const u8 *rv = rnvermicelli16Exec(matches, buf + i, buf + strlen(t1) - j);
+            ASSERT_EQ(buf + i - 1, rv);
+        }
+    }
+}
+
+TEST(RNVermicelli16, Exec1) {
+    char t1[] = "bbbbbbbbbbbbbbbbbabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbabbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    CharReach chars;
+    chars.set('b');
+    chars.set('A');
+    m128 matches;
+    bool ret = vermicelli16Build(chars, (u8 *)&matches);
+    ASSERT_TRUE(ret);
+
+    for (size_t i = 0; i < 16; i++) {
+        const u8 *rv = rnvermicelli16Exec(matches, buf + i, buf + strlen(t1) - i);
+        ASSERT_EQ(buf + 48, rv);
+    }
+}
+
+TEST(RNVermicelli16,  Exec2) {
+    char t1[] = "bbbbbbbbbbbbbbbbbabbbbbbbbaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    CharReach chars;
+    chars.set('b');
+    chars.set('A');
+    m128 matches;
+    bool ret = vermicelli16Build(chars, (u8 *)&matches);
+    ASSERT_TRUE(ret);
+
+    for (size_t i = 0; i < 16; i++) {
+        const u8 *rv = rnvermicelli16Exec(matches, buf, buf + strlen(t1) - i);
+        ASSERT_EQ(buf + 48, rv);
+    }
+}
+
+TEST(RNVermicelli16,  Exec3) {
+    char t1[] = "bbbbbbbbbbbbbbbbbabbbbbbbbaaaaaaaaaaaaaaaaaaaaaaAbbbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    CharReach chars;
+    chars.set('b');
+    m128 matches_b;
+    bool ret = vermicelli16Build(chars, (u8 *)&matches_b);
+    ASSERT_TRUE(ret);
+
+    chars.set('A');
+    m128 matches_A;
+    ret = vermicelli16Build(chars, (u8 *)&matches_A);
+    ASSERT_TRUE(ret);
+
+    for (size_t i = 0; i < 16; i++) {
+        const u8 *rv = rnvermicelli16Exec(matches_b, buf + i, buf + strlen(t1));
+        ASSERT_EQ(buf + 48, rv);
+
+        rv = rnvermicelli16Exec(matches_A, buf + i, buf + strlen(t1));
+        ASSERT_EQ(buf + 47, rv);
+    }
+}
+
+TEST(RNVermicelli16, Exec4) {
+    char t1[] = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+    const u8 *buf = (const u8 *)t1;
+
+    CharReach chars;
+    chars.set('b');
+    m128 matches_b;
+    bool ret = vermicelli16Build(chars, (u8 *)&matches_b);
+    ASSERT_TRUE(ret);
+
+    chars.set('A');
+    m128 matches_A;
+    ret = vermicelli16Build(chars, (u8 *)&matches_A);
+    ASSERT_TRUE(ret);
+
+    for (size_t i = 0; i < 31; i++) {
+        t1[16 + i] = 'a';
+        const u8 *rv = rnvermicelli16Exec(matches_b, buf, buf + strlen(t1));
+        ASSERT_EQ(buf + 16 + i, rv);
+
+        rv = rnvermicelli16Exec(matches_A, buf, buf + strlen(t1));
+        ASSERT_EQ(buf + 16 + i, rv);
+    }
+}
+
+TEST(RNVermicelli16, Exec5) {
+    char t1[] = "aaaaaaaaaaaaaaaaaabcdefghijklmnopqqqqqqqqqqqqqqqqqqqqqqqq";
+    const u8 *buf = (const u8 *)t1;
+
+    CharReach chars;
+    m128 matches[16];
+    bool ret;
+
+    for (int i = 0; i < 16; ++i) {
+        chars.set('q' - i);
+        ret = vermicelli16Build(chars, (u8 *)&matches[i]);
+        ASSERT_TRUE(ret);
+    }
+
+    for (int j = 0; j < 16; ++j) {
+        for (size_t i = 0; i < 16; i++) {
+            const u8 *rv = rnvermicelli16Exec(matches[j], buf, buf + strlen(t1) - i);
+            ASSERT_EQ(buf - j + 32, rv);
+        }
+    }
+}
+
+#endif // HAVE_SVE2

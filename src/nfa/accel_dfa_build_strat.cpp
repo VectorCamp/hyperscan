@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015-2017, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -33,6 +34,7 @@
 #include "nfagraph/ng_limex_accel.h"
 #include "shufticompile.h"
 #include "trufflecompile.h"
+#include "vermicellicompile.h"
 #include "util/accel_scheme.h"
 #include "util/charreach.h"
 #include "util/container.h"
@@ -440,45 +442,75 @@ accel_dfa_build_strat::buildAccel(UNUSED dstate_id_t this_idx,
         return;
     }
 
-    if (double_byte_ok(info) && info.double_cr.none() &&
-        (info.double_byte.size() == 2 || info.double_byte.size() == 4)) {
-        bool ok = true;
+    if (double_byte_ok(info) && info.double_cr.none()) {
+        if ((info.double_byte.size() == 2 || info.double_byte.size() == 4)) {
+            bool ok = true;
 
-        assert(!info.double_byte.empty());
-        u8 firstC = info.double_byte.begin()->first & CASE_CLEAR;
-        u8 secondC = info.double_byte.begin()->second & CASE_CLEAR;
+            assert(!info.double_byte.empty());
+            u8 firstC = info.double_byte.begin()->first & CASE_CLEAR;
+            u8 secondC = info.double_byte.begin()->second & CASE_CLEAR;
 
-        for (const pair<u8, u8> &p : info.double_byte) {
-            if ((p.first & CASE_CLEAR) != firstC ||
-                (p.second & CASE_CLEAR) != secondC) {
-                ok = false;
-                break;
+            for (const pair<u8, u8> &p : info.double_byte) {
+                if ((p.first & CASE_CLEAR) != firstC ||
+                    (p.second & CASE_CLEAR) != secondC) {
+                    ok = false;
+                    break;
+                }
+            }
+
+            if (ok) {
+                accel->accel_type = ACCEL_DVERM_NOCASE;
+                accel->dverm.c1 = firstC;
+                accel->dverm.c2 = secondC;
+                accel->dverm.offset = verify_u8(info.double_offset);
+                DEBUG_PRINTF("state %hu is nc double vermicelli\n", this_idx);
+                return;
+            }
+
+            u8 m1;
+            u8 m2;
+            if (buildDvermMask(info.double_byte, &m1, &m2)) {
+                u8 c1 = info.double_byte.begin()->first & m1;
+                u8 c2 = info.double_byte.begin()->second & m2;
+#ifdef HAVE_SVE2
+                if (vermicelliDoubleMasked16Build(c1, c2, m1, m2, (u8 *)&accel->mdverm16.mask)) {
+                    accel->accel_type = ACCEL_DVERM16_MASKED;
+                    accel->mdverm16.offset = verify_u8(info.double_offset);
+                    accel->mdverm16.c1 = c1;
+                    accel->mdverm16.m1 = m1;
+                    DEBUG_PRINTF("building maskeddouble16-vermicelli for 0x%02hhx%02hhx\n",
+                                c1, c2);
+                    return;
+                } else if (info.double_byte.size() <= 8 &&
+                        vermicelliDouble16Build(info.double_byte, (u8 *)&accel->dverm16.mask,
+                                                (u8 *)&accel->dverm16.firsts)) {
+                    accel->accel_type = ACCEL_DVERM16;
+                    accel->dverm16.offset = verify_u8(info.double_offset);
+                    DEBUG_PRINTF("building double16-vermicelli\n");
+                    return;
+                }
+#endif // HAVE_SVE2
+                accel->accel_type = ACCEL_DVERM_MASKED;
+                accel->dverm.offset = verify_u8(info.double_offset);
+                accel->dverm.c1 = c1;
+                accel->dverm.c2 = c2;
+                accel->dverm.m1 = m1;
+                accel->dverm.m2 = m2;
+                DEBUG_PRINTF(
+                    "building maskeddouble-vermicelli for 0x%02hhx%02hhx\n", c1, c2);
+                return;
             }
         }
-
-        if (ok) {
-            accel->accel_type = ACCEL_DVERM_NOCASE;
-            accel->dverm.c1 = firstC;
-            accel->dverm.c2 = secondC;
-            accel->dverm.offset = verify_u8(info.double_offset);
-            DEBUG_PRINTF("state %hu is nc double vermicelli\n", this_idx);
+#ifdef HAVE_SVE2
+        if (info.double_byte.size() <= 8 &&
+            vermicelliDouble16Build(info.double_byte, (u8 *)&accel->dverm16.mask,
+                                    (u8 *)&accel->dverm16.firsts)) {
+            accel->accel_type = ACCEL_DVERM16;
+            accel->dverm16.offset = verify_u8(info.double_offset);
+            DEBUG_PRINTF("building double16-vermicelli\n");
             return;
         }
-
-        u8 m1;
-        u8 m2;
-        if (buildDvermMask(info.double_byte, &m1, &m2)) {
-            accel->accel_type = ACCEL_DVERM_MASKED;
-            accel->dverm.offset = verify_u8(info.double_offset);
-            accel->dverm.c1 = info.double_byte.begin()->first & m1;
-            accel->dverm.c2 = info.double_byte.begin()->second & m2;
-            accel->dverm.m1 = m1;
-            accel->dverm.m2 = m2;
-            DEBUG_PRINTF(
-                "building maskeddouble-vermicelli for 0x%02hhx%02hhx\n",
-                accel->dverm.c1, accel->dverm.c2);
-            return;
-        }
+#endif // HAVE_SVE2
     }
 
     if (double_byte_ok(info) &&
@@ -513,6 +545,15 @@ accel_dfa_build_strat::buildAccel(UNUSED dstate_id_t this_idx,
         DEBUG_PRINTF("state %hu is caseless vermicelli\n", this_idx);
         return;
     }
+
+#ifdef HAVE_SVE2
+    if (info.cr.count() <= 16) {
+        accel->accel_type = ACCEL_VERM16;
+        vermicelli16Build(info.cr, (u8 *)&accel->verm16.mask);
+        DEBUG_PRINTF("state %hu is vermicelli16\n", this_idx);
+        return;
+    }
+#endif // HAVE_SVE2
 
     if (info.cr.count() > max_floating_stop_char()) {
         accel->accel_type = ACCEL_NONE;

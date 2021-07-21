@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,49 +27,36 @@
  */
 
 /** \file
- * \brief Wrapper around the compiler supplied intrinsic header
+ * \brief SVE primitive operations.
  */
 
-#ifndef INTRINSICS_H
-#define INTRINSICS_H
+really_really_inline
+uint64_t accelSearchGetOffset(svbool_t matched) {
+    return svcntp_b8(svptrue_b8(), svbrkb_z(svptrue_b8(), matched));
+}
 
-#include "config.h"
+really_really_inline
+const u8 *accelSearchCheckMatched(const u8 *buf, svbool_t matched) {
+    if (unlikely(svptest_any(svptrue_b8(), matched))) {
+        const u8 *matchPos = buf + accelSearchGetOffset(matched);
+        DEBUG_PRINTF("match pos %p\n", matchPos);
+        return matchPos;
+    }
+    return NULL;
+}
 
-#ifdef __cplusplus
-# if defined(HAVE_CXX_X86INTRIN_H)
-#  define USE_X86INTRIN_H
-# endif
-#else // C
-# if defined(HAVE_C_X86INTRIN_H)
-#  define USE_X86INTRIN_H
-# endif
-#endif
+really_really_inline
+const u8 *accelRevSearchCheckMatched(const u8 *buf, svbool_t matched) {
+    if (unlikely(svptest_any(svptrue_b8(), matched))) {
+        const u8 *matchPos = buf + (svcntb() -
+            svcntp_b8(svptrue_b8(), svbrka_z(svptrue_b8(), svrev_b8(matched))));
+        DEBUG_PRINTF("match pos %p\n", matchPos);
+        return matchPos;
+    }
+    return NULL;
+}
 
-#if defined(HAVE_C_ARM_NEON_H)
-#  define USE_ARM_NEON_H
-#endif
-
-#ifdef __cplusplus
-# if defined(HAVE_CXX_INTRIN_H)
-#  define USE_INTRIN_H
-# endif
-#else // C
-# if defined(HAVE_C_INTRIN_H)
-#  define USE_INTRIN_H
-# endif
-#endif
-
-#if defined(USE_X86INTRIN_H)
-#include <x86intrin.h>
-#elif defined(USE_INTRIN_H)
-#include <intrin.h>
-#elif defined(USE_ARM_NEON_H)
-#include <arm_neon.h>
-#  if defined(HAVE_SVE)
-#    include <arm_sve.h>
-#  endif
-#else
-#error no intrinsics file
-#endif
-
-#endif // INTRINSICS_H
+static really_inline
+svuint8_t getSVEMaskFrom128(m128 mask) {
+    return svld1_u8(svptrue_pat_b8(SV_VL16), (const uint8_t *)&mask);
+}

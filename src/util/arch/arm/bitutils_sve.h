@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2017, Intel Corporation
+ * Copyright (c) 2015-2017, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,49 +28,22 @@
  */
 
 /** \file
- * \brief Wrapper around the compiler supplied intrinsic header
+ * \brief Bit-twiddling primitives for SVE (ctz, compress etc)
  */
 
-#ifndef INTRINSICS_H
-#define INTRINSICS_H
+static really_inline
+u32 expand32_impl(u32 x, u32 m) {
+    return svlasta(svpfalse(), svbdep(svdup_u32(x), m));
+}
 
-#include "config.h"
+static really_inline
+u64a expand64_impl(u64a x, u64a m) {
+    return svlasta(svpfalse(), svbdep(svdup_u64(x), m));
+}
 
-#ifdef __cplusplus
-# if defined(HAVE_CXX_X86INTRIN_H)
-#  define USE_X86INTRIN_H
-# endif
-#else // C
-# if defined(HAVE_C_X86INTRIN_H)
-#  define USE_X86INTRIN_H
-# endif
-#endif
-
-#if defined(HAVE_C_ARM_NEON_H)
-#  define USE_ARM_NEON_H
-#endif
-
-#ifdef __cplusplus
-# if defined(HAVE_CXX_INTRIN_H)
-#  define USE_INTRIN_H
-# endif
-#else // C
-# if defined(HAVE_C_INTRIN_H)
-#  define USE_INTRIN_H
-# endif
-#endif
-
-#if defined(USE_X86INTRIN_H)
-#include <x86intrin.h>
-#elif defined(USE_INTRIN_H)
-#include <intrin.h>
-#elif defined(USE_ARM_NEON_H)
-#include <arm_neon.h>
-#  if defined(HAVE_SVE)
-#    include <arm_sve.h>
-#  endif
-#else
-#error no intrinsics file
-#endif
-
-#endif // INTRINSICS_H
+static really_inline
+void bdep64x2(u64a *d, const u64a *x, const m128 *m) {
+    svbool_t pg = svptrue_pat_b64(SV_VL2);
+    svst1(pg, (uint64_t *)d, svbdep(svld1_u64(pg, (const uint64_t *)x),
+                                    svld1_u64(pg, (const uint64_t *)m)));
+}

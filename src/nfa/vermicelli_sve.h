@@ -33,14 +33,29 @@
  */
 
 static really_inline
-int vermSearchGetOffset(svbool_t matched) {
-    return svcntp_b8(svptrue_b8(), svbrkb_z(svptrue_b8(), matched));
+int dvermSearchGetOffset(svbool_t matched, svbool_t matched_rot) {
+    int offset = accelSearchGetOffset(matched);
+    int offset_rot = accelSearchGetOffset(matched_rot) - 1;
+    return (offset_rot < offset) ? offset_rot : offset;
 }
 
 static really_inline
-const u8 *vermSearchCheckMatched(const u8 *buf, svbool_t matched) {
-    if (unlikely(svptest_any(svptrue_b8(), matched))) {
-        const u8 *matchPos = buf + vermSearchGetOffset(matched);
+uint64_t rdvermSearchGetSingleOffset(svbool_t matched) {
+    return svcntp_b8(svptrue_b8(), svbrkb_z(svptrue_b8(), svrev_b8(matched)));
+}
+
+static really_inline
+uint64_t rdvermSearchGetOffset(svbool_t matched, svbool_t matched_rot) {
+    uint64_t offset = rdvermSearchGetSingleOffset(matched);
+    uint64_t offset_rot = rdvermSearchGetSingleOffset(matched_rot) - 1;
+    return (offset_rot < offset) ? offset_rot : offset;
+}
+
+static really_inline
+const u8 *dvermSearchCheckMatched(const u8 *buf, svbool_t matched,
+                                  svbool_t matched_rot, svbool_t any) {
+    if (unlikely(svptest_any(svptrue_b8(), any))) {
+        const u8 *matchPos = buf + dvermSearchGetOffset(matched, matched_rot);
         DEBUG_PRINTF("match pos %p\n", matchPos);
         return matchPos;
     }
@@ -48,10 +63,11 @@ const u8 *vermSearchCheckMatched(const u8 *buf, svbool_t matched) {
 }
 
 static really_inline
-const u8 *rvermSearchCheckMatched(const u8 *buf, svbool_t matched) {
-    if (unlikely(svptest_any(svptrue_b8(), matched))) {
+const u8 *rdvermSearchCheckMatched(const u8 *buf, svbool_t matched,
+                                   svbool_t matched_rot, svbool_t any) {
+    if (unlikely(svptest_any(svptrue_b8(), any))) {
         const u8 *matchPos = buf + (svcntb() -
-            svcntp_b8(svptrue_b8(), svbrka_z(svptrue_b8(), svrev_b8(matched))));
+                                rdvermSearchGetOffset(matched, matched_rot));
         DEBUG_PRINTF("match pos %p\n", matchPos);
         return matchPos;
     }
@@ -70,6 +86,17 @@ svbool_t singleMatched(svuint8_t chars, const u8 *buf, svbool_t pg,
 }
 
 static really_inline
+svbool_t doubleMatched(svuint16_t chars, const u8 *buf, const u8 *buf_rot,
+                       svbool_t pg, svbool_t pg_rot, svbool_t * const matched,
+                       svbool_t * const matched_rot) {
+    svuint16_t vec = svreinterpret_u16(svld1_u8(pg, buf));
+    svuint16_t vec_rot = svreinterpret_u16(svld1_u8(pg_rot, buf_rot));
+    *matched = svmatch(pg, vec, chars);
+    *matched_rot = svmatch(pg_rot, vec_rot, chars);
+    return svorr_z(svptrue_b8(), *matched, *matched_rot);
+}
+
+static really_inline
 const u8 *vermSearchOnce(svuint8_t chars, const u8 *buf, const u8 *buf_end,
                          bool negate) {
     DEBUG_PRINTF("start %p end %p\n", buf, buf_end);
@@ -77,14 +104,14 @@ const u8 *vermSearchOnce(svuint8_t chars, const u8 *buf, const u8 *buf_end,
     DEBUG_PRINTF("l = %td\n", buf_end - buf);
     svbool_t pg = svwhilelt_b8_s64(0, buf_end - buf);
     svbool_t matched = singleMatched(chars, buf, pg, negate, 0);
-    return vermSearchCheckMatched(buf, matched);
+    return accelSearchCheckMatched(buf, matched);
 }
 
 static really_inline
 const u8 *vermSearchLoopBody(svuint8_t chars, const u8 *buf, bool negate) {
     DEBUG_PRINTF("start %p end %p\n", buf, buf + svcntb());
     svbool_t matched = singleMatched(chars, buf, svptrue_b8(), negate, 0);
-    return vermSearchCheckMatched(buf, matched);
+    return accelSearchCheckMatched(buf, matched);
 }
 
 static really_inline
@@ -96,9 +123,9 @@ const u8 *vermSearchLoopBodyUnrolled(svuint8_t chars, const u8 *buf,
     svbool_t any = svorr_z(svptrue_b8(), matched0, matched1);
     if (unlikely(svptest_any(svptrue_b8(), any))) {
         if (svptest_any(svptrue_b8(), matched0)) {
-            return buf + vermSearchGetOffset(matched0);
+            return buf + accelSearchGetOffset(matched0);
         } else {
-            return buf + svcntb() + vermSearchGetOffset(matched1);
+            return buf + svcntb() + accelSearchGetOffset(matched1);
         }
     }
     return NULL;
@@ -112,21 +139,76 @@ const u8 *rvermSearchOnce(svuint8_t chars, const u8 *buf, const u8 *buf_end,
     DEBUG_PRINTF("l = %td\n", buf_end - buf);
     svbool_t pg = svwhilelt_b8_s64(0, buf_end - buf);
     svbool_t matched = singleMatched(chars, buf, pg, negate, 0);
-    return rvermSearchCheckMatched(buf, matched);
+    return accelRevSearchCheckMatched(buf, matched);
 }
 
 static really_inline
 const u8 *rvermSearchLoopBody(svuint8_t chars, const u8 *buf, bool negate) {
     DEBUG_PRINTF("start %p end %p\n", buf, buf + svcntb());
     svbool_t matched = singleMatched(chars, buf, svptrue_b8(), negate, 0);
-    return rvermSearchCheckMatched(buf, matched);
+    return accelRevSearchCheckMatched(buf, matched);
 }
 
 static really_inline
-const u8 *vermSearch(char c, bool nocase, const u8 *buf, const u8 *buf_end,
+const u8 *dvermSearchOnce(svuint16_t chars, const u8 *buf, const u8 *buf_end) {
+    DEBUG_PRINTF("start %p end %p\n", buf, buf_end);
+    assert(buf < buf_end);
+    DEBUG_PRINTF("l = %td\n", buf_end - buf);
+    svbool_t pg = svwhilelt_b8_s64(0, buf_end - buf);
+    svbool_t pg_rot = svwhilele_b8_s64(0, buf_end - buf);
+    svbool_t matched, matched_rot;
+    // buf - 1 won't underflow as the first position in the buffer has been
+    // dealt with meaning that buf - 1 is within the buffer.
+    svbool_t any = doubleMatched(chars, buf, buf - 1, pg, pg_rot,
+                                 &matched, &matched_rot);
+    return dvermSearchCheckMatched(buf, matched, matched_rot, any);
+}
+
+static really_inline
+const u8 *dvermSearchLoopBody(svuint16_t chars, const u8 *buf) {
+    DEBUG_PRINTF("start %p end %p\n", buf, buf + svcntb());
+    svbool_t matched, matched_rot;
+    // buf - 1 won't underflow as the first position in the buffer has been
+    // dealt with meaning that buf - 1 is within the buffer.
+    svbool_t any = doubleMatched(chars, buf, buf - 1, svptrue_b8(),
+                                 svptrue_b8(), &matched, &matched_rot);
+    return dvermSearchCheckMatched(buf, matched, matched_rot, any);
+}
+
+static really_inline
+const u8 *rdvermSearchOnce(svuint16_t chars, const u8 *buf, const u8 *buf_end) {
+    DEBUG_PRINTF("start %p end %p\n", buf, buf_end);
+    assert(buf < buf_end);
+
+    DEBUG_PRINTF("l = %td\n", buf_end - buf);
+    // buf_end can be read as the last position in the buffer has been
+    // dealt with meaning that buf_end is within the buffer.
+    // buf_end needs to be read by both the buf load and the buf + 1 load,
+    // this is because buf_end must be the upper 8 bits of the 16 bit element
+    // to be matched.
+    svbool_t pg = svwhilele_b8_s64(0, buf_end - buf);
+    svbool_t pg_rot = svwhilelt_b8_s64(0, buf_end - buf);
+    svbool_t matched, matched_rot;
+    svbool_t any = doubleMatched(chars, buf, buf + 1, pg, pg_rot,
+                                 &matched, &matched_rot);
+    return rdvermSearchCheckMatched(buf, matched, matched_rot, any);
+}
+
+static really_inline
+const u8 *rdvermSearchLoopBody(svuint16_t chars, const u8 *buf) {
+    DEBUG_PRINTF("start %p end %p\n", buf, buf + svcntb());
+    svbool_t matched, matched_rot;
+    // buf + svcntb() can be read as the last position in the buffer has
+    // been dealt with meaning that buf + svcntb() is within the buffer.
+    svbool_t any = doubleMatched(chars, buf, buf + 1, svptrue_b8(),
+                                 svptrue_b8(), &matched, &matched_rot);
+    return rdvermSearchCheckMatched(buf, matched, matched_rot, any);
+}
+
+static really_inline
+const u8 *vermSearch(svuint8_t chars, const u8 *buf, const u8 *buf_end,
                      bool negate) {
     assert(buf < buf_end);
-    svuint8_t chars = getCharMaskSingle(c, nocase);
     size_t len = buf_end - buf;
     if (len <= svcntb()) {
         return vermSearchOnce(chars, buf, buf_end, negate);
@@ -158,10 +240,9 @@ const u8 *vermSearch(char c, bool nocase, const u8 *buf, const u8 *buf_end,
 }
 
 static really_inline
-const u8 *rvermSearch(char c, bool nocase, const u8 *buf, const u8 *buf_end,
+const u8 *rvermSearch(svuint8_t chars, const u8 *buf, const u8 *buf_end,
                       bool negate) {
     assert(buf < buf_end);
-    svuint8_t chars = getCharMaskSingle(c, nocase);
     size_t len = buf_end - buf;
     if (len <= svcntb()) {
         return rvermSearchOnce(chars, buf, buf_end, negate);
@@ -186,11 +267,64 @@ const u8 *rvermSearch(char c, bool nocase, const u8 *buf, const u8 *buf_end,
 }
 
 static really_inline
+const u8 *dvermSearch(svuint8_t chars, const u8 *buf, const u8 *buf_end) {
+    size_t len = buf_end - buf;
+    if (len <= svcntb()) {
+        return dvermSearchOnce(chars, buf, buf_end);
+    }
+    // peel off first part to align to the vector size
+    const u8 *aligned_buf = ROUNDUP_PTR(buf, svcntb_pat(SV_POW2));
+    assert(aligned_buf < buf_end);
+    if (buf != aligned_buf) {
+        const u8 *ptr = dvermSearchLoopBody(chars, buf);
+        if (ptr) return ptr;
+    }
+    buf = aligned_buf;
+    size_t loops = (buf_end - buf) / svcntb();
+    DEBUG_PRINTF("loops %zu \n", loops);
+    for (size_t i = 0; i < loops; i++, buf += svcntb()) {
+        const u8 *ptr = dvermSearchLoopBody(chars, buf);
+        if (ptr) return ptr;
+    }
+    DEBUG_PRINTF("buf %p buf_end %p \n", buf, buf_end);
+    return buf == buf_end ? NULL : dvermSearchLoopBody(chars,
+                                                       buf_end - svcntb());
+}
+
+static really_inline
+const u8 *rdvermSearch(char c1, char c2, bool nocase, const u8 *buf,
+                       const u8 *buf_end) {
+    svuint16_t chars = getCharMaskDouble(c1, c2, nocase);
+    size_t len = buf_end - buf;
+    if (len <= svcntb()) {
+        return rdvermSearchOnce(chars, buf, buf_end);
+    }
+    // peel off first part to align to the vector size
+    const u8 *aligned_buf_end = ROUNDDOWN_PTR(buf_end, svcntb_pat(SV_POW2));
+    assert(buf < aligned_buf_end);
+    if (buf_end != aligned_buf_end) {
+        const u8 *rv = rdvermSearchLoopBody(chars, buf_end - svcntb());
+        if (rv) return rv;
+    }
+    buf_end = aligned_buf_end;
+    size_t loops = (buf_end - buf) / svcntb();
+    DEBUG_PRINTF("loops %zu \n", loops);
+    for (size_t i = 0; i < loops; i++) {
+        buf_end -= svcntb();
+        const u8 *rv = rdvermSearchLoopBody(chars, buf_end);
+        if (rv) return rv;
+    }
+    DEBUG_PRINTF("buf %p buf_end %p \n", buf, buf_end);
+    return buf == buf_end ? NULL : rdvermSearchLoopBody(chars, buf);
+}
+
+static really_inline
 const u8 *vermicelliExec(char c, bool nocase, const u8 *buf,
                          const u8 *buf_end) {
     DEBUG_PRINTF("verm scan %s\\x%02hhx over %td bytes\n",
                  nocase ? "nocase " : "", c, buf_end - buf);
-    const u8 *ptr = vermSearch(c, nocase, buf, buf_end, false);
+    svuint8_t chars = getCharMaskSingle(c, nocase);
+    const u8 *ptr = vermSearch(chars, buf, buf_end, false);
     return ptr ? ptr : buf_end;
 }
 
@@ -201,7 +335,8 @@ const u8 *nvermicelliExec(char c, bool nocase, const u8 *buf,
                          const u8 *buf_end) {
     DEBUG_PRINTF("nverm scan %s\\x%02hhx over %td bytes\n",
                  nocase ? "nocase " : "", c, buf_end - buf);
-    const u8 *ptr = vermSearch(c, nocase, buf, buf_end, true);
+    svuint8_t chars = getCharMaskSingle(c, nocase);
+    const u8 *ptr = vermSearch(chars, buf, buf_end, true);
     return ptr ? ptr : buf_end;
 }
 
@@ -212,7 +347,8 @@ const u8 *rvermicelliExec(char c, bool nocase, const u8 *buf,
                           const u8 *buf_end) {
     DEBUG_PRINTF("rev verm scan %s\\x%02hhx over %td bytes\n",
                  nocase ? "nocase " : "", c, buf_end - buf);
-    const u8 *ptr = rvermSearch(c, nocase, buf, buf_end, false);
+    svuint8_t chars = getCharMaskSingle(c, nocase);
+    const u8 *ptr = rvermSearch(chars, buf, buf_end, false);
     return ptr ? ptr : buf - 1;
 }
 
@@ -223,6 +359,138 @@ const u8 *rnvermicelliExec(char c, bool nocase, const u8 *buf,
                            const u8 *buf_end) {
     DEBUG_PRINTF("rev verm scan %s\\x%02hhx over %td bytes\n",
                  nocase ? "nocase " : "", c, buf_end - buf);
-    const u8 *ptr = rvermSearch(c, nocase, buf, buf_end, true);
+    svuint8_t chars = getCharMaskSingle(c, nocase);
+    const u8 *ptr = rvermSearch(chars, buf, buf_end, true);
     return ptr ? ptr : buf - 1;
+}
+
+static really_inline
+const u8 *vermicelliDoubleExec(char c1, char c2, bool nocase, const u8 *buf,
+                               const u8 *buf_end) {
+    DEBUG_PRINTF("double verm scan %s\\x%02hhx%02hhx over %td bytes\n",
+                 nocase ? "nocase " : "", c1, c2, buf_end - buf);
+    assert(buf < buf_end);
+    if (buf_end - buf > 1) {
+        ++buf;
+        svuint16_t chars = getCharMaskDouble(c1, c2, nocase);
+        const u8 *ptr = dvermSearch(chars, buf, buf_end);
+        if (ptr) {
+            return ptr;
+        }
+    }
+    /* check for partial match at end */
+    u8 mask = nocase ? CASE_CLEAR : 0xff;
+    if ((buf_end[-1] & mask) == (u8)c1) {
+        DEBUG_PRINTF("partial!!!\n");
+        return buf_end - 1;
+    }
+    return buf_end;
+}
+
+/* returns highest offset of c2 (NOTE: not c1) */
+static really_inline
+const u8 *rvermicelliDoubleExec(char c1, char c2, bool nocase, const u8 *buf,
+                                const u8 *buf_end) {
+    DEBUG_PRINTF("rev double verm scan %s\\x%02hhx%02hhx over %td bytes\n",
+                 nocase ? "nocase " : "", c1, c2, buf_end - buf);
+    assert(buf < buf_end);
+    if (buf_end - buf > 1) {
+        --buf_end;
+        const u8 *ptr = rdvermSearch(c1, c2, nocase, buf, buf_end);
+        if (ptr) {
+            return ptr;
+        }
+    }
+    return buf - 1;
+}
+
+static really_inline
+svuint8_t getDupSVEMaskFrom128(m128 mask) {
+    return svld1rq_u8(svptrue_b8(), (const uint8_t *)&mask);
+}
+
+static really_inline
+const u8 *vermicelli16Exec(const m128 mask, const u8 *buf,
+                           const u8 *buf_end) {
+    DEBUG_PRINTF("verm16 scan over %td bytes\n", buf_end - buf);
+    svuint8_t chars = getDupSVEMaskFrom128(mask);
+    const u8 *ptr = vermSearch(chars, buf, buf_end, false);
+    return ptr ? ptr : buf_end;
+}
+
+static really_inline
+const u8 *nvermicelli16Exec(const m128 mask, const u8 *buf,
+                            const u8 *buf_end) {
+    DEBUG_PRINTF("nverm16 scan over %td bytes\n", buf_end - buf);
+    svuint8_t chars = getDupSVEMaskFrom128(mask);
+    const u8 *ptr = vermSearch(chars, buf, buf_end, true);
+    return ptr ? ptr : buf_end;
+}
+
+static really_inline
+const u8 *rvermicelli16Exec(const m128 mask, const u8 *buf,
+                            const u8 *buf_end) {
+    DEBUG_PRINTF("rverm16 scan over %td bytes\n", buf_end - buf);
+    svuint8_t chars = getDupSVEMaskFrom128(mask);
+    const u8 *ptr = rvermSearch(chars, buf, buf_end, false);
+    return ptr ? ptr : buf - 1;
+}
+
+static really_inline
+const u8 *rnvermicelli16Exec(const m128 mask, const u8 *buf,
+                             const u8 *buf_end) {
+    DEBUG_PRINTF("rnverm16 scan over %td bytes\n", buf_end - buf);
+    svuint8_t chars = getDupSVEMaskFrom128(mask);
+    const u8 *ptr = rvermSearch(chars, buf, buf_end, true);
+    return ptr ? ptr : buf - 1;
+}
+
+static really_inline
+bool vermicelliDouble16CheckPartial(const u64a first_chars, const u8 *buf_end) {
+    svuint8_t firsts = svreinterpret_u8(svdup_u64(first_chars));
+    svbool_t matches = svcmpeq(svptrue_b8(), firsts, svdup_u8(buf_end[-1]));
+    return svptest_any(svptrue_b8(), matches);
+}
+
+static really_inline
+const u8 *vermicelliDouble16Exec(const m128 mask, const u64a firsts,
+                                 const u8 *buf, const u8 *buf_end) {
+    assert(buf < buf_end);
+    DEBUG_PRINTF("double verm16 scan over %td bytes\n", buf_end - buf);
+    if (buf_end - buf > 1) {
+        ++buf;
+        svuint16_t chars = svreinterpret_u16(getDupSVEMaskFrom128(mask));
+        const u8 *ptr = dvermSearch(chars, buf, buf_end);
+        if (ptr) {
+            return ptr;
+        }
+    }
+    /* check for partial match at end */
+    if (vermicelliDouble16CheckPartial(firsts, buf_end)) {
+        DEBUG_PRINTF("partial!!!\n");
+        return buf_end - 1;
+    }
+    return buf_end;
+}
+
+static really_inline
+const u8 *vermicelliDoubleMasked16Exec(const m128 mask, char c1, char m1,
+                                       const u8 *buf, const u8 *buf_end) {
+    assert(buf < buf_end);
+    DEBUG_PRINTF("double verm16 masked scan over %td bytes\n", buf_end - buf);
+    if (buf_end - buf > 1) {
+        ++buf;
+        svuint16_t chars = svreinterpret_u16(getDupSVEMaskFrom128(mask));
+        const u8 *ptr = dvermSearch(chars, buf, buf_end);
+        if (ptr) {
+            return ptr;
+        }
+    }
+    /* check for partial match at end */
+    if ((buf_end[-1] & m1) == (u8)c1) {
+        DEBUG_PRINTF("partial!!!\n");
+        return buf_end - 1;
+    }
+
+    return buf_end;
 }

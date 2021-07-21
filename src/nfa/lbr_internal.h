@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -54,6 +55,11 @@ struct lbr_dot {
 struct lbr_verm {
     struct lbr_common common;
     char c; //!< escape char
+};
+
+struct lbr_verm16 {
+    struct lbr_common common;
+    m128 mask;
 };
 
 struct lbr_shuf {

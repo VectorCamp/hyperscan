@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015-2017, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -43,6 +44,7 @@
 #include "nfa/repeatcompile.h"
 #include "nfa/shufticompile.h"
 #include "nfa/trufflecompile.h"
+#include "nfa/vermicellicompile.h"
 #include "util/alloc.h"
 #include "util/bitutils.h" // for lg2
 #include "util/compile_context.h"
@@ -142,6 +144,10 @@ bytecode_ptr<NFA> makeLbrNfa(NFAEngineType nfa_type, enum RepeatType rtype,
     nfa->length = verify_u32(len);
     return nfa;
 }
+
+#ifdef HAVE_SVE2
+#include "ng_lbr_sve.hpp"
+#endif
 
 static
 bytecode_ptr<NFA> buildLbrDot(const CharReach &cr, const depth &repeatMin,
@@ -269,6 +275,16 @@ bytecode_ptr<NFA> constructLBR(const CharReach &cr, const depth &repeatMin,
         nfa = buildLbrNVerm(cr, repeatMin, repeatMax, minPeriod, is_reset,
                             report);
     }
+#ifdef HAVE_SVE2
+    if (!nfa) {
+        nfa = buildLbrVerm16(cr, repeatMin, repeatMax, minPeriod, is_reset,
+                             report);
+    }
+    if (!nfa) {
+        nfa = buildLbrNVerm16(cr, repeatMin, repeatMax, minPeriod, is_reset,
+                              report);
+    }
+#endif // HAVE_SVE2
     if (!nfa) {
         nfa = buildLbrShuf(cr, repeatMin, repeatMax, minPeriod, is_reset,
                            report);

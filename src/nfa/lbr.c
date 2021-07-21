@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015-2017, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -529,3 +530,7 @@ char lbrFwdScanTruf(const struct NFA *nfa, const u8 *buf,
 
 #define ENGINE_ROOT_NAME Truf
 #include "lbr_common_impl.h"
+
+#ifdef HAVE_SVE2
+#include "lbr_sve.h"
+#endif

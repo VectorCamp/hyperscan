@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015-2017, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -118,23 +119,22 @@ m128 compress128_impl(m128 x, m128 m) {
     return res;
 }
 
+
+#if defined(HAVE_SVE2_BITPERM)
+#include "bitutils_sve.h"
+#else
+
 static really_inline
 u32 expand32_impl(u32 x, u32 m) {
-#if defined(HAVE_SVE2_BITPERM)
-    return svlasta(svpfalse(), svbdep(svdup_u32(x), m));
-#else
     return expand32_impl_c(x, m);
-#endif
 }
 
 static really_inline
 u64a expand64_impl(u64a x, u64a m) {
-#if defined(HAVE_SVE2_BITPERM)
-    return svlasta(svpfalse(), svbdep(svdup_u64(x), m));
-#else
     return expand64_impl_c(x, m);
-#endif
 }
+
+#endif // HAVE_SVE2_BITPERM
 
 static really_inline
 m128 expand128_impl(m128 x, m128 m) {

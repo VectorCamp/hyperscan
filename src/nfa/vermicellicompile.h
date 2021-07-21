@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,49 +27,27 @@
  */
 
 /** \file
- * \brief Wrapper around the compiler supplied intrinsic header
+ * \brief Vermicelli acceleration: compile code.
  */
 
-#ifndef INTRINSICS_H
-#define INTRINSICS_H
+#ifndef VERM_COMPILE_H
+#define VERM_COMPILE_H
 
-#include "config.h"
+#include "ue2common.h"
+#include "util/charreach.h"
+#include "util/flat_containers.h"
 
-#ifdef __cplusplus
-# if defined(HAVE_CXX_X86INTRIN_H)
-#  define USE_X86INTRIN_H
-# endif
-#else // C
-# if defined(HAVE_C_X86INTRIN_H)
-#  define USE_X86INTRIN_H
-# endif
-#endif
+#include <utility>
 
-#if defined(HAVE_C_ARM_NEON_H)
-#  define USE_ARM_NEON_H
-#endif
+namespace ue2 {
 
-#ifdef __cplusplus
-# if defined(HAVE_CXX_INTRIN_H)
-#  define USE_INTRIN_H
-# endif
-#else // C
-# if defined(HAVE_C_INTRIN_H)
-#  define USE_INTRIN_H
-# endif
-#endif
+bool vermicelli16Build(const CharReach &chars, u8 *rv);
 
-#if defined(USE_X86INTRIN_H)
-#include <x86intrin.h>
-#elif defined(USE_INTRIN_H)
-#include <intrin.h>
-#elif defined(USE_ARM_NEON_H)
-#include <arm_neon.h>
-#  if defined(HAVE_SVE)
-#    include <arm_sve.h>
-#  endif
-#else
-#error no intrinsics file
-#endif
+bool vermicelliDouble16Build(const flat_set<std::pair<u8, u8>> &twochar,
+                             u8 *chars, u8 *firsts);
 
-#endif // INTRINSICS_H
+bool vermicelliDoubleMasked16Build(char c1, char c2, char m1, char m2, u8 *rv);
+
+} // namespace ue2
+
+#endif // VERM_COMPILE_H

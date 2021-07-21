@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015-2017, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -38,6 +39,10 @@
 /** \brief Maximum number of bytes to scan when looking for a "counting miracle"
  * stop character. */
 #define COUNTING_MIRACLE_LEN_MAX 256
+
+#ifdef HAVE_SVE2
+#include "counting_miracle_sve.h"
+#else
 
 static really_inline
 char roseCountingMiracleScan(u8 c, const u8 *d, const u8 *d_end,
@@ -80,6 +85,12 @@ char roseCountingMiracleScan(u8 c, const u8 *d, const u8 *d_end,
     *count_inout = count;
     return 0;
 }
+
+#endif
+
+#ifdef HAVE_SVE
+#include "counting_miracle_shufti_sve.h"
+#else
 
 #define GET_LO_4(chars) and128(chars, low4bits)
 #define GET_HI_4(chars) rshift64_m128(andnot128(low4bits, chars), 4)
@@ -133,6 +144,8 @@ u32 roseCountingMiracleScanShufti(m128 mask_lo, m128 mask_hi, u8 poison,
     *count_inout = count;
     return 0;
 }
+
+#endif
 
 /**
  * \brief "Counting Miracle" scan: If we see more than N instances of a
@@ -213,8 +226,13 @@ int roseCountingMiracleOccurs(const struct RoseEngine *t,
             }
         }
     } else {
+#ifdef HAVE_SVE
+        svuint8_t lo = getSVEMaskFrom128(cm->lo);
+        svuint8_t hi = getSVEMaskFrom128(cm->hi);
+#else
         m128 lo = cm->lo;
         m128 hi = cm->hi;
+#endif
         u8 poison = cm->poison;
 
         // Scan buffer.

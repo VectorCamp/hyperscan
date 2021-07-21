@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015-2016, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -44,6 +45,10 @@
 #include "util/multibit.h"
 #include "util/partial_store.h"
 #include "ue2common.h"
+
+#ifdef HAVE_SVE2
+#include "castle_sve.h"
+#endif
 
 static really_inline
 const struct SubCastle *getSubCastle(const struct Castle *c, u32 num) {
@@ -604,6 +609,12 @@ char castleScan(const struct Castle *c, const u8 *buf, const size_t begin,
         return castleScanVerm(c, buf, begin, end, loc);
     case CASTLE_NVERM:
         return castleScanNVerm(c, buf, begin, end, loc);
+#ifdef HAVE_SVE2
+    case CASTLE_VERM16:
+        return castleScanVerm16(c, buf, begin, end, loc);
+    case CASTLE_NVERM16:
+        return castleScanNVerm16(c, buf, begin, end, loc);
+#endif // HAVE_SVE2
     case CASTLE_SHUFTI:
         return castleScanShufti(c, buf, begin, end, loc);
     case CASTLE_TRUFFLE:
@@ -699,6 +710,12 @@ char castleRevScan(const struct Castle *c, const u8 *buf, const size_t begin,
         return castleRevScanVerm(c, buf, begin, end, loc);
     case CASTLE_NVERM:
         return castleRevScanNVerm(c, buf, begin, end, loc);
+#ifdef HAVE_SVE2
+    case CASTLE_VERM16:
+        return castleRevScanVerm16(c, buf, begin, end, loc);
+    case CASTLE_NVERM16:
+        return castleRevScanNVerm16(c, buf, begin, end, loc);
+#endif // HAVE_SVE2
     case CASTLE_SHUFTI:
         return castleRevScanShufti(c, buf, begin, end, loc);
     case CASTLE_TRUFFLE:

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2015-2020, Intel Corporation
+ * Copyright (c) 2021, Arm Limited
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,18 +42,12 @@
 #include "util/unaligned.h"
 #include "util/intrinsics.h"
 
+#ifdef HAVE_SVE
+#include "simd_utils_sve.h"
+#endif
+
 #ifdef HAVE_SVE2
-
-static really_inline
-svuint8_t getCharMaskSingle(const u8 c, bool noCase) {
-    if (noCase) {
-        uint16_t chars_u16 = (c & 0xdf) | ((c | 0x20) << 8);
-        return svreinterpret_u8(svdup_u16(chars_u16));
-    } else {
-        return svdup_u8(c);
-    }
-}
-
+#include "simd_utils_sve2.h"
 #endif
 
 #include <string.h> // for memcpy
